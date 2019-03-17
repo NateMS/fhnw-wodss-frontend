@@ -1,0 +1,70 @@
+{
+  "name": "fhnw-wodss-frontend",
+  "version": "0.0.1",
+  "private": true,
+  "description": "",
+  "author": "Kelvin Louis <kelvin.louis@students.fhnw.ch>",
+  "contributors": [
+    "Nicola Cocquio <nicola.cocquio@students.fhnw.ch>",
+    "Christoph Christen <christoph.christen@students.fhnw.ch>",
+    "Sandra Amport <sandra.amport@students.fhnw.ch>"
+  ],
+  "license": "MIT",
+  "main": "public/index.html",
+  "scripts": {
+    "clean": "rm -rf dist .cache",
+    "prestart": "yarn clean",
+    "start": "parcel public/index.html",
+    "prebuild": "yarn lint && yarn clean",
+    "build": "env NODE_ENV=production parcel build --experimental-scope-hoisting --detailed-report --public-url ./ ./public/index.html",
+    "lint": "tslint --format stylish --project tsconfig.json",
+    "lint-scss": "stylelint src/**/*.scss",
+    "pretest": "yarn lint",
+    "test": "jest",
+    "test:watch": "jest --watch"
+  },
+  "dependencies": {
+    "assemble": "~0.3.11",
+    "bulma": "0.7.4",
+    "grunt": "~0.4.0",
+    "hyperapp": "1.2.9",
+    "parcel-bundler": "^1.11.0",
+    "styles": "^0.2.1"
+  },
+  "devDependencies": {
+    "@types/jest": "23.3.9",
+    "@types/node": "10.12.9",
+    "autoprefixer": "9.3.1",
+    "identity-obj-proxy": "3.0.0",
+    "jest": "23.4.1",
+    "node-sass": "4.11.0",
+    "stylelint": "9.10.1",
+    "stylelint-config-airbnb": "0.0.0",
+    "stylelint-order": "2.1.0",
+    "stylelint-scss": "3.5.4",
+    "ts-jest": "23.0.1",
+    "tslint": "5.11.0",
+    "tslint-config-airbnb": "5.11.1",
+    "tslint-react": "3.6.0",
+    "typescript": "3.3.3333"
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.tsx?$": "ts-jest"
+    },
+    "testMatch": [
+      "**/test/**.spec.+(ts|tsx|js)"
+    ],
+    "moduleNameMapper": {
+      "\\.(css|less|scss|sass|svg|png|jpg|jpeg|ttf|woff|woff2)$": "identity-obj-proxy"
+    },
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx",
+      "json",
+      "node"
+    ]
+  }
+}
