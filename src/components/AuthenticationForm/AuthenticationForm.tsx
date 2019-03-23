@@ -3,7 +3,7 @@ import { UserActions } from '../../actions/user-actions';
 import { Component, h } from 'hyperapp';
 import { Button } from '../Button/Button';
 
-interface Props {
+export interface Props {
   state: UserState;
   actions: UserActions;
 }

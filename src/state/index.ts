@@ -1,3 +1,4 @@
+import { location, LocationState } from '@hyperapp/router';
 import { User } from '../api/user';
 
 export interface UserState {
@@ -7,10 +8,12 @@ export interface UserState {
 }
 
 export interface State {
+  location: LocationState;
   user: UserState;
 }
 
 export const state: State = {
+  location: location.state,
   user: {
     authenticated: false,
     loading: false,

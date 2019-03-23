@@ -3,24 +3,28 @@ import { User } from '../api/user';
 import { UserState } from '../state';
 
 export interface UserActions {
-  login: () => (state: UserState | null, actions: UserActions) => ActionResult<UserState>;
-  logout: () => (state: UserState | null) => ActionResult<UserState>;
+  login: () => (state: UserState, actions: UserActions) => ActionResult<UserState>;
+  logout: () => (state: UserState) => ActionResult<UserState>;
   setUser: (user: User) => (state: UserState) => ActionResult<UserState>;
 }
 
 export const userActions: ActionsType<UserState, UserActions> = {
   login: () => (state, actions) => {
-    if (state.authenticated === true) {
+    if (state.authenticated) {
       throw new Error('User is already logged in');
     }
 
-    setTimeout(() => {
-      actions.setUser({
-        userId: 1,
-        firstName: 'Kelvin',
-        lastName: 'Louis',
-      });
-    }, 2000);
+    setTimeout(
+      () => {
+        actions.setUser({
+          userId: 1,
+          emailAddress: 'kelvin.louis@students.fhnw.ch',
+          firstName: 'Kelvin',
+          lastName: 'Louis',
+        });
+      },
+      2000,
+    );
 
     return Object.assign({}, state, {
       loading: true,
@@ -28,7 +32,7 @@ export const userActions: ActionsType<UserState, UserActions> = {
   },
 
   logout: () => (state) => {
-    if (state.authenticated === false) {
+    if (!state.authenticated) {
       throw new Error('User is not authenticated');
     }
 
