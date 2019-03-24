@@ -1,15 +1,11 @@
 /**
+ * Enumeration for the possible roles an emplyee can have
  * @export
- * @namespace Employee
+ * @enum {string}
  */
-export namespace Employee {
-    /**
-     * @export
-     * @enum {string}
-     */
-    export enum RoleEnum {
-        ADMINISTRATOR = <any>'ADMINISTRATOR',
-        PROJECTMANAGER = <any>'PROJECTMANAGER',
-        DEVELOPER = <any>'DEVELOPER'
-    }
+
+export enum RoleEnum {
+  ADMINISTRATOR = <any>'ADMINISTRATOR',
+  PROJECTMANAGER = <any>'PROJECTMANAGER',
+  DEVELOPER = <any>'DEVELOPER'
 }

@@ -1,4 +1,4 @@
-import { Employee } from "../role.enum";
+import { RoleEnum } from "../role.enum";
 
 /**
  * Represents the employee of the FHNW. An employee can have several non-overlapping contracts. In addition he can work in multiple projects and act as project leader
@@ -41,5 +41,5 @@ export interface Employee {
    * @type {string}
    * @memberof Employee
    */
-  role?: Employee.RoleEnum;
+  role?: RoleEnum;
 }
