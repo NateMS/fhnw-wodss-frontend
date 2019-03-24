@@ -1,5 +1,5 @@
 /**
- * Enumeration for the possible roles an emplyee can have
+ * Enumeration of the possible roles an employee can have.
  * @export
  * @enum {string}
  */
