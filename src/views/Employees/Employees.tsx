@@ -16,10 +16,16 @@ const showForm: (show: boolean, actions: Actions) => void = (show, actions) => {
 export const Employees: Component<ViewProps> = ({ state, actions }) => {
   const employee = state.user.employee!;
 
+  // if (state.employee.list == null) {
+  //   // Employees haven't been fetched yet
+  //   actions.employee.fetchAll();
+  // }
+
   return (
-    <div>
+    <div oncreate={() => actions.employee.fetchAll()}>
       <div className="employees-container">
         <h1 className="title">Employees {employee.firstName}!</h1>
+        {state.employee.isLoading && <div className="is-loading">Loading...</div>}
         <Button theme="primary" label="Create" onClick={() => showForm(true, actions)} />
         <LinkButton theme="primary" label="Planning" to="/planning" />
         <LinkButton theme="primary" label="Logout" to="/logout" />

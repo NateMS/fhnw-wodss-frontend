@@ -18,7 +18,7 @@ class EmployeeService {
       .then((response: Employee) => new EmployeeModel(response));
   }
 
-  public getList(): Promise<EmployeeModel[]> {
+  public getAll(): Promise<EmployeeModel[]> {
     return this.api.get<Employee[]>('/api/employee')
       .then((list: Employee[]) => list.map(e => new EmployeeModel(e)));
   }

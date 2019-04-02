@@ -4,6 +4,7 @@ import { EmployeeModel } from '../api/dto/employee.model';
 
 export interface EmployeeState {
   list: EmployeeModel[];
+  isLoading: boolean;
 }
 
 export interface UserState {
@@ -25,7 +26,8 @@ export const state: State = {
     employee: null,
   },
   employee: {
-    list: [],
+    list: null,
+    isLoading: null,
   },
   form: defaultFormState,
 };
