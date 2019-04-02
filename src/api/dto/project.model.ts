@@ -1,14 +1,14 @@
-import { Project } from "./project";
+import { Project } from './project';
 
 export class ProjectModel implements Project {
-  id?: number | undefined;  
+  id?: number | undefined;
   name: string;
   ftePercentage: number;
   startDate: string;
   endDate: string;
   projectManagerId: number;
 
-  constructor(project : Project) {
+  constructor(project: Project) {
     this.id = project.id;
 
     if (project.name) {

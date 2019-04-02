@@ -2,9 +2,14 @@
 
 @import "base/variables";
 @import "base/fonts";
-@import "~bulma/sass/utilities/_all.sass";
-@import "~bulma/sass/base/_all.sass";
-@import "~bulma/sass/elements/button.sass";
-@import "~bulma/sass/elements/container.sass";
-@import "~bulma/sass/elements/form.sass";
-@import "~bulma/sass/elements/title.sass";
+@import "~bulma/sass/utilities/_all";
+@import "~bulma/sass/base/_all";
+@import "~bulma/sass/elements/button";
+@import "~bulma/sass/elements/container";
+@import "~bulma/sass/elements/form";
+@import "~bulma/sass/elements/title";
+@import "~bulma/sass/elements/notification";
+@import "~bulma/sass/components/modal";
+@import "~choices.js/src/styles/choices.scss";
+@import "layout/modal";
+@import "layout/form";

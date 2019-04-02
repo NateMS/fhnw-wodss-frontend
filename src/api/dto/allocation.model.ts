@@ -1,7 +1,7 @@
-import { Allocation } from "./allocation";
+import { Allocation } from './allocation';
 
 export class AllocationModel implements Allocation {
-  public readonly id?: number | undefined;  
+  public readonly id?: number | undefined;
   public readonly startDate: string;
   public readonly endDate: string;
   public readonly pensumPercentage: number;

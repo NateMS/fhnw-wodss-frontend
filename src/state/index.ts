@@ -1,22 +1,23 @@
 import { location, LocationState } from '@hyperapp/router';
-import { User } from '../api/user';
+import { defaultFormState, FormState } from './form';
+import { EmployeeModel } from '../api/dto/employee.model';
 
 export interface UserState {
   authenticated: boolean;
-  loading: boolean;
-  user: User | null;
+  employee: EmployeeModel | null;
 }
 
 export interface State {
   location: LocationState;
   user: UserState;
+  form: FormState;
 }
 
 export const state: State = {
   location: location.state,
   user: {
     authenticated: false,
-    loading: false,
-    user: null,
+    employee: null,
   },
+  form: defaultFormState,
 };

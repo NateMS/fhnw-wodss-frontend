@@ -1,7 +1,7 @@
-import { Contract } from "./contract";
+import { Contract } from './contract';
 
 export class ContractModel implements Contract {
-  public readonly id?: number | undefined;  
+  public readonly id?: number | undefined;
   public readonly startDate: string;
   public readonly endDate: string;
   public readonly pensumPercentage: number;

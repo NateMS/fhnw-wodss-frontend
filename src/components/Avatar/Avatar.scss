@@ -1,0 +1,28 @@
+@import "../../styles/base/variables";
+
+.avatar-item {
+  display: flex;
+  align-items: center;
+}
+
+.avatar-name {
+  padding-left: 0.5rem;
+}
+
+.avatar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 2rem;
+  border: 2px solid white;
+  color: $white;
+  cursor: default;
+}
+
+.avatar-initials {
+  font-weight: 700;
+  letter-spacing: 1px;
+}

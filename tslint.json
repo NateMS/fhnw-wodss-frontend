@@ -5,6 +5,9 @@
   ],
   "rules": {
     "variable-name": [true, "ban-keywords", "check-format", "allow-pascal-case"],
-    "jsx-no-lambda": false
+    "jsx-no-lambda": false,
+    "import-name": [true, {
+      "choices.js": "Choices"
+    }]
   }
 }
