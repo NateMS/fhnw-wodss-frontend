@@ -55,6 +55,10 @@ export class ApiService {
     return this.request(RequestMethods.POST, url, body, queryParams);
   }
 
+  public put<T>(url: string, body: any, queryParams?: URLParams): Promise<T> {
+    return this.request(RequestMethods.PUT, url, body, queryParams);
+  }
+
   public get<T>(url: string, queryParams?: URLParams): Promise<T> {
     return this.request(RequestMethods.GET, url, undefined, queryParams);
   }
