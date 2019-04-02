@@ -1,5 +1,5 @@
 import { Component, h } from 'hyperapp';
-import Choices from 'choices.js';
+// import Choices from 'choices.js';
 import { FormControlProps } from '../FormControlProps';
 
 export interface FormSelectItem<T> {
@@ -17,7 +17,13 @@ export interface FormSelectProps<T> extends FormControlProps<T> {
 
 const FormSelectOption: Component<FormSelectItem<any>> = (props) => {
   return (
-    <option value={props.value} selected={props.selected}>{props.label}</option>
+    <option
+      key={props.value}
+      value={props.value}
+      selected={props.selected}
+    >
+      {props.label}
+    </option>
   );
 };
 
@@ -42,15 +48,16 @@ export const FormSelect: Component<FormSelectProps<any>> = (props) => {
   }
 
   const onCreate = (e: Element) => {
-    new Choices(e, {
-      items: props.items,
-      searchEnabled: props.searchEnabled || false,
-      itemSelectText: '',
-    });
+    // new Choices(e, {
+    //   items: props.items,
+    //   searchEnabled: props.searchEnabled || false,
+    //   itemSelectText: '',
+    // });
 
     if (props.onInputChange) {
       e.addEventListener('change', (event: any) => {
-        props.onInputChange(event.detail.value);
+        // props.onInputChange(event.detail.value);
+        props.onInputChange(event.target.value);
       });
     }
   };

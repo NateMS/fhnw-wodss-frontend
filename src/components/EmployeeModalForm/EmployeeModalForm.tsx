@@ -6,17 +6,26 @@ import FormInput from '../FormInput/FormInput';
 import { FormCheckbox } from '../FormCheckbox/FormCheckbox';
 import { FormSelect } from '../FormSelect/FormSelect';
 import { RoleEnum, roleNameMap } from '../../api/role.enum';
-import { Employee } from '../../api/dto/employee';
-import { EmployeeModel } from '../../api/dto/employee.model';
-import EmployeeSelect from '../EmployeeSelect/EmployeeSelect';
 
 interface Props {
   state: FormState;
   actions: Actions;
 }
 
+const submit = (state: FormState, actions: Actions) => {
+  actions.employee.create(state.employee);
+};
+
 const close: (actions: Actions) => void  = (actions) => {
   actions.form.reset('employee');
+};
+
+const updateField = (actions: Actions, fieldName: string, value: any) => {
+  actions.form.updateField({
+    fieldName,
+    value,
+    formName: 'employee',
+  });
 };
 
 const EmployeeModalForm: Component<Props> = ({ state, actions }) => {
@@ -30,13 +39,6 @@ const EmployeeModalForm: Component<Props> = ({ state, actions }) => {
   const roles: RoleEnum[] = Object
     .keys(roleNameMap)
     .map(r => (r as RoleEnum));
-
-  const employees: EmployeeModel[] = [
-    new EmployeeModel({ firstName: 'Kelvin', lastName: 'Louis', id: 1, emailAddress: 'kelv' }),
-    new EmployeeModel({ firstName: 'Nicola', lastName: 'Cocquio', id: 2, emailAddress: 'kelv' }),
-    new EmployeeModel({ firstName: 'Christoph', lastName: 'Christen', id: 3, emailAddress: 'kelv' }),
-    new EmployeeModel({ firstName: 'Sandra', lastName: 'Amport', id: 4, emailAddress: 'kelv' }),
-  ];
 
   return (
     <div className={stateClassName}>
@@ -61,7 +63,7 @@ const EmployeeModalForm: Component<Props> = ({ state, actions }) => {
                 fieldName="firstName"
                 type="text"
                 value={state.employee.firstName}
-                onInputChange={}
+                onInputChange={value => updateField(actions, 'firstName', value)}
               />
             </FormField>
             <FormField labelText="Last Name" required={true}>
@@ -69,7 +71,7 @@ const EmployeeModalForm: Component<Props> = ({ state, actions }) => {
                 fieldName="lastName"
                 type="text"
                 value={state.employee.lastName}
-                onInputChange={}
+                onInputChange={value => updateField(actions, 'lastName', value)}
               />
             </FormField>
             <FormField labelText="Email" required={true}>
@@ -77,7 +79,7 @@ const EmployeeModalForm: Component<Props> = ({ state, actions }) => {
                 fieldName="emailAddress"
                 type="email"
                 value={state.employee.emailAddress}
-                onInputChange={}
+                onInputChange={value => updateField(actions, 'emailAddress', value)}
               />
             </FormField>
             <FormField labelText="Password" required={true}>
@@ -85,7 +87,7 @@ const EmployeeModalForm: Component<Props> = ({ state, actions }) => {
                 fieldName="password"
                 type="password"
                 value={state.employee.password}
-                onInputChange={}
+                onInputChange={value => updateField(actions, 'password', value)}
               />
             </FormField>
             <FormField labelText="Status" required={true} hint="Inactive: No login possible">
@@ -93,33 +95,24 @@ const EmployeeModalForm: Component<Props> = ({ state, actions }) => {
                 labelText="Active"
                 fieldName="active"
                 value={state.employee.active}
-                onInputChange={}
+                onInputChange={value => updateField(actions, 'active', value)}
               />
             </FormField>
             <FormField labelText="Role" required={true}>
               <FormSelect
                 placeholder="Please select"
-                fieldName="active"
+                fieldName="role"
                 items={roles}
                 value={state.employee.active}
                 labler={(r: RoleEnum) => roleNameMap[r]}
-                onInputChange={}
-              />
-            </FormField>
-            <FormField labelText="Employee" required={true}>
-              <EmployeeSelect
-                placeholder="Please select"
-                fieldName="employee"
-                items={employees}
-                value={employees[0]}
-                onInputChange={}
+                onInputChange={value => updateField(actions, 'role', value)}
               />
             </FormField>
           </form>
         </section>
         <footer className="modal-card-foot">
           <button className="button" onclick={() => close(actions)}>Cancel</button>
-          <button className="button is-primary">Save</button>
+          <button className="button is-primary" onclick={() => submit(state, actions)}>Save</button>
         </footer>
       </div>
     </div>

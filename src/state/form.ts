@@ -26,7 +26,6 @@ export interface EmployeeForm extends ModalForm {
   emailAddress: string | null;
   password: string | null;
   // contracts?: EmployeeContractForm[] | null;
-  status: boolean | null;
   active: boolean | null;
 }
 
@@ -51,7 +50,6 @@ export const initEmployeeForm: () => EmployeeForm = () => ({
   role: null,
   emailAddress: null,
   password: null,
-  status: null,
   active: null,
 });
 
