@@ -4,6 +4,8 @@ import { EmployeeModel } from '../api/dto/employee.model';
 import { RoleEnum } from '../api/role.enum';
 import { ContractModel } from '../api/dto/contract.model';
 import { Contract } from '../api/dto/contract';
+import { EmployeeBaseModel } from '../api/dto/employee.base.model';
+import { ContractBaseModel } from '../api/dto/contract.base.model';
 
 class EmployeeService {
   private static instance: EmployeeService;
@@ -35,9 +37,7 @@ class EmployeeService {
   }
 
   public update(employee: Employee): Promise<EmployeeModel> {
-    // TODO Mapping to UpdateEmployeeModel w/o id
-
-    return this.api.put<Employee>(`/api/employee/${employee.id}`, employee)
+    return this.api.put<Employee>(`/api/employee/${employee.id}`, new EmployeeBaseModel(employee))
       .then((response: Employee) => new EmployeeModel(response));
   }
 
@@ -52,9 +52,7 @@ class EmployeeService {
   }
 
   public updateContract(contract: Contract): Promise<ContractModel> {
-    // TODO Mapping to UpdateContractModel w/o id
-
-    return this.api.put<Contract>(`/api/contract/${contract.id}`, contract)
+    return this.api.put<Contract>(`/api/contract/${contract.id}`, new ContractBaseModel(contract))
       .then((response: Contract) => new ContractModel(response));
   }
 
