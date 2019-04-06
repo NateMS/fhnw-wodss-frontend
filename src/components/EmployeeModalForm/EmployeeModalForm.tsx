@@ -38,7 +38,8 @@ const updateField = (actions: Actions, fieldName: string, value: any) => {
 };
 
 const EmployeeModalForm: Component<Props> = ({ state, actions }) => {
-  const { isOpen } = state.employee;
+  const { isOpen, id } = state.employee;
+  const isEditMode = id != null;
   let stateClassName = 'modal';
 
   if (isOpen) {

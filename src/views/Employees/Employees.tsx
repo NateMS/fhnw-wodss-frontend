@@ -1,5 +1,4 @@
 import { Component, h } from 'hyperapp';
-import LinkButton from '../../components/LinkButton/LinkButton';
 import { ViewProps } from '../ViewProps';
 import Button from '../../components/Button/Button';
 import EmployeeModalForm from '../../components/EmployeeModalForm/EmployeeModalForm';
@@ -22,8 +21,6 @@ export const Employees: Component<ViewProps> = ({ state, actions }) => {
         <h1 className="title">Employees {employee.firstName}!</h1>
         {state.employee.isLoading && <div className="is-loading">Loading...</div>}
         <Button theme="primary" label="Create" onClick={() => showForm(true, actions)} />
-        <LinkButton theme="primary" label="Planning" to="/planning" />
-        <LinkButton theme="primary" label="Logout" to="/logout" />
       </div>
       <EmployeeModalForm state={state.form} actions={actions} />
     </div>

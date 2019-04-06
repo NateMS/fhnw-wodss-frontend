@@ -2,7 +2,7 @@ import { Component, h } from 'hyperapp';
 import { ViewProps } from '../ViewProps';
 
 export const Logout: Component<ViewProps> = ({ state, actions }) => {
-  const user = state.user.user!;
+  const user = state.user.employee!;
 
   setTimeout(
     () => {

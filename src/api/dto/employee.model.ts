@@ -1,5 +1,5 @@
 import { Employee } from './employee';
-import { RoleEnum } from '../role.enum';
+import { RoleEnum, roleNameMap } from '../role.enum';
 
 export class EmployeeModel implements Employee {
   public readonly active?: boolean | undefined;
@@ -11,6 +11,13 @@ export class EmployeeModel implements Employee {
 
   public get fullName(): string {
     return `${this.firstName} ${this.lastName}`;
+  }
+
+  public get roleName(): string {
+    if (this.role != null) {
+      return roleNameMap[this.role];
+    }
+    return '';
   }
 
   constructor(employee: Employee) {
