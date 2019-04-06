@@ -1,10 +1,8 @@
 import { Component, h } from 'hyperapp';
 import { Actions } from '../../actions';
-import { RoleEnum, roleNameMap } from '../../api/role.enum';
 import { EmployeeModel } from '../../api/dto/employee.model';
 import { EmployeeState } from '../../state';
-import { Button } from '../Button/Button';
-import { Avatar, AvatarItem } from '../Avatar/Avatar';
+import { AvatarItem } from '../Avatar/Avatar';
 
 interface Props {
   state: EmployeeState;
@@ -22,10 +20,10 @@ const EmployeeRows: Component<EmployeeRow> = ({employee, actions}) => {
   return (
     <tr>
       <td>
-        <AvatarItem  fullName={fullName} />
+        <AvatarItem  fullName={employee.fullName} />
       </td>
       <td>
-        {employee.role && roleNameMap[employee.role]}
+        {employee.roleName}
       </td>
       <td>
         {/* #Projects */}
@@ -37,18 +35,32 @@ const EmployeeRows: Component<EmployeeRow> = ({employee, actions}) => {
         {/* Contracts */}
       </td>
       <td>
-        <Button label="Edit" theme="primary" />
-        <Button label="Delete" theme="danger" />
+        <div className="dropdown is-right is-hoverable">
+          <div className="dropdown-trigger">
+            <i class="fas fa-ellipsis-h"></i>
+          </div>
+          <div className="dropdown-menu" role="menu">
+            <div className="dropdown-content">
+              <a href="#" class="dropdown-item">
+                Edit
+              </a>
+              <hr class="dropdown-divider"/>
+              <a href="#" class="dropdown-item">
+                Delete
+              </a>
+            </div>
+          </div>
+        </div>
       </td>
     </tr>
   );
-} 
+}
 
 const EmployeeList: Component<Props> = ({ state, actions }) => {
   const employees = state.list;
 
   return (
-    <table class="table">
+    <table class="table is-fullwidth is-hoverable">
       <thead>
         <tr>
           <td>Employee</td>
