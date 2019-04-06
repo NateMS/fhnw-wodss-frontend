@@ -12,10 +12,10 @@
   position: relative;
   flex-direction: column;
   justify-content: space-between;
-  width: 48px;
+  width: $sidebar-width;
   height: 100vh;
   flex-grow: 0;
-  background-color: $primary;
+  background-color: $sidebar-background;
 }
 
 .app__body {

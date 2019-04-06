@@ -4,6 +4,7 @@ import { State } from './state';
 import { Actions } from './actions';
 import './styles/styles.scss';
 import Planning from './views/Planning/Planning';
+import Projects from './views/Projects/Projects';
 import Employees from './views/Employees/Employees';
 import Login from './views/Login/Login';
 import Logout from './views/Logout/Logout';
@@ -23,6 +24,7 @@ export const view: View<State, Actions> = (state, actions) =>  {
   return (
     <main class="app-container">
       <Route path="/planning" render={() => protect(Planning)({ state, actions })} />
+      <Route path="/projects" render={() => protect(Projects)({ state, actions })} />
       <Route path="/employees" render={() => protect(Employees)({ state, actions })} />
       <Route path="/logout" render={() => protect(Logout)({ state, actions })} />
       <Route path="/" render={() => Login({ state, actions })} />
