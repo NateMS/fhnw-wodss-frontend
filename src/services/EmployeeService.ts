@@ -25,6 +25,25 @@ class EmployeeService {
       .then((list: Employee[]) => list.map(e => new EmployeeModel(e)));
   }
 
+  public get(id: string): Promise<EmployeeModel> {
+    return this.api.get<Employee>(`/api/employee/${id}`)
+      .then((response: Employee) => new EmployeeModel(response));
+  }
+
+  public update(employee: Employee, id: string): Promise<EmployeeModel> {
+    const params = {
+      id
+    };
+
+    return this.api.put<Employee>('/api/employee', employee, params)
+      .then((response: Employee) => new EmployeeModel(response));
+  }
+  
+  public delete(id: string): void {
+    this.api.delete(`/api/employee/${id}`)
+      .then();
+  }
+
   public createContract(contract: Contract): Promise<ContractModel> {
     return this.api.post<Contract>('/api/contract', contract)
       .then((response: Contract) => new ContractModel(response));
@@ -37,6 +56,11 @@ class EmployeeService {
 
     return this.api.put<Contract>('/api/contract', contract, params)
       .then((response: Contract) => new ContractModel(response));
+  }
+
+  public deleteContract(id: string): void {
+    this.api.delete(`/api/contract/${id}`)
+      .then();
   }
 
   public getAllContracts(): Promise<ContractModel[]> {

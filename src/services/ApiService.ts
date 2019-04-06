@@ -63,6 +63,10 @@ export class ApiService {
     return this.request(RequestMethods.GET, url, undefined, queryParams);
   }
 
+  public delete<T>(url: string): Promise<T> {
+    return this.request(RequestMethods.DELETE, url, undefined, undefined);
+  }
+
   public request<T>(method: string, endpoint: string, body?: any, queryParams?: URLParams): Promise<T> {
     const { basePath } = this.configuration;
     const url = new URL(`${basePath}${endpoint}`);
