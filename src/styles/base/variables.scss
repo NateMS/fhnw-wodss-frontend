@@ -11,12 +11,14 @@ $beige-lighter: #EFF0EB;
 
 // System Variables
 $z-index-toast: 1200;
+$app-offset: 1.5rem;
 
 // Bulma Global Variables
 $family-sans-serif: "Nunito", sans-serif;
 $grey-dark: $brown;
 $grey-light: $beige-light;
 $primary: $purple;
+$secondary: $pink;
 $link: $pink;
 $widescreen-enabled: false;
 $fullhd-enabled: false;
@@ -27,6 +29,10 @@ $control-border-width: 2px;
 $input-border-color: transparent;
 $input-shadow: none;
 $notification-padding: 1rem 2rem 1rem 1.5rem;
+
+// Layout
+$sidebar-background: $primary;
+$sidebar-width: 3rem;
 
 // Modal
 $modal-content-width: 80vw;

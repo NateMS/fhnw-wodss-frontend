@@ -3,6 +3,8 @@ import { UserState } from '../state';
 import { Employee } from '../api/dto/employee';
 import { EmployeeModel } from '../api/dto/employee.model';
 import { Credentials } from '../api/dto/credentials';
+import { RoleEnum } from '../api/role.enum';
+import { LOCAL_STORAGE_KEY_USER } from '../constants';
 
 export interface UserActions {
   login:
@@ -30,6 +32,7 @@ export const userActions: ActionsType<UserState, UserActions> = {
             firstName: 'Kelvin',
             lastName: 'Louis',
             active: true,
+            role: RoleEnum.ADMINISTRATOR,
           });
 
           // @TODO: Replace with real storage procedure
@@ -46,6 +49,8 @@ export const userActions: ActionsType<UserState, UserActions> = {
     if (!state.authenticated) {
       throw new Error('User is not authenticated');
     }
+
+    window.localStorage.removeItem(LOCAL_STORAGE_KEY_USER);
 
     return {
       authenticated: false,
