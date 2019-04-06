@@ -81,7 +81,7 @@ export const toastActions: ActionsType<ToastState, ToastActions> = {
     return addToast(toast, state, actions);
   },
 
-  hide: (index: number) => ({ list }) => ({
+  hide: () => ({ list }) => ({
     list: [...list.slice(0, -1)],
   }),
 };
