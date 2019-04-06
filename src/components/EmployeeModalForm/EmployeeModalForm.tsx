@@ -6,6 +6,7 @@ import FormInput from '../FormInput/FormInput';
 import { FormCheckbox } from '../FormCheckbox/FormCheckbox';
 import { FormSelect } from '../FormSelect/FormSelect';
 import { RoleEnum, roleNameMap } from '../../api/role.enum';
+import { EmployeeModel } from '../../api/dto/employee.model';
 
 interface Props {
   state: FormState;
@@ -13,7 +14,15 @@ interface Props {
 }
 
 const submit = (state: FormState, actions: Actions) => {
-  actions.employee.create(state.employee);
+  actions
+    .employee
+    .create(state.employee)
+    .then((employee: EmployeeModel) => {
+      actions.toast.success({ message: `Successfully created employee '${employee.fullName}'` });
+    })
+    .catch((error) => {
+      actions.toast.error({ message: `Error occurred: ${error}` });
+    });
 };
 
 const close: (actions: Actions) => void  = (actions) => {

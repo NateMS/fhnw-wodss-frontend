@@ -1,4 +1,4 @@
-import { EmployeeState, State, UserState } from '../state';
+import { EmployeeState, State } from '../state';
 import { Employee } from '../api/dto/employee';
 import { EmployeeForm } from '../state/form';
 import { Actions } from './index';
@@ -25,7 +25,7 @@ export interface EmployeeActions {
         Promise<EmployeeModel>;
 }
 
-export const employeeActions: ActionsType<State, EmployeeActions> = {
+export const employeeActions: ActionsType<EmployeeState, EmployeeActions> = {
   setLoading: isLoading => state => (
     Object.assign({}, state, {
       isLoading,
@@ -45,10 +45,7 @@ export const employeeActions: ActionsType<State, EmployeeActions> = {
       .then((employees) => {
         actions.setLoading(false);
         actions.setList(employees);
-      })
-      .catch((error) => {
-        // TODO: ERROR HANDLING
-        console.log('ERROR', error);
+        return employees;
       });
   },
 
@@ -64,11 +61,7 @@ export const employeeActions: ActionsType<State, EmployeeActions> = {
     return employeeService
       .create(employee, form.password!, form.role!)
       .then((employee: EmployeeModel) => {
-        console.log('employee', employee);
         return employee;
-      })
-      .catch((error) => {
-        // TODO: Error handling
       });
   },
 };

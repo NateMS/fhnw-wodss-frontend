@@ -1,9 +1,14 @@
 import { location, LocationState } from '@hyperapp/router';
 import { defaultFormState, FormState } from './form';
 import { EmployeeModel } from '../api/dto/employee.model';
+import { Toast } from '../actions/toast.actions';
+
+export interface ToastState {
+  list: Toast[];
+}
 
 export interface EmployeeState {
-  list: EmployeeModel[];
+  list: EmployeeModel[] | null;
   isLoading: boolean;
 }
 
@@ -17,6 +22,7 @@ export interface State {
   user: UserState;
   form: FormState;
   employee: EmployeeState;
+  toast: ToastState;
 }
 
 export const state: State = {
@@ -27,7 +33,10 @@ export const state: State = {
   },
   employee: {
     list: null,
-    isLoading: null,
+    isLoading: false,
   },
   form: defaultFormState,
+  toast: {
+    list: [],
+  },
 };

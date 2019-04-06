@@ -1,0 +1,16 @@
+@import "../../styles/base/variables";
+
+$toast-list-offset: 1rem;
+$toast-width: 450px;
+
+.toast-list {
+  position: absolute;
+  top: $toast-list-offset;
+  right: $toast-list-offset;
+  z-index: $z-index-toast;
+
+  .notification {
+    width: $toast-width;
+    opacity: 0.8;
+  }
+}

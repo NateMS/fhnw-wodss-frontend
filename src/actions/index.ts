@@ -4,12 +4,14 @@ import { location, LocationActions } from '@hyperapp/router';
 import { State } from '../state';
 import { formActions, FormActions } from './form.actions';
 import { employeeActions, EmployeeActions } from './employee.actions';
+import { toastActions, ToastActions } from './toast.actions';
 
 export interface Actions {
   location: LocationActions;
   user: UserActions;
   form: FormActions;
   employee: EmployeeActions;
+  toast: ToastActions;
 }
 
 export const actions: ActionsType<State, Actions> = {
@@ -17,4 +19,5 @@ export const actions: ActionsType<State, Actions> = {
   user: userActions,
   form: formActions,
   employee: employeeActions,
+  toast: toastActions,
 };

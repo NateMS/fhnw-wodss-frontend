@@ -16,11 +16,6 @@ const showForm: (show: boolean, actions: Actions) => void = (show, actions) => {
 export const Employees: Component<ViewProps> = ({ state, actions }) => {
   const employee = state.user.employee!;
 
-  // if (state.employee.list == null) {
-  //   // Employees haven't been fetched yet
-  //   actions.employee.fetchAll();
-  // }
-
   return (
     <div oncreate={() => actions.employee.fetchAll()}>
       <div className="employees-container">
