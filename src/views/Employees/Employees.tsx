@@ -1,7 +1,8 @@
 import { Component, h } from 'hyperapp';
 import { ViewProps } from '../ViewProps';
 import Button from '../../components/Button/Button';
-import EmployeeModalForm from '../../components/EmployeeModalForm/EmployeeModalForm';
+import EmployeeModalForm from '../../components/EmployeeModalForm/EmployeeModalForm';]
+import EmployeeList from '../../components/EmployeeList/EmployeeList';
 import { Actions } from '../../actions';
 
 const showForm: (show: boolean, actions: Actions) => void = (show, actions) => {
@@ -20,6 +21,7 @@ export const Employees: Component<ViewProps> = ({ state, actions }) => {
       <div className="employees-container">
         <h1 className="title">Employees {employee.firstName}!</h1>
         {state.employee.isLoading && <div className="is-loading">Loading...</div>}
+        <EmployeeList state={state.employee} actions={actions} />
         <Button theme="primary" label="Create" onClick={() => showForm(true, actions)} />
       </div>
       <EmployeeModalForm state={state.form} actions={actions} />
