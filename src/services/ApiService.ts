@@ -13,7 +13,7 @@ interface ConfigurationParameters {
   basePath?: string;
 }
 
-type URLParams = {[key: string]: string};
+type URLParams = {[key: string]: string | undefined};
 
 class Configuration {
   /**
@@ -55,8 +55,16 @@ export class ApiService {
     return this.request(RequestMethods.POST, url, body, queryParams);
   }
 
+  public put<T>(url: string, body: any, queryParams?: URLParams): Promise<T> {
+    return this.request(RequestMethods.PUT, url, body, queryParams);
+  }
+
   public get<T>(url: string, queryParams?: URLParams): Promise<T> {
     return this.request(RequestMethods.GET, url, undefined, queryParams);
+  }
+
+  public delete<T>(url: string): Promise<T> {
+    return this.request(RequestMethods.DELETE, url);
   }
 
   public request<T>(method: string, endpoint: string, body?: any, queryParams?: URLParams): Promise<T> {
@@ -64,8 +72,11 @@ export class ApiService {
     const url = new URL(`${basePath}${endpoint}`);
 
     if (queryParams != null) {
-      Object.keys(queryParams).map((key) => {
-        url.searchParams.append(key, queryParams[key]);
+      Object
+        .keys(queryParams)
+        .filter((key) => queryParams[key] != null)
+        .map((key) => {
+          url.searchParams.append(key, queryParams[key]!);
       });
     }
 
