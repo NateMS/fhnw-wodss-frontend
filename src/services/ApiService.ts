@@ -13,7 +13,7 @@ interface ConfigurationParameters {
   basePath?: string;
 }
 
-type URLParams = {[key: string]: string};
+type URLParams = {[key: string]: string | undefined};
 
 class Configuration {
   /**
@@ -72,8 +72,11 @@ export class ApiService {
     const url = new URL(`${basePath}${endpoint}`);
 
     if (queryParams != null) {
-      Object.keys(queryParams).map((key) => {
-        url.searchParams.append(key, queryParams[key]);
+      Object
+        .keys(queryParams)
+        .filter((key) => queryParams[key] != null)
+        .map((key) => {
+          url.searchParams.append(key, queryParams[key]!);
       });
     }
 
