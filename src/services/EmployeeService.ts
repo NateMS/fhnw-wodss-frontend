@@ -29,21 +29,19 @@ class EmployeeService {
       .then((list: Employee[]) => list.map(e => new EmployeeModel(e)));
   }
 
-  public get(id: string): Promise<EmployeeModel> {
+  public get(id: number): Promise<EmployeeModel> {
     return this.api.get<Employee>(`/api/employee/${id}`)
       .then((response: Employee) => new EmployeeModel(response));
   }
 
-  public update(employee: Employee, id: string): Promise<EmployeeModel> {
-    const params = {
-      id
-    };
+  public update(employee: Employee): Promise<EmployeeModel> {
+    // TODO Mapping to UpdateEmployeeModel w/o id
 
-    return this.api.put<Employee>('/api/employee', employee, params)
+    return this.api.put<Employee>(`/api/employee/${employee.id}`, employee)
       .then((response: Employee) => new EmployeeModel(response));
   }
 
-  public delete(id: string): void {
+  public delete(id: number): void {
     this.api.delete(`/api/employee/${id}`)
       .then();
   }
@@ -53,16 +51,14 @@ class EmployeeService {
       .then((response: Contract) => new ContractModel(response));
   }
 
-  public updateContract(contract: Contract, id: string): Promise<ContractModel> {
-    const params = {
-      id
-    };
+  public updateContract(contract: Contract): Promise<ContractModel> {
+    // TODO Mapping to UpdateContractModel w/o id
 
-    return this.api.put<Contract>('/api/contract', contract, params)
+    return this.api.put<Contract>(`/api/contract/${contract.id}`, contract)
       .then((response: Contract) => new ContractModel(response));
   }
 
-  public deleteContract(id: string): void {
+  public deleteContract(id: number): void {
     this.api.delete(`/api/contract/${id}`)
       .then();
   }
@@ -77,7 +73,7 @@ class EmployeeService {
       .then((list: Contract[]) => list.map(e => new ContractModel(e)));
   }
 
-  public getContract(id: string): Promise<ContractModel> {
+  public getContract(id: number): Promise<ContractModel> {
     return this.api.get<ContractModel>(`/api/contract/${id}`)
       .then(e => new ContractModel(e))
   }

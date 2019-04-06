@@ -64,7 +64,7 @@ export class ApiService {
   }
 
   public delete<T>(url: string): Promise<T> {
-    return this.request(RequestMethods.DELETE, url, undefined, undefined);
+    return this.request(RequestMethods.DELETE, url);
   }
 
   public request<T>(method: string, endpoint: string, body?: any, queryParams?: URLParams): Promise<T> {
