@@ -1,39 +1,32 @@
 import { Employee } from './employee';
-import { RoleEnum } from '../role.enum';
+import { RoleEnum, roleNameMap } from '../role.enum';
+import { EmployeeBaseModel } from './employee.base.model';
 
-export class EmployeeModel implements Employee {
-  public readonly active?: boolean | undefined;
-  public readonly id?: number | undefined;
-  public readonly role?: RoleEnum | undefined;
-  public readonly firstName: string;
-  public readonly lastName: string;
-  public readonly emailAddress: string;
+export class EmployeeModel extends EmployeeBaseModel {
+  public readonly id: number;
+  public readonly role: RoleEnum;
 
   public get fullName(): string {
     return `${this.firstName} ${this.lastName}`;
   }
 
+  public get roleName(): string {
+    return roleNameMap[this.role];
+  }
+
   constructor(employee: Employee) {
-    this.active = employee.active;
-    this.id = employee.id;
-    this.role = employee.role;
+    super(employee);
 
-    if (employee.firstName) {
-      this.firstName = employee.firstName;
+    if (employee.id) {
+      this.id = employee.id;
     } else {
-      throw new Error(`The field 'firstName' is missing.`);
+      throw new Error(`The field 'id' is missing.`);
     }
 
-    if (employee.lastName) {
-      this.lastName = employee.lastName;
+    if (employee.role) {
+      this.role = employee.role;
     } else {
-      throw new Error(`The field 'lastName' is missing.`);
-    }
-
-    if (employee.emailAddress) {
-      this.emailAddress = employee.emailAddress;
-    } else {
-      throw new Error(`The field 'emailAddress' is missing.`);
+      throw new Error(`The field 'role' is missing.`);
     }
   }
 }
