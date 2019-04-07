@@ -1,7 +1,8 @@
 import { Component, h } from 'hyperapp';
 import { ViewProps } from '../ViewProps';
 import Button from '../../components/Button/Button';
-import EmployeeModalForm from '../../components/EmployeeModalForm/EmployeeModalForm';
+import EmployeeModalForm from '../../components/EmployeeModalForm/EmployeeModalForm';]
+import EmployeeList from '../../components/EmployeeList/EmployeeList';
 import { Actions } from '../../actions';
 
 const showCreateForm = (show: boolean, actions: Actions): void => {
