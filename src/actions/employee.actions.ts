@@ -1,10 +1,11 @@
 import { EmployeeState, State } from '../state';
 import { Employee } from '../api/dto/employee';
-import { EmployeeForm } from '../state/form';
 import { Actions } from './index';
 import { ActionResult, ActionsType } from 'hyperapp';
 import { employeeService } from '../services/EmployeeService';
 import { EmployeeModel } from '../api/dto/employee.model';
+import { EmployeeFormState } from '../state/form/employee-form.state';
+import { RoleEnum } from '../api/role.enum';
 
 export interface EmployeeActions {
   setLoading:
@@ -20,7 +21,7 @@ export interface EmployeeActions {
       (state: EmployeeState) =>
         ActionResult<EmployeeState>;
   create:
-    (form: EmployeeForm) =>
+    (form: EmployeeFormState) =>
       (state: State, actions: Actions) =>
         Promise<EmployeeModel>;
 }
@@ -38,7 +39,7 @@ export const employeeActions: ActionsType<EmployeeState, EmployeeActions> = {
     })
   ),
 
-  fetchAll: () => (state, actions) => {
+  fetchAll: () => (_, actions) => {
     actions.setLoading(true);
     employeeService
       .getAll()
@@ -49,17 +50,19 @@ export const employeeActions: ActionsType<EmployeeState, EmployeeActions> = {
       });
   },
 
-  create: (form: EmployeeForm) => (state, actions) => {
+  create: (form: EmployeeFormState) => () => {
+    const { emailAddress, firstName, lastName, active, password, role } = form.controls;
     // @TODO VALIDATION
+
     const employee: Employee = {
-      emailAddress: form.emailAddress!,
-      firstName: form.firstName!,
-      lastName: form.lastName!,
-      active: form.active!,
+      emailAddress: emailAddress.value!,
+      firstName: firstName.value!,
+      lastName: lastName.value!,
+      active: active.value!,
     };
 
     return employeeService
-      .create(employee, form.password!, form.role!)
+      .create(employee, password!.value!, (role!.value as RoleEnum))
       .then((employee: EmployeeModel) => {
         return employee;
       });

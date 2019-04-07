@@ -1,5 +1,5 @@
 import { location, LocationState } from '@hyperapp/router';
-import { defaultFormState, FormState } from './form';
+import { defaultFormState, FormState } from './form/index';
 import { EmployeeModel } from '../api/dto/employee.model';
 import { Toast } from '../actions/toast.actions';
 

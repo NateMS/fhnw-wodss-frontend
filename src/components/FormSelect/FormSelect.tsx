@@ -57,7 +57,10 @@ export const FormSelect: Component<FormSelectProps<any>> = (props) => {
     if (props.onInputChange) {
       e.addEventListener('change', (event: any) => {
         // props.onInputChange(event.detail.value);
-        props.onInputChange(event.target.value);
+        props.onInputChange({
+          name: props.name,
+          value: event.target.value,
+        });
       });
     }
   };
@@ -75,6 +78,7 @@ export const FormSelect: Component<FormSelectProps<any>> = (props) => {
   return (
     <select
       className="form-control"
+      name={props.name}
       data-trigger={true}
       placeholder={props.placeholder}
       disabled={props.disabled}

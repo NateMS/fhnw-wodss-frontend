@@ -12,7 +12,7 @@ export const Login: Component<ViewProps> = ({ state, actions }) => {
 
   return (
     <div className="login-container">
-      <AuthenticationForm state={state.form} actions={actions} />
+      <AuthenticationForm state={state.form.authentication} actions={actions} />
     </div>
   );
 };

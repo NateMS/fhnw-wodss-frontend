@@ -15,11 +15,12 @@ export const FormInput: Component<Props> = (props) => {
   return (
     <input
       className={className}
+      name={props.name}
       type={props.type}
       value={props.value ? props.value : undefined}
       disabled={props.disabled}
       placeholder={props.placeholder}
-      oninput={(e: any) => props.onInputChange(e.target.value)}
+      oninput={(e: any) => props.onInputChange({ name: props.name, value: e.target.value })}
     />
   );
 };

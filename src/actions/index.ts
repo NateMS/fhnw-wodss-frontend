@@ -2,9 +2,9 @@ import { userActions, UserActions } from './user.actions';
 import { ActionsType } from 'hyperapp';
 import { location, LocationActions } from '@hyperapp/router';
 import { State } from '../state';
-import { formActions, FormActions } from './form.actions';
 import { employeeActions, EmployeeActions } from './employee.actions';
 import { toastActions, ToastActions } from './toast.actions';
+import { formActions, FormActions } from './form';
 
 export interface Actions {
   location: LocationActions;
