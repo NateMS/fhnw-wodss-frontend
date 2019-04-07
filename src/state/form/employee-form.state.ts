@@ -1,6 +1,6 @@
-import { BaseFormState, FormControl } from './types';
+import { BaseForm, FormControl } from './types';
 
-export interface EmployeeFormState extends BaseFormState {
+export interface EmployeeFormState extends BaseForm {
   controls: {
     id: FormControl<number>;
     firstName: FormControl<string>;

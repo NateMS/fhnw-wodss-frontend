@@ -22,3 +22,11 @@
   flex-grow: 1;
   padding: 1.5rem;
 }
+
+.button {
+  &.is-secondary {
+    background-color: $secondary;
+    color: $white;
+    border-color: transparent;
+  }
+}

@@ -9,7 +9,7 @@ interface Props {
   type?: string;
 }
 
-export const Button: Component<Props> =({ label, isLoading, theme, disabled, onClick, type = 'button' }) => {
+export const Button: Component<Props> = ({ label, isLoading, theme, disabled, onClick, type = 'button' }) => {
   let className = 'button';
 
   if (theme) {

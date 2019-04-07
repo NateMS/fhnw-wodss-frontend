@@ -1,11 +1,12 @@
 import { ActionResult, ActionsType } from 'hyperapp';
-import { FormControl, BaseFormState } from '../../state/form/types';
+import { FormControl, BaseForm } from '../../state/form/types';
 import { hasProp } from '../../utils';
 import { AuthenticationFormState } from '../../state/form/authentication-form.state';
 import { EmployeeFormState } from '../../state/form/employee-form.state';
 import { FormState } from '../../state/form';
 import { employeeFormActions } from './employee-form.actions';
 import { authenticationFormActions } from './authentication-form.actions';
+import { contractFormActions, ContractFormActions } from './contract-form.actions';
 
 export interface GenericFormActions<S> {
   patch: (newValues: {[key: string]: any}) => (state: S) => ActionResult<S>;
@@ -15,17 +16,17 @@ export interface GenericFormActions<S> {
   setOpen: (isOpen: boolean) => (state: S) => ActionResult<S>;
 }
 
-export const setSaving = (isSaving: boolean, state: BaseFormState): BaseFormState => ({
+export const setSaving = (isSaving: boolean, state: BaseForm): BaseForm => ({
   ...state,
   isSaving,
 });
 
-export const setOpen = (isOpen: boolean, state: BaseFormState): BaseFormState => ({
+export const setOpen = (isOpen: boolean, state: BaseForm): BaseForm => ({
   ...state,
   isOpen,
 });
 
-export const updateValue = (control: FormControl<any>, state: BaseFormState): BaseFormState => {
+export const updateValue = (control: FormControl<any>, state: BaseForm): BaseForm => {
   if (!hasProp(state.controls, control.name)) {
     throw new Error(`There is no '${control.name}' in form available.`);
   }
@@ -42,7 +43,7 @@ export const updateValue = (control: FormControl<any>, state: BaseFormState): Ba
   };
 };
 
-export const patch = (values: {[key: string]: any}, state: BaseFormState): BaseFormState => {
+export const patch = (values: {[key: string]: any}, state: BaseForm): BaseForm => {
   const newValues = { ...values };
 
   Object
@@ -56,16 +57,21 @@ export const patch = (values: {[key: string]: any}, state: BaseFormState): BaseF
 
   return {
     ...state,
-    controls: newValues,
+    controls: {
+      ...state.controls,
+      ...newValues,
+    },
   };
 };
 
 export interface FormActions {
   authentication: GenericFormActions<AuthenticationFormState>;
   employee: GenericFormActions<EmployeeFormState>;
+  contract: ContractFormActions;
 }
 
 export const formActions: ActionsType<FormState, FormActions> = {
   authentication: authenticationFormActions,
   employee: employeeFormActions,
+  contract: contractFormActions,
 };

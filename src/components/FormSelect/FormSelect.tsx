@@ -76,16 +76,18 @@ export const FormSelect: Component<FormSelectProps<any>> = (props) => {
   };
 
   return (
-    <select
-      className="form-control"
-      name={props.name}
-      data-trigger={true}
-      placeholder={props.placeholder}
-      disabled={props.disabled}
-      oncreate={(e: Element) => onCreate(e)}
-    >
-      <option placeholder={true}>{props.placeholder}</option>
-      {props.items.map(item => createOption(item))}
-    </select>
+    <div className="control">
+      <select
+        className="form-control"
+        name={props.name}
+        data-trigger={true}
+        placeholder={props.placeholder}
+        disabled={props.disabled}
+        oncreate={(e: Element) => onCreate(e)}
+      >
+        <option placeholder={true}>{props.placeholder}</option>
+        {props.items.map(item => createOption(item))}
+      </select>
+    </div>
   );
 };

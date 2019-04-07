@@ -6,9 +6,9 @@ export class ContractModel extends ContractBaseModel {
   public readonly id: number;
 
   constructor(contract : Contract) {
-    super(contract)
+    super(contract);
 
-    if (contract.id) {
+    if (contract.id != null) {
       this.id = contract.id;
     } else {
       throw new Error(`The field 'id' is missing.`);

@@ -6,26 +6,26 @@ export class ContractBaseModel implements Contract {
   public readonly pensumPercentage: number;
   public readonly employeeId: number;
 
-  constructor(contract : Contract) {
-    if (contract.startDate) {
+  constructor(contract: Contract) {
+    if (contract.startDate != null) {
       this.startDate = contract.startDate;
     } else {
       throw new Error(`The field 'startDate' is missing.`);
     }
 
-    if (contract.endDate) {
+    if (contract.endDate != null) {
       this.endDate = contract.endDate;
     } else {
       throw new Error(`The field 'endDate' is missing.`);
     }
 
-    if (contract.pensumPercentage) {
+    if (contract.pensumPercentage != null) {
       this.pensumPercentage = contract.pensumPercentage;
     } else {
       throw new Error(`The field 'pensumPercentage' is missing.`);
     }
 
-    if (contract.employeeId) {
+    if (contract.employeeId != null) {
       this.employeeId = contract.employeeId;
     } else {
       throw new Error(`The field 'employeeId' is missing.`);
