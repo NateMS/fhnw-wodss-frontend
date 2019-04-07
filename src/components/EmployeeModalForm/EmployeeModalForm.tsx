@@ -1,5 +1,4 @@
 import { Component, h } from 'hyperapp';
-import { FormState } from '../../state/form';
 import { Actions } from '../../actions';
 import { FormField } from '../FormField/FormField';
 import FormInput from '../FormInput/FormInput';
@@ -8,37 +7,37 @@ import { FormSelect } from '../FormSelect/FormSelect';
 import { RoleEnum, roleNameMap } from '../../api/role.enum';
 import { EmployeeModel } from '../../api/dto/employee.model';
 import { getApiErrorToast } from '../../utils';
+import { EmployeeFormState } from '../../state/form/employee-form.state';
+import Button from '../Button/Button';
 
 interface Props {
-  state: FormState;
+  state: EmployeeFormState;
   actions: Actions;
 }
 
-const submit = (state: FormState, actions: Actions) => {
+const createEmployee = (event: Event, state: EmployeeFormState, actions: Actions) => {
+  event.preventDefault();
+  event.stopPropagation();
+
   actions
     .employee
-    .create(state.employee)
+    .create(state)
     .then((employee: EmployeeModel) => {
-      actions.toast.success({ message: `Successfully created employee '${employee.fullName}'` });
+      actions.toast.success({ message: `Successfully created employee '${employee.fullName}'.` });
     })
-    .catch((error) => {
+    .catch((error: Error) => {
       actions.toast.error(getApiErrorToast('Error creating employee', error));
     });
 };
 
-const close: (actions: Actions) => void  = (actions) => {
-  actions.form.reset('employee');
-};
-
-const updateField = (actions: Actions, fieldName: string, value: any) => {
-  actions.form.updateField({
-    fieldName,
-    value,
-    formName: 'employee',
-  });
+const close = (actions: Actions): void => {
+  actions.form.employee.reset();
 };
 
 const EmployeeCreateForm: Component<Props> = ({ state, actions }) => {
+  const { firstName, lastName, emailAddress, password, active, role } = state.controls;
+  const { employee: formActions } = actions.form;
+
   const roles: RoleEnum[] = Object
     .keys(roleNameMap)
     .map(r => (r as RoleEnum));
@@ -57,143 +56,62 @@ const EmployeeCreateForm: Component<Props> = ({ state, actions }) => {
             </span>
         </button>
       </header>
-      <form>
+      <form onsubmit={(event: Event) => createEmployee(event, state, actions)}>
         <section className="modal-card-body">
           <FormField labelText="First Name" required={true}>
             <FormInput
-              fieldName="firstName"
+              name={firstName.name}
+              value={firstName.value}
               type="text"
-              value={state.employee.firstName}
-              onInputChange={value => updateField(actions, 'firstName', value)}
+              onInputChange={formActions.updateValue}
             />
           </FormField>
           <FormField labelText="Last Name" required={true}>
             <FormInput
-              fieldName="lastName"
+              name={lastName.name}
+              value={lastName.value}
               type="text"
-              value={state.employee.lastName}
-              onInputChange={value => updateField(actions, 'lastName', value)}
+              onInputChange={formActions.updateValue}
             />
           </FormField>
           <FormField labelText="Email" required={true}>
             <FormInput
-              fieldName="emailAddress"
+              name={emailAddress.name}
+              value={emailAddress.value}
               type="email"
-              value={state.employee.emailAddress}
-              onInputChange={value => updateField(actions, 'emailAddress', value)}
+              onInputChange={formActions.updateValue}
             />
           </FormField>
           <FormField labelText="Password" required={true}>
             <FormInput
-              fieldName="password"
+              name={password.name}
+              value={password.value}
               type="password"
-              value={state.employee.password}
-              onInputChange={value => updateField(actions, 'password', value)}
+              onInputChange={formActions.updateValue}
             />
           </FormField>
           <FormField labelText="Status" required={true} hint="Inactive: No login possible">
             <FormCheckbox
+              name={active.name}
+              value={active.value}
               labelText="Active"
-              fieldName="active"
-              value={state.employee.active}
-              onInputChange={value => updateField(actions, 'active', value)}
+              onInputChange={formActions.updateValue}
             />
           </FormField>
           <FormField labelText="Role" required={true}>
             <FormSelect
+              name={role.name}
+              value={role.value}
               placeholder="Please select"
-              fieldName="role"
               items={roles}
-              value={state.employee.active}
               labler={(r: RoleEnum) => roleNameMap[r]}
-              onInputChange={value => updateField(actions, 'role', value)}
+              onInputChange={formActions.updateValue}
             />
           </FormField>
         </section>
         <footer className="modal-card-foot">
-          <button className="button" onClick={() => close(actions)}>Cancel</button>
-          <button className="button is-primary" onClick={() => submit(state, actions)}>Save</button>
-        </footer>
-      </form>
-    </div>
-  );
-};
-
-const EmployeeEditForm: Component<Props> = ({ state, actions }) => {
-  const roles: RoleEnum[] = Object
-    .keys(roleNameMap)
-    .map(r => (r as RoleEnum));
-
-  return (
-    <div className="modal-card">
-      <header className="modal-card-head">
-        <p className="modal-card-title">Edit Employee</p>
-        <button
-          className="button"
-          aria-label="close"
-          onClick={() => close(actions)}
-        >
-            <span className="icon is-small">
-              <i className="fas fa-times"/>
-            </span>
-        </button>
-      </header>
-      <form>
-        <section className="modal-card-body">
-          <FormField labelText="First Name" required={true}>
-            <FormInput
-              fieldName="firstName"
-              type="text"
-              value={state.employee.firstName}
-              onInputChange={value => updateField(actions, 'firstName', value)}
-            />
-          </FormField>
-          <FormField labelText="Last Name" required={true}>
-            <FormInput
-              fieldName="lastName"
-              type="text"
-              value={state.employee.lastName}
-              onInputChange={value => updateField(actions, 'lastName', value)}
-            />
-          </FormField>
-          <FormField labelText="Email" required={true}>
-            <FormInput
-              fieldName="emailAddress"
-              type="email"
-              value={state.employee.emailAddress}
-              onInputChange={value => updateField(actions, 'emailAddress', value)}
-            />
-          </FormField>
-          <FormField labelText="Password" required={true}>
-            <FormInput
-              fieldName="password"
-              type="password"
-              value={state.employee.password}
-              onInputChange={value => updateField(actions, 'password', value)}
-            />
-          </FormField>
-          <FormField labelText="Status" required={true} hint="Inactive: No login possible">
-            <FormCheckbox
-              labelText="Active"
-              fieldName="active"
-              value={state.employee.active}
-              onInputChange={value => updateField(actions, 'active', value)}
-            />
-          </FormField>
-          <FormField labelText="Role" required={true}>
-            <FormSelect
-              placeholder="Please select"
-              fieldName="role"
-              items={roles}
-              value={state.employee.active}
-              labler={(r: RoleEnum) => roleNameMap[r]}
-              onInputChange={value => updateField(actions, 'role', value)}
-            />
-          </FormField>
-        </section>
-        <footer className="modal-card-foot">
-          <button className="button" onClick={() => close(actions)}>Cancel</button>
-          <button className="button is-primary" onClick={() => submit(state, actions)}>Save</button>
+          <Button label="Cancel" onClick={() => close(actions)} />
+          <Button label="Save" theme="primary" type="submit" />
         </footer>
       </form>
     </div>
@@ -201,7 +119,7 @@ const EmployeeEditForm: Component<Props> = ({ state, actions }) => {
 };
 
 const EmployeeModalForm: Component<Props> = ({ state, actions }) => {
-  const { isOpen, id } = state.employee;
+  const { isOpen, id } = state;
   const isEditMode = id != null;
   let stateClassName = 'modal';
 
@@ -213,7 +131,6 @@ const EmployeeModalForm: Component<Props> = ({ state, actions }) => {
     <div className={stateClassName}>
       <div className="modal-background" />
       {!isEditMode && <EmployeeCreateForm state={state} actions={actions} />}
-      {isEditMode && <EmployeeEditForm state={state} actions={actions} />}
     </div>
   );
 };

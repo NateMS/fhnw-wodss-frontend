@@ -5,12 +5,8 @@ import EmployeeModalForm from '../../components/EmployeeModalForm/EmployeeModalF
 import EmployeeList from '../../components/EmployeeList/EmployeeList';
 import { Actions } from '../../actions';
 
-const showForm: (show: boolean, actions: Actions) => void = (show, actions) => {
-  actions.form.updateField({
-    formName: 'employee',
-    fieldName: 'isOpen',
-    value: show,
-  });
+const showCreateForm = (show: boolean, actions: Actions): void => {
+  actions.form.employee.setOpen(show);
 };
 
 export const Employees: Component<ViewProps> = ({ state, actions }) => {
@@ -21,10 +17,9 @@ export const Employees: Component<ViewProps> = ({ state, actions }) => {
       <div className="employees-container">
         <h1 className="title">Employees {employee.firstName}!</h1>
         {state.employee.isLoading && <div className="is-loading">Loading...</div>}
-        <EmployeeList state={state.employee} actions={actions} />
-        <Button theme="primary" label="Create" onClick={() => showForm(true, actions)} />
+        <Button theme="primary" label="Create" onClick={() => showCreateForm(true, actions)} />
       </div>
-      <EmployeeModalForm state={state.form} actions={actions} />
+      <EmployeeModalForm state={state.form.employee} actions={actions} />
     </div>
   );
 };
