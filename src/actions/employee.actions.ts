@@ -8,22 +8,12 @@ import { EmployeeFormState } from '../state/form/employee-form.state';
 import { RoleEnum } from '../api/role.enum';
 
 export interface EmployeeActions {
-  setLoading:
-    (isLoading: boolean) =>
-      (state: EmployeeState) =>
-        ActionResult<EmployeeState>;
-  fetchAll:
-    () =>
-      (state: EmployeeState, actions: EmployeeActions) =>
-        Promise<EmployeeModel[]>;
-  setList:
-    (employees: EmployeeModel[]) =>
-      (state: EmployeeState) =>
-        ActionResult<EmployeeState>;
-  create:
-    (form: EmployeeFormState) =>
-      (state: State, actions: Actions) =>
-        Promise<EmployeeModel>;
+  setLoading: (isLoading: boolean) => (state: EmployeeState) => ActionResult<EmployeeState>;
+  fetchAll: () => (state: EmployeeState, actions: EmployeeActions) => Promise<EmployeeModel[]>;
+  setList: (employees: EmployeeModel[]) => (state: EmployeeState) => ActionResult<EmployeeState>;
+  create: (form: EmployeeFormState) => () => Promise<EmployeeModel>;
+  update: (form: EmployeeFormState) => () => Promise<EmployeeModel>;
+  delete: (id: number) => () => Promise<void>;
 }
 
 export const employeeActions: ActionsType<EmployeeState, EmployeeActions> = {
@@ -66,5 +56,28 @@ export const employeeActions: ActionsType<EmployeeState, EmployeeActions> = {
       .then((employee: EmployeeModel) => {
         return employee;
       });
+  },
+
+  update: (form: EmployeeFormState) => () => {
+    const { id, emailAddress, firstName, lastName, active } = form.controls;
+    // @TODO VALIDATION
+
+    const employee: Employee = {
+      id: id.value!,
+      emailAddress: emailAddress.value!,
+      firstName: firstName.value!,
+      lastName: lastName.value!,
+      active: active.value!,
+    };
+
+    return employeeService
+      .update(employee)
+      .then((employee: EmployeeModel) => {
+        return employee;
+      });
+  },
+
+  delete: (id: number) => () => {
+    return employeeService.delete(id);
   },
 };

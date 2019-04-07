@@ -74,10 +74,10 @@ export class ApiService {
     if (queryParams != null) {
       Object
         .keys(queryParams)
-        .filter((key) => queryParams[key] != null)
+        .filter(key => queryParams[key] != null)
         .map((key) => {
           url.searchParams.append(key, queryParams[key]!);
-      });
+        });
     }
 
     return fetch(url.toString(), {
@@ -86,6 +86,8 @@ export class ApiService {
       headers: {
         'Content-Type': 'application/json',
       },
+      mode: 'cors',
+      credentials: 'same-origin',
     })
     .then((response: Response) => {
       if (!response.ok) {

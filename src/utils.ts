@@ -24,3 +24,12 @@ export const getApiErrorToast: (title: string, error: Error) => ToastMessage = (
   title,
   message: `${error}`,
 });
+
+/**
+ * Creates a toast just containing a message.
+ *
+ * @param message
+ */
+export const getToastMessage = (message: string): ToastMessage => ({
+  message,
+});

@@ -41,9 +41,9 @@ class EmployeeService {
       .then((response: Employee) => new EmployeeModel(response));
   }
 
-  public delete(id: number): void {
-    this.api.delete(`/api/employee/${id}`)
-      .then();
+  public delete(id: number): Promise<void> {
+    return this.api.delete<null>(`/api/employee/${id}`)
+      .then(() => {});
   }
 
   public createContract(contract: Contract): Promise<ContractModel> {

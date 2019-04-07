@@ -1,8 +1,8 @@
 import { BaseFormState, FormControl } from './types';
 
 export interface EmployeeFormState extends BaseFormState {
-  id: number | null;
   controls: {
+    id: FormControl<number>;
     firstName: FormControl<string>;
     lastName: FormControl<string>;
     emailAddress: FormControl<string>;
@@ -13,10 +13,13 @@ export interface EmployeeFormState extends BaseFormState {
 }
 
 export const initEmployeeForm: () => EmployeeFormState = () => ({
-  id: null,
   isOpen: false,
   isSaving: false,
   controls: {
+    id: {
+      name: 'id',
+      value: null,
+    },
     firstName: {
       name: 'firstName',
       value: null,

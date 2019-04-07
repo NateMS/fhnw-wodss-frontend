@@ -9,7 +9,7 @@ export interface FormSelectItem<T> {
 }
 
 export interface FormSelectProps<T> extends FormControlProps<T> {
-  items: T[];
+  items: ReadonlyArray<T>;
   searchEnabled?: boolean;
   comparer?: (t1: T, t2: T) => boolean;
   labler?: (t1: T) => string;

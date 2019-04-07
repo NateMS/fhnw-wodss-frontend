@@ -15,3 +15,9 @@ export const roleNameMap: {[key in RoleEnum]: string} = Object.freeze({
   [RoleEnum.PROJECTMANAGER]: 'Project Manager',
   [RoleEnum.DEVELOPER]: 'Developer',
 });
+
+export const roleList: ReadonlyArray<RoleEnum> = Object.freeze(
+  Object
+  .keys(roleNameMap)
+  .map(r => (r as RoleEnum)),
+);

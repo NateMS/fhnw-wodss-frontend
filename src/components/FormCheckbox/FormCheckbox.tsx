@@ -11,6 +11,7 @@ export const FormCheckbox: Component<Props> = props => (
       type="checkbox"
       name={props.name}
       disabled={props.disabled}
+      checked={props.value}
       value={props.value}
       onchange={() => props.onInputChange({ name: props.name, value: !props.value })}
     /> {props.labelText}

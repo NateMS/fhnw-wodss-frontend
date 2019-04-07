@@ -1,5 +1,5 @@
 import { ActionResult, ActionsType } from 'hyperapp';
-import { FormControl, BaseFormState, ModalFormState } from '../../state/form/types';
+import { FormControl, BaseFormState } from '../../state/form/types';
 import { hasProp } from '../../utils';
 import { AuthenticationFormState } from '../../state/form/authentication-form.state';
 import { EmployeeFormState } from '../../state/form/employee-form.state';
@@ -20,7 +20,7 @@ export const setSaving = (isSaving: boolean, state: BaseFormState): BaseFormStat
   isSaving,
 });
 
-export const setOpen = (isOpen: boolean, state: ModalFormState): ModalFormState => ({
+export const setOpen = (isOpen: boolean, state: BaseFormState): BaseFormState => ({
   ...state,
   isOpen,
 });
