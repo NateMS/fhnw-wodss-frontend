@@ -35,9 +35,9 @@ class AllocationService {
      .then(e => new AllocationModel(e))
   }
 
-  public delete(id: number): Promise<AllocationModel> {
+  public delete(id: number): Promise<void> {
     return this.api.get<Allocation>(`/api/allocation/${id}`)
-      .then(e => new AllocationModel(e));
+      .then(() => {});
   }
 
   public static getInstance(): AllocationService {

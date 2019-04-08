@@ -6,6 +6,8 @@ import { EmployeeFormState } from '../../state/form/employee-form.state';
 import { FormState } from '../../state/form';
 import { employeeFormActions } from './employee-form.actions';
 import { authenticationFormActions } from './authentication-form.actions';
+import { ProjectFormState } from '../../state/form/project-form.state';
+import { projectFormActions } from './project-form.actions';
 
 export interface GenericFormActions<S> {
   patch: (newValues: {[key: string]: any}) => (state: S) => ActionResult<S>;
@@ -56,16 +58,21 @@ export const patch = (values: {[key: string]: any}, state: BaseFormState): BaseF
 
   return {
     ...state,
-    controls: newValues,
+    controls: {
+      ...state.controls,
+      ...newValues,
+    },
   };
 };
 
 export interface FormActions {
   authentication: GenericFormActions<AuthenticationFormState>;
   employee: GenericFormActions<EmployeeFormState>;
+  project: GenericFormActions<ProjectFormState>;
 }
 
 export const formActions: ActionsType<FormState, FormActions> = {
   authentication: authenticationFormActions,
   employee: employeeFormActions,
+  project: projectFormActions,
 };

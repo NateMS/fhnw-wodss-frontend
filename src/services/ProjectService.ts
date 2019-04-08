@@ -34,9 +34,9 @@ class ProjectService {
      .then(e => new ProjectModel(e))
   }
 
-  public delete(id: number): Promise<ProjectModel> {
+  public delete(id: number): Promise<void> {
     return this.api.get<Project>(`/api/project/${id}`)
-      .then(e => new ProjectModel(e));
+      .then(() => {});
   }
 
   public static getInstance(): ProjectService {

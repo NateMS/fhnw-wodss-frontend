@@ -76,6 +76,10 @@ class EmployeeService {
       .then(e => new ContractModel(e))
   }
 
+  public filterListByRole(employees: EmployeeModel[] | null, role: RoleEnum): EmployeeModel[] {
+    return (null === employees) ? [] : employees.filter(e => e.role === role);
+  }
+
   public static getInstance(): EmployeeService {
     if (!EmployeeService.instance) {
       EmployeeService.instance = new EmployeeService(apiService);
