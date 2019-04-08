@@ -32,7 +32,9 @@
     "jsxFactory": "h",
     "lib": [
       "es2017",
+      "es6",
       "dom",
+      "dom.iterable",
       "es2015.generator",
       "es2015.iterable",
       "es2015.promise",

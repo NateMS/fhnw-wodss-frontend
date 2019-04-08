@@ -6,9 +6,10 @@ interface Props {
   isLoading?: boolean;
   disabled?: boolean;
   onClick?: () => any;
+  type?: string;
 }
 
-export const Button: Component<Props> = ({ label, isLoading, theme, disabled, onClick }) => {
+export const Button: Component<Props> =({ label, isLoading, theme, disabled, onClick, type = 'button' }) => {
   let className = 'button';
 
   if (theme) {
@@ -21,7 +22,7 @@ export const Button: Component<Props> = ({ label, isLoading, theme, disabled, on
 
   return (
     <button
-      type="button"
+      type={type}
       className={className}
       disabled={disabled}
       onclick={onClick && (() => onClick())}

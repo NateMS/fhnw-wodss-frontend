@@ -1,19 +1,26 @@
 import { Component, h } from 'hyperapp';
-import LinkButton from '../../components/LinkButton/LinkButton';
 import { ViewProps } from '../ViewProps';
+import Button from '../../components/Button/Button';
+import EmployeeModalForm from '../../components/EmployeeModalForm/EmployeeModalForm';
+import EmployeeList from '../../components/EmployeeList/EmployeeList';
+import { Actions } from '../../actions';
+
+const showCreateForm = (show: boolean, actions: Actions): void => {
+  actions.form.employee.setOpen(show);
+};
 
 export const Employees: Component<ViewProps> = ({ state, actions }) => {
-  const user = state.user.user!;
-
-  if (user == null) {
-    throw new Error('User has to be defined to view the Employees');
-  }
+  const employee = state.user.employee!;
 
   return (
-    <div className="employees-container">
-      <h1 className="title">Employees {user.firstName}!</h1>
-      <LinkButton theme="primary" label="Planning" to="/planning" />
-      <LinkButton theme="primary" label="Logout" to="/logout" />
+    <div oncreate={() => actions.employee.fetchAll()}>
+      <div className="employees-container">
+        <h1 className="title">Employees {employee.firstName}!</h1>
+        <Button theme="primary" label="Create" onClick={() => showCreateForm(true, actions)} />
+        {state.employee.isLoading && <div className="is-loading">Loading...</div>}
+        {state.employee.list != null && <EmployeeList state={state.employee} actions={actions} />}
+      </div>
+      <EmployeeModalForm state={state.form.employee} actions={actions} />
     </div>
   );
 };

@@ -5,7 +5,19 @@
  */
 
 export enum RoleEnum {
-  ADMINISTRATOR = <any>'ADMINISTRATOR',
-  PROJECTMANAGER = <any>'PROJECTMANAGER',
-  DEVELOPER = <any>'DEVELOPER'
+  ADMINISTRATOR = 'ADMINISTRATOR',
+  PROJECTMANAGER = 'PROJECTMANAGER',
+  DEVELOPER = 'DEVELOPER',
 }
+
+export const roleNameMap: {[key in RoleEnum]: string} = Object.freeze({
+  [RoleEnum.ADMINISTRATOR]: 'Administrator',
+  [RoleEnum.PROJECTMANAGER]: 'Project Manager',
+  [RoleEnum.DEVELOPER]: 'Developer',
+});
+
+export const roleList: ReadonlyArray<RoleEnum> = Object.freeze(
+  Object
+  .keys(roleNameMap)
+  .map(r => (r as RoleEnum)),
+);

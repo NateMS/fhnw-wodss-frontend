@@ -1,6 +1,8 @@
 import { Component, h } from 'hyperapp';
 import { Redirect } from '@hyperapp/router';
 import { ViewProps } from './ViewProps';
+import Navigation from '../components/Navigation/Navigation';
+import UserLauncher from '../components/UserLauncher/UserLauncher';
 
 /**
  * Protects the view from being accessed without being authenticated.
@@ -30,7 +32,17 @@ export const ProtectedView: Component<ViewProps> = ({ state, actions }, children
   }
 
   // Render the actual view
-  return children({ state, actions });
+  return (
+    <div className="app">
+      <div className="app__sidebar">
+        <Navigation state={state.location} />
+        <UserLauncher state={state.user} />
+      </div>
+      <div className="app__body">
+        {children({ state, actions })}
+      </div>
+    </div>
+  );
 };
 
 export default ProtectedView;

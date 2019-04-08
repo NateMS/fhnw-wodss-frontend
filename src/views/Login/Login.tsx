@@ -4,15 +4,15 @@ import AuthenticationForm from '../../components/AuthenticationForm/Authenticati
 import { ViewProps } from '../ViewProps';
 
 export const Login: Component<ViewProps> = ({ state, actions }) => {
-  const user = state.user.user;
+  const employee = state.user.employee;
 
-  if (user != null) {
+  if (employee != null) {
     return <Redirect to="/planning" />;
   }
 
   return (
     <div className="login-container">
-      <AuthenticationForm state={state.user} actions={actions.user} />
+      <AuthenticationForm state={state.form.authentication} actions={actions} />
     </div>
   );
 };

@@ -1,0 +1,11 @@
+@import "../../styles/base/variables";
+
+.user-launcher {
+  display: flex;
+  justify-content: center;
+  padding: $app-offset 0;
+
+  .avatar {
+    cursor: pointer;
+  }
+}

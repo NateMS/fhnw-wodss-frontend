@@ -1,0 +1,33 @@
+@import '../../styles/base/variables';
+
+.navigation {
+  display: flex;
+  flex-direction: column;
+  padding: $app-offset 0;
+  align-items: center;
+}
+
+.navigation__item {
+  margin-bottom: 1.5rem;
+}
+
+.navigation__item-link {
+  display: inline-block;
+  width: 2.5rem;
+  height: 2.5rem;
+  line-height: 2.5rem;
+  text-align: center;
+  color: rgba($white, 0.5);
+
+  &:hover {
+    color: $white;
+  }
+}
+
+.navigation__item--active {
+  color: $white;
+
+  .navigation__item-link {
+    color: $white;
+  }
+}
