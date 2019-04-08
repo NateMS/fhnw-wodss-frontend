@@ -1,0 +1,53 @@
+import { apiService, ApiService } from './ApiService';
+import { AllocationModel } from '../api/dto/allocation.model';
+import { Allocation } from '../api/dto/allocation';
+import { AllocationBaseModel } from '../api/dto/allocation.base.model';
+
+class AllocationService {
+  private static instance: AllocationService;
+
+  private constructor(private api: ApiService) {}
+
+  public create(allocation: Allocation): Promise<AllocationModel> {
+    return this.api.post<Allocation>("/api/allocation", allocation)
+      .then(e => new AllocationModel(e));
+  }
+
+  public getAll(employeeId?: number, projectId?: number, fromDate?: string, toDate?: string): Promise<AllocationModel[]> {
+    const params = {
+      employeeId,
+      projectId,
+      fromDate,
+      toDate,
+    };
+
+    return this.api.get<Allocation[]>('/api/allocation', params)
+      .then((list: Allocation[]) => list.map(e => new AllocationModel(e)));
+  }
+
+  public get(id: number): Promise<AllocationModel> {
+    return this.api.get<Allocation>(`/api/allocation/${id}`)
+      .then(e => new AllocationModel(e));
+  }
+
+  public update(allocation: Allocation): Promise<AllocationModel> {
+    return this.api.put<Allocation>(`/api/allocation/${allocation.id}`, new AllocationBaseModel(allocation))
+     .then(e => new AllocationModel(e))
+  }
+
+  public delete(id: number): Promise<AllocationModel> {
+    return this.api.get<Allocation>(`/api/allocation/${id}`)
+      .then(e => new AllocationModel(e));
+  }
+
+  public static getInstance(): AllocationService {
+    if (!AllocationService.instance) {
+      AllocationService.instance = new AllocationService(apiService);
+    }
+
+    return AllocationService.instance;
+  }
+}
+
+export const allocationService = AllocationService.getInstance();
+export default AllocationService;
