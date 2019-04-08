@@ -7,20 +7,21 @@ import {
 } from '../../state/form/contract-form.state';
 import { FormControl } from '../../state/form/types';
 import { patch, updateValue } from './index';
+import { Contract } from '../../api/dto/contract';
 
 interface ListUpdateValue<T> {
   index: number;
   control: FormControl<T>;
 }
 
-interface ListPatch {
-  index: number;
-  values: {[key: string]: any};
-}
-
 interface ListSaving {
   index: number;
   isSaving: boolean;
+}
+
+interface ListPatch {
+  index: number;
+  values: {[key: string]: any};
 }
 
 export interface ContractFormActions {
@@ -29,6 +30,7 @@ export interface ContractFormActions {
   remove: (index: number) => (state: ContractFormState) => ActionResult<ContractFormState>;
   updateValue: (update: ListUpdateValue<any>) => (state: ContractFormState) => ActionResult<ContractFormState>;
   patch: (listPatch: ListPatch) => (state: ContractFormState) => ActionResult<ContractFormState>;
+  patchAll: (contracts: Contract[]) => (state: ContractFormState) => ActionResult<ContractFormState>;
   reset: () => () => ActionResult<ContractFormState>;
   setSaving: (listSaving: ListSaving) => (state: ContractFormState) => ActionResult<ContractFormState>;
 }
@@ -42,9 +44,7 @@ export const contractFormActions: ActionsType<ContractFormState, ContractFormAct
     };
   },
 
-  set: forms => () => ({
-    list: [...forms],
-  }),
+  set: forms => () => ({ list: [...forms] }),
 
   remove: index => (state: ContractFormState) => ({
     list: state.list.filter((_, listIndex) => listIndex !== index),
@@ -69,6 +69,19 @@ export const contractFormActions: ActionsType<ContractFormState, ContractFormAct
       return patch(listPatch.values, form);
     }),
   }),
+
+  patchAll: (contracts: Contract[]) => (state: ContractFormState) => {
+    const list = contracts.map((contract) => {
+      const form = initContractForm();
+
+      return patch(contract, form);
+    });
+
+    return {
+      ...state,
+      list,
+    };
+  },
 
   reset: () => () => initContractFormState(),
 

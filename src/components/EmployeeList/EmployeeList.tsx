@@ -20,8 +20,7 @@ interface EmployeeRow {
 const openEditForm = (event: Event, employee: EmployeeModel, contracts: ContractModel[], actions: Actions): void => {
   event.preventDefault();
 
-  // TODO HOOOOOOW?
-
+  actions.form.contract.patchAll(contracts);
   actions.form.employee.patch({
     ...employee,
   });

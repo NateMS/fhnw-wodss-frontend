@@ -43,20 +43,21 @@ export const EmployeeEditForm: Component<Props> = ({ state, actions }) => {
   const { employee: formActions } = actions.form;
 
   return (
-    <div className="modal-card">
-      <header className="modal-card-head">
-        <p className="modal-card-title">Edit Employee</p>
-        <button
-          className="button"
-          aria-label="close"
-          onclick={() => close(actions)}
-        >
-            <span className="icon is-small">
-              <i className="fas fa-times"/>
-            </span>
-        </button>
-      </header>
-      <form onsubmit={(event: Event) => updateEmployee(event, formState, actions)}>
+    <form onSubmit={(event: Event) => updateEmployee(event, formState, actions)}>
+      <div className="modal-card">
+        <header className="modal-card-head">
+          <p className="modal-card-title">Edit Employee</p>
+          <button
+            className="button"
+            type="button"
+            aria-label="close"
+            onclick={() => close(actions)}
+          >
+              <span className="icon is-small">
+                <i className="fas fa-times"/>
+              </span>
+          </button>
+        </header>
         <section className="modal-card-body">
           <FormField labelText="First Name" required={true}>
             <FormInput
@@ -101,9 +102,7 @@ export const EmployeeEditForm: Component<Props> = ({ state, actions }) => {
               onInputChange={formActions.updateValue}
             />
           </FormField>
-
           {state.form.contract.list.map((contractForm, index) => <ContractForm key={index} state={contractForm} actions={actions} />)}
-
           <button
             type="button"
             className="button is-fullwidth"
@@ -127,8 +126,9 @@ export const EmployeeEditForm: Component<Props> = ({ state, actions }) => {
             type="submit"
           />
         </footer>
-      </form>
-    </div>
+      </div>
+    </form>
+
   );
 };
 

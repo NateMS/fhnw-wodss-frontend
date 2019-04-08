@@ -49,20 +49,21 @@ export const EmployeeCreateForm: Component<Props> = ({ state, actions }) => {
     .map(r => (r as RoleEnum));
 
   return (
-    <div className="modal-card">
-      <header className="modal-card-head">
-        <p className="modal-card-title">Create Employee</p>
-        <button
-          className="button"
-          aria-label="close"
-          onclick={() => close(actions)}
-        >
-            <span className="icon is-small">
-              <i className="fas fa-times"/>
-            </span>
-        </button>
-      </header>
-      <form onsubmit={(event: Event) => createEmployee(event, formState, actions)}>
+    <form onSubmit={(event: Event) => createEmployee(event, formState, actions)}>
+      <div className="modal-card">
+        <header className="modal-card-head">
+          <p className="modal-card-title">Create Employee</p>
+          <button
+            className="button"
+            type="button"
+            aria-label="close"
+            onclick={() => close(actions)}
+          >
+              <span className="icon is-small">
+                <i className="fas fa-times"/>
+              </span>
+          </button>
+        </header>
         <section className="modal-card-body">
           <FormField labelText="First Name" required={true}>
             <FormInput
@@ -128,8 +129,8 @@ export const EmployeeCreateForm: Component<Props> = ({ state, actions }) => {
             type="submit"
           />
         </footer>
-      </form>
-    </div>
+      </div>
+    </form>
   );
 };
 
