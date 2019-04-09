@@ -41,6 +41,21 @@ const deleteEmployee = (event: Event, employee: EmployeeModel, actions: Actions)
     });
 };
 
+const filterEmployees = (employees: EmployeeModel[], filterString: string): EmployeeModel[] => {
+  if (filterString.length > 0) {
+    return employees
+      .filter((employee) => {
+        if (employee.fullName.toLowerCase().indexOf(filterString) > -1) {
+          return true;
+        }
+
+        return employee.roleName.toLowerCase().indexOf(filterString) > -1;
+      });
+  }
+
+  return employees;
+};
+
 const EmployeeListItem: Component<EmployeeRow> = ({ employee, contracts, actions }) => {
   return (
     <tr>
@@ -80,8 +95,10 @@ const EmployeeListItem: Component<EmployeeRow> = ({ employee, contracts, actions
 };
 
 const EmployeeList: Component<Props> = ({ state, actions }) => {
-  const employees = state.employee.list;
+  const { filterString } = state.view.employees;
+  const employees = state.employee.list || [];
   const contracts = state.contract.list;
+  const filteredEmployees = filterEmployees(employees, filterString);
 
   const createEmployeeListItem = (employee: EmployeeModel) => {
     const employeeContracts = contracts!.filter(contract => contract.employeeId === employee.id);
@@ -90,21 +107,26 @@ const EmployeeList: Component<Props> = ({ state, actions }) => {
   };
 
   return (
-    <table className="table is-fullwidth is-hoverable">
-      <thead>
-        <tr>
-          <td>Employee</td>
-          <td>Role</td>
-          <td># Projects</td>
-          <td>Pensum</td>
-          <td>Contract</td>
-          <td>Actions</td>
-        </tr>
-      </thead>
-      <tbody>
-        {employees && employees.map(employee => createEmployeeListItem(employee))}
-      </tbody>
-    </table>
+    <div className="employee-list">
+      <table className="table is-fullwidth is-hoverable">
+        <thead>
+          <tr>
+            <td>Employee</td>
+            <td>Role</td>
+            <td># Projects</td>
+            <td>Pensum</td>
+            <td>Contract</td>
+            <td>Actions</td>
+          </tr>
+        </thead>
+        <tbody>
+          {filteredEmployees.map(employee => createEmployeeListItem(employee))}
+        </tbody>
+      </table>
+      <div className="employee-list__counter">
+        Employees: {filteredEmployees.length} / {employees.length}
+      </div>
+    </div>
   );
 };
 

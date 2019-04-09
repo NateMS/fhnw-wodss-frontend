@@ -3,6 +3,7 @@ import { defaultFormState, FormState } from './form/index';
 import { EmployeeModel } from '../api/dto/employee.model';
 import { Toast } from '../actions/toast.actions';
 import { ContractModel } from '../api/dto/contract.model';
+import { defaultViewState, ViewState } from './view';
 
 export interface ToastState {
   list: Toast[];
@@ -30,6 +31,7 @@ export interface State {
   employee: EmployeeState;
   contract: ContractState;
   toast: ToastState;
+  view: ViewState;
 }
 
 export const state: State = {
@@ -47,6 +49,7 @@ export const state: State = {
     isLoading: false,
   },
   form: defaultFormState,
+  view: defaultViewState,
   toast: {
     list: [],
   },
