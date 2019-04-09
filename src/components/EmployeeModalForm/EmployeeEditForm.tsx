@@ -9,7 +9,7 @@ import { EmployeeFormState } from '../../state/form/employee-form.state';
 import { Actions } from '../../actions';
 import { EmployeeFormProps, close } from './EmployeeModalForm';
 import { EmployeeModel } from '../../api/dto/employee.model';
-import { getApiErrorToast, getApiErrorToastMessage } from '../../utils';
+import { getApiErrorToast } from '../../utils';
 
 const updateEmployee = (event: Event, state: EmployeeFormState, actions: Actions) => {
   event.preventDefault();
@@ -73,7 +73,7 @@ export const EmployeeEditForm: Component<EmployeeFormProps> = ({ state, actions 
               placeholder="Please select"
               disabled={true}
               items={roleList}
-              labler={(r: RoleEnum) => roleNameMap[r]}
+              labeler={(r: RoleEnum) => roleNameMap[r]}
               onInputChange={formActions.updateValue}
             />
           </FormField>
