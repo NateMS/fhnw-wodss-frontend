@@ -9,6 +9,8 @@ import { authenticationFormActions } from './authentication-form.actions';
 import { ProjectFormState } from '../../state/form/project-form.state';
 import { projectFormActions } from './project-form.actions';
 import { contractFormActions, ContractFormActions } from './contract-form.actions';
+import { AllocationFormState } from '../../state/form/allocation-form.state';
+import { allocationFormActions } from './allocation-form.actions';
 
 export interface GenericFormActions<S> {
   patch: (newValues: {[key: string]: any}) => (state: S) => ActionResult<S>;
@@ -70,6 +72,7 @@ export interface FormActions {
   authentication: GenericFormActions<AuthenticationFormState>;
   employee: GenericFormActions<EmployeeFormState>;
   project: GenericFormActions<ProjectFormState>;
+  allocation: GenericFormActions<AllocationFormState>;
   contract: ContractFormActions;
 }
 
@@ -78,4 +81,5 @@ export const formActions: ActionsType<FormState, FormActions> = {
   employee: employeeFormActions,
   project: projectFormActions,
   contract: contractFormActions,
+  allocation: allocationFormActions,
 };
