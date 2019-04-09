@@ -8,33 +8,20 @@ import Button from '../Button/Button';
 import { EmployeeFormState } from '../../state/form/employee-form.state';
 import { Actions } from '../../actions';
 import { close } from './EmployeeModalForm';
-import { EmployeeModel } from '../../api/dto/employee.model';
-import { getApiErrorToast, getToastMessage } from '../../utils';
 import ContractForm from '../ContractForm/ContractForm';
 import { State } from '../../state';
+import { updateEmployee } from '../../actions/employee.actions';
 
 interface Props {
   state: State;
   actions: Actions;
 }
 
-const updateEmployee = (event: Event, state: EmployeeFormState, actions: Actions) => {
+const onSubmit = (event: Event, state: EmployeeFormState, actions: Actions) => {
   event.preventDefault();
   event.stopPropagation();
 
-  actions
-    .employee
-    .update(state)
-    .then((employee: EmployeeModel) => {
-      actions.toast.success(getToastMessage(`Successfully updated employee '${employee.fullName}'.`));
-
-      // Refresh underlying view
-      actions.employee.fetchAll();
-      actions.form.employee.reset();
-    })
-    .catch((error: Error) => {
-      actions.toast.error(getApiErrorToast('Error updating employee', error));
-    });
+  updateEmployee(state, actions);
 };
 
 export const EmployeeEditForm: Component<Props> = ({ state, actions }) => {
@@ -43,7 +30,7 @@ export const EmployeeEditForm: Component<Props> = ({ state, actions }) => {
   const { employee: formActions } = actions.form;
 
   return (
-    <form onSubmit={(event: Event) => updateEmployee(event, formState, actions)}>
+    <form onSubmit={(event: Event) => onSubmit(event, formState, actions)}>
       <div className="modal-card">
         <header className="modal-card-head">
           <p className="modal-card-title">Edit Employee</p>
@@ -128,7 +115,6 @@ export const EmployeeEditForm: Component<Props> = ({ state, actions }) => {
         </footer>
       </div>
     </form>
-
   );
 };
 

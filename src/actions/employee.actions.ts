@@ -5,6 +5,8 @@ import { employeeService } from '../services/EmployeeService';
 import { EmployeeModel } from '../api/dto/employee.model';
 import { EmployeeFormState } from '../state/form/employee-form.state';
 import { RoleEnum } from '../api/role.enum';
+import { Actions } from './index';
+import { getApiErrorToast, getToastMessage } from '../utils';
 
 export interface EmployeeActions {
   setLoading: (isLoading: boolean) => (state: EmployeeState) => ActionResult<EmployeeState>;
@@ -79,4 +81,39 @@ export const employeeActions: ActionsType<EmployeeState, EmployeeActions> = {
   delete: (id: number) => () => {
     return employeeService.delete(id);
   },
+};
+
+export const createEmployee = (state: EmployeeFormState, actions: Actions): void => {
+  actions
+    .employee
+    .create(state)
+    .then((employee: EmployeeModel) => {
+      actions.toast.success(getToastMessage(`Successfully created employee '${employee.fullName}'.`));
+
+      actions.form.employee.patch({
+        ...employee,
+      });
+
+      // Refresh underlying view
+      actions.employee.fetchAll();
+    })
+    .catch((error: Error) => {
+      actions.toast.error(getApiErrorToast('Error creating employee', error));
+    });
+};
+
+export const updateEmployee = (state: EmployeeFormState, actions: Actions) => {
+  actions
+    .employee
+    .update(state)
+    .then((employee: EmployeeModel) => {
+      actions.toast.success(getToastMessage(`Successfully updated employee '${employee.fullName}'.`));
+
+      // Refresh underlying view
+      actions.employee.fetchAll();
+      actions.form.employee.reset();
+    })
+    .catch((error: Error) => {
+      actions.toast.error(getApiErrorToast('Error updating employee', error));
+    });
 };

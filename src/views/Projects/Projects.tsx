@@ -5,10 +5,7 @@ import ProjectModalForm from '../../components/ProjectModelForm/ProjectModalForm
 import { Actions } from '../../actions';
 import Button from '../../components/Button/Button';
 import { Spinner } from '../../components/Spinner/Spinner';
-
-const showCreateForm = (show: boolean, actions: Actions): void => {
-  actions.form.project.setOpen(show);
-};
+import { showProjectCreateForm } from '../../actions/form/project-form.actions';
 
 const onRender = (actions: Actions) => {
   actions.employee.fetchAll();
@@ -22,7 +19,7 @@ export const Projects: Component<ViewProps> = ({ state, actions }) => {
 
   return (
     <div oncreate={() => onRender(actions)}>
-      <div className="view-conainer">
+      <div className="view-container">
         <h1 className="title">Projects</h1>
         <div className="view__actions">
           <input
@@ -35,7 +32,7 @@ export const Projects: Component<ViewProps> = ({ state, actions }) => {
           <Button
             theme="primary"
             label="Create"
-            onClick={() => showCreateForm(true, actions)}
+            onClick={() => showProjectCreateForm(true, actions)}
           />
         </div>
         {isLoading && <Spinner isLoading={true} /> }

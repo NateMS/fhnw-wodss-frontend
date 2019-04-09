@@ -1,7 +1,5 @@
 import { ProjectFormState } from '../../state/form/project-form.state';
 import { Actions } from '../../actions';
-import { ProjectModel } from '../../api/dto/project.model';
-import { getApiErrorToast, getToastMessage } from '../../utils';
 import { Component, h } from 'hyperapp';
 import { RoleEnum } from '../../api/role.enum';
 import { FormField } from '../FormField/FormField';
@@ -10,45 +8,17 @@ import Button from '../Button/Button';
 import { ProjectFormProps, close } from './ProjectModalForm';
 import { EmployeeSelect } from '../EmployeeSelect/EmployeeSelect';
 import { employeeService } from '../../services/EmployeeService';
+import { createProject, updateProject } from '../../actions/project.actions';
 
-const createProject = (event: Event, state: ProjectFormState, actions: Actions) => {
+const onSubmit = (isEditMode: boolean, event: Event, state: ProjectFormState, actions: Actions) => {
   event.preventDefault();
   event.stopPropagation();
 
-  actions
-    .project
-    .create(state)
-    .then((project: ProjectModel) => {
-      actions.toast.success(getToastMessage(`Successfully created project '${project.name}'.`));
-
-      actions.form.project.reset();
-
-      // Refresh underlying view
-      actions.project.fetchAll();
-    })
-    .catch((error: Error) => {
-      actions.toast.error(getApiErrorToast('Error creating project', error));
-    });
-};
-
-const updateProject = (event: Event, state: ProjectFormState, actions: Actions) => {
-  event.preventDefault();
-  event.stopPropagation();
-
-  actions
-    .project
-    .update(state)
-    .then((project: ProjectModel) => {
-      actions.toast.success(getToastMessage(`Successfully updated project '${project.name}'.`));
-
-      actions.form.project.reset();
-
-      // Refresh underlying view
-      actions.project.fetchAll();
-    })
-    .catch((error: Error) => {
-      actions.toast.error(getApiErrorToast('Error updateing project', error));
-    });
+  if (isEditMode) {
+    updateProject(state, actions);
+  } else {
+    createProject(state, actions);
+  }
 };
 
 export const ProjectCreateForm: Component<ProjectFormProps> = ({ state, actions }) => {
@@ -60,7 +30,7 @@ export const ProjectCreateForm: Component<ProjectFormProps> = ({ state, actions 
   const isEditMode = id.value != null;
 
   return (
-    <form onsubmit={(event: Event) => isEditMode ? updateProject(event, formState, actions) : createProject(event, formState, actions)}>
+    <form onsubmit={(event: Event) => onSubmit(isEditMode, event, formState, actions)}>
       <div className="modal-card">
         <header className="modal-card-head">
           <p className="modal-card-title">{isEditMode ? 'Edit Project' : 'Create Project'}</p>

@@ -5,7 +5,7 @@ export interface ProjectsViewActions {
   updateFilterString: (filterString: string) => (state: ProjectsViewState) => ActionResult<ProjectsViewState>;
 }
 
-export const employeesViewActions: ActionsType<ProjectsViewState, ProjectsViewActions> = {
+export const projectsViewActions: ActionsType<ProjectsViewState, ProjectsViewActions> = {
   updateFilterString: filterString => () => ({
     filterString: filterString.toLowerCase(),
   }),

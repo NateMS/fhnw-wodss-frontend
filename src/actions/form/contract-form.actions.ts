@@ -8,6 +8,7 @@ import {
 import { FormControl } from '../../state/form/types';
 import { patch, updateValue } from './index';
 import { Contract } from '../../api/dto/contract';
+import { Actions } from '../index';
 
 interface ListUpdateValue<T> {
   index: number;
@@ -97,4 +98,15 @@ export const contractFormActions: ActionsType<ContractFormState, ContractFormAct
       };
     }),
   }),
+};
+
+export const updateContractFormValue = (index: number, actions: ContractFormActions) => (control: FormControl<any>) => {
+  actions.updateValue({
+    index,
+    control,
+  });
+};
+
+export const removeContractForm = (key: number, actions: Actions) => {
+  actions.form.contract.remove(key);
 };

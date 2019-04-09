@@ -1,9 +1,11 @@
-import { ProjectState, State } from '../state';
+import { ProjectState } from '../state';
 import { Project } from '../api/dto/project';
 import { ActionResult, ActionsType } from 'hyperapp';
 import { projectService } from '../services/ProjectService';
 import { ProjectModel } from '../api/dto/project.model';
 import { ProjectFormState } from '../state/form/project-form.state';
+import { Actions } from './index';
+import { getApiErrorToast, getToastMessage } from '../utils';
 
 export interface ProjectActions {
   setLoading: (isLoading: boolean) => (state: ProjectState) => ActionResult<ProjectState>;
@@ -80,4 +82,38 @@ export const projectActions: ActionsType<ProjectState, ProjectActions> = {
   delete: (id: number) => () => {
     return projectService.delete(id);
   },
+};
+
+export const createProject = (state: ProjectFormState, actions: Actions) => {
+  actions
+    .project
+    .create(state)
+    .then((project: ProjectModel) => {
+      actions.toast.success(getToastMessage(`Successfully created project '${project.name}'.`));
+
+      actions.form.project.reset();
+
+      // Refresh underlying view
+      actions.project.fetchAll();
+    })
+    .catch((error: Error) => {
+      actions.toast.error(getApiErrorToast('Error creating project', error));
+    });
+};
+
+export const updateProject = (state: ProjectFormState, actions: Actions): void => {
+  actions
+    .project
+    .update(state)
+    .then((project: ProjectModel) => {
+      actions.toast.success(getToastMessage(`Successfully updated project '${project.name}'.`));
+
+      actions.form.project.reset();
+
+      // Refresh underlying view
+      actions.project.fetchAll();
+    })
+    .catch((error: Error) => {
+      actions.toast.error(getApiErrorToast('Error updateing project', error));
+    });
 };

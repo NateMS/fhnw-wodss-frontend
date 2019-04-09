@@ -1,7 +1,5 @@
 import { EmployeeFormState } from '../../state/form/employee-form.state';
 import { Actions } from '../../actions';
-import { EmployeeModel } from '../../api/dto/employee.model';
-import { getApiErrorToast, getToastMessage } from '../../utils';
 import { Component, h } from 'hyperapp';
 import { RoleEnum, roleNameMap } from '../../api/role.enum';
 import { FormField } from '../FormField/FormField';
@@ -11,32 +9,18 @@ import { FormSelect } from '../FormSelect/FormSelect';
 import Button from '../Button/Button';
 import { close } from './EmployeeModalForm';
 import { State } from '../../state';
+import { createEmployee } from '../../actions/employee.actions';
 
 interface Props {
   state: State;
   actions: Actions;
 }
 
-const createEmployee = (event: Event, state: EmployeeFormState, actions: Actions) => {
+const onSubmit = (event: Event, state: EmployeeFormState, actions: Actions) => {
   event.preventDefault();
   event.stopPropagation();
 
-  actions
-    .employee
-    .create(state)
-    .then((employee: EmployeeModel) => {
-      actions.toast.success(getToastMessage(`Successfully created employee '${employee.fullName}'.`));
-
-      actions.form.employee.patch({
-        ...employee,
-      });
-
-      // Refresh underlying view
-      actions.employee.fetchAll();
-    })
-    .catch((error: Error) => {
-      actions.toast.error(getApiErrorToast('Error creating employee', error));
-    });
+  createEmployee(state, actions);
 };
 
 export const EmployeeCreateForm: Component<Props> = ({ state, actions }) => {
@@ -49,7 +33,7 @@ export const EmployeeCreateForm: Component<Props> = ({ state, actions }) => {
     .map(r => (r as RoleEnum));
 
   return (
-    <form onSubmit={(event: Event) => createEmployee(event, formState, actions)}>
+    <form onSubmit={(event: Event) => onSubmit(event, formState, actions)}>
       <div className="modal-card">
         <header className="modal-card-head">
           <p className="modal-card-title">Create Employee</p>
