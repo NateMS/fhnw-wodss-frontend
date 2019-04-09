@@ -1,3 +1,7 @@
+enum ResponseStatusCode {
+  NoContent = 204,
+}
+
 enum RequestMethods {
   GET = 'GET',
   PUT = 'PUT',
@@ -92,6 +96,10 @@ export class ApiService {
     .then((response: Response) => {
       if (!response.ok) {
         throw new Error(response.statusText);
+      }
+
+      if (response.status === ResponseStatusCode.NoContent) {
+        return Promise.resolve();
       }
 
       return response

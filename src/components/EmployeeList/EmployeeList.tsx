@@ -1,23 +1,26 @@
 import { Component, h } from 'hyperapp';
 import { Actions } from '../../actions';
 import { EmployeeModel } from '../../api/dto/employee.model';
-import { EmployeeState } from '../../state';
+import { State } from '../../state';
 import { AvatarItem } from '../Avatar/Avatar';
 import { getApiErrorToast, getToastMessage } from '../../utils';
+import { ContractModel } from '../../api/dto/contract.model';
 
 interface Props {
-  state: EmployeeState;
+  state: State;
   actions: Actions;
 }
 
 interface EmployeeRow {
   employee: EmployeeModel;
+  contracts: ContractModel[];
   actions: Actions;
 }
 
-const openEditForm = (event: Event, employee: EmployeeModel, actions: Actions): void => {
+const openEditForm = (event: Event, employee: EmployeeModel, contracts: ContractModel[], actions: Actions): void => {
   event.preventDefault();
 
+  actions.form.contract.patchAll(contracts);
   actions.form.employee.patch({
     ...employee,
   });
@@ -38,10 +41,25 @@ const deleteEmployee = (event: Event, employee: EmployeeModel, actions: Actions)
     });
 };
 
-const EmployeeRows: Component<EmployeeRow> = ({ employee, actions }) => {
+const filterEmployees = (employees: EmployeeModel[], filterString: string): EmployeeModel[] => {
+  if (filterString.length > 0) {
+    return employees
+      .filter((employee) => {
+        if (employee.fullName.toLowerCase().indexOf(filterString) > -1) {
+          return true;
+        }
+
+        return employee.roleName.toLowerCase().indexOf(filterString) > -1;
+      });
+  }
+
+  return employees;
+};
+
+const EmployeeListItem: Component<EmployeeRow> = ({ employee, contracts, actions }) => {
   return (
     <tr>
-      <td><AvatarItem  fullName={employee.fullName} /></td>
+      <td><AvatarItem fullName={employee.fullName} /></td>
       <td>{employee.roleName}</td>
       <td>{/* #Projects */}</td>
       <td>{/* Pensum */}</td>
@@ -56,7 +74,7 @@ const EmployeeRows: Component<EmployeeRow> = ({ employee, actions }) => {
               <a
                 href="#"
                 className="dropdown-item"
-                onclick={(event: Event) => openEditForm(event, employee, actions)}
+                onclick={(event: Event) => openEditForm(event, employee, contracts, actions)}
               >
                 Edit
               </a>
@@ -77,25 +95,39 @@ const EmployeeRows: Component<EmployeeRow> = ({ employee, actions }) => {
 };
 
 const EmployeeList: Component<Props> = ({ state, actions }) => {
-  const employees = state.list;
+  const { filterString } = state.view.employees;
+  const employees = state.employee.list || [];
+  const contracts = state.contract.list;
+  const filteredEmployees = filterEmployees(employees, filterString);
+
+  const createEmployeeListItem = (employee: EmployeeModel) => {
+    const employeeContracts = contracts!.filter(contract => contract.employeeId === employee.id);
+
+    return <EmployeeListItem key={employee.id} employee={employee} contracts={employeeContracts} actions={actions} />;
+  };
 
   return (
-    <table className="table is-fullwidth is-hoverable">
-      <thead>
-        <tr>
-          <td>Employee</td>
-          <td>Role</td>
-          <td># Projects</td>
-          <td>Pensum</td>
-          <td>Contract</td>
-          <td>Actions</td>
-        </tr>
-      </thead>
-      <tbody>
-        {employees && employees.map(e => <EmployeeRows employee={e} actions={actions} />)}
-      </tbody>
-    </table>
+    <div className="employee-list">
+      <table className="table is-fullwidth is-hoverable">
+        <thead>
+          <tr>
+            <td>Employee</td>
+            <td>Role</td>
+            <td># Projects</td>
+            <td>Pensum</td>
+            <td>Contract</td>
+            <td>Actions</td>
+          </tr>
+        </thead>
+        <tbody>
+          {filteredEmployees.map(employee => createEmployeeListItem(employee))}
+        </tbody>
+      </table>
+      <div className="employee-list__counter">
+        Employees: {filteredEmployees.length} / {employees.length}
+      </div>
+    </div>
   );
-}
+};
 
 export default EmployeeList;

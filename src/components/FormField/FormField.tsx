@@ -12,9 +12,7 @@ export const FormField: Component<Props> = ({ labelText, required = false, hint 
       {labelText}
       {required && <span class="label-asterisk">*</span>}
     </label>
-    <div className="control">
-      {children}
-    </div>
+    {children}
     <p className="help">{hint}</p>
   </div>
 );

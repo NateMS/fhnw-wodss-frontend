@@ -42,7 +42,7 @@ class EmployeeService {
   }
 
   public delete(id: number): Promise<void> {
-    return this.api.delete<null>(`/api/employee/${id}`)
+    return this.api.delete<void>(`/api/employee/${id}`)
       .then(() => {});
   }
 
@@ -56,9 +56,15 @@ class EmployeeService {
       .then((response: Contract) => new ContractModel(response));
   }
 
+<<<<<<< HEAD
   public deleteContract(id: number): void {
     this.api.delete<null>(`/api/contract/${id}`)
       .then();
+=======
+  public deleteContract(id: number): Promise<void> {
+    return this.api.delete<void>(`/api/contract/${id}`)
+      .then(() => {});
+>>>>>>> remotes/origin/develop
   }
 
   public getAllContracts(fromDate?: string, toDate?: string): Promise<ContractModel[]> {
@@ -73,7 +79,7 @@ class EmployeeService {
 
   public getContract(id: number): Promise<ContractModel> {
     return this.api.get<ContractModel>(`/api/contract/${id}`)
-      .then(e => new ContractModel(e))
+      .then(e => new ContractModel(e));
   }
 
   // public getRelevantContract(employee: EmployeeModel): Promise<ContractModel | undefined> {
