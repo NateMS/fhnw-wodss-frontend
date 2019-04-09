@@ -18,7 +18,6 @@ const onRender = (actions: Actions): void => {
 export const Employees: Component<ViewProps> = ({ state, actions }) => {
   const { filterString } = state.view.employees;
   const isLoading = state.employee.isLoading || state.contract.isLoading;
-  const isComplete = state.employee.list != null && state.contract.list != null;
 
   return (
     <div oncreate={() => onRender(actions)}>
@@ -39,7 +38,7 @@ export const Employees: Component<ViewProps> = ({ state, actions }) => {
           />
         </div>
         {isLoading && <Spinner isLoading={true} />}
-        {isComplete != null && <EmployeeList state={state} actions={actions} />}
+        {!isLoading && <EmployeeList state={state} actions={actions} />}
       </div>
       <EmployeeModalForm
         state={state}

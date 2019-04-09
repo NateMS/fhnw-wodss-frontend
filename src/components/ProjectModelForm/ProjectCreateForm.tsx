@@ -21,9 +21,7 @@ const createProject = (event: Event, state: ProjectFormState, actions: Actions) 
     .then((project: ProjectModel) => {
       actions.toast.success(getToastMessage(`Successfully created project '${project.name}'.`));
 
-      actions.form.project.patch({
-        ...project,
-      });
+      actions.form.project.reset();
 
       // Refresh underlying view
       actions.project.fetchAll();
@@ -43,9 +41,7 @@ const updateProject = (event: Event, state: ProjectFormState, actions: Actions) 
     .then((project: ProjectModel) => {
       actions.toast.success(getToastMessage(`Successfully updated project '${project.name}'.`));
 
-      actions.form.project.patch({
-        ...project,
-      });
+      actions.form.project.reset();
 
       // Refresh underlying view
       actions.project.fetchAll();
@@ -92,6 +88,7 @@ export const ProjectCreateForm: Component<ProjectFormProps> = ({ state, actions 
             <FormInput
               name={ftePercentage.name}
               value={ftePercentage.value}
+              suffix="fas fa-percent"
               type="number"
               onInputChange={formActions.updateValue}
             />
