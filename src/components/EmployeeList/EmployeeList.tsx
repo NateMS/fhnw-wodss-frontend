@@ -5,6 +5,7 @@ import { State } from '../../state';
 import { AvatarItem } from '../Avatar/Avatar';
 import { getApiErrorToast, getToastMessage } from '../../utils';
 import { ContractModel } from '../../api/dto/contract.model';
+import { ProjectModel } from '../../api/dto/project.model';
 
 interface Props {
   state: State;
@@ -13,6 +14,7 @@ interface Props {
 
 interface EmployeeRow {
   employee: EmployeeModel;
+  projects: Set<ProjectModel> | undefined;
   contracts: ContractModel[];
   actions: Actions;
 }
@@ -56,12 +58,12 @@ const filterEmployees = (employees: EmployeeModel[], filterString: string): Empl
   return employees;
 };
 
-const EmployeeListItem: Component<EmployeeRow> = ({ employee, contracts, actions }) => {
+const EmployeeListItem: Component<EmployeeRow> = ({ employee, projects, contracts, actions }) => {
   return (
     <tr>
       <td><AvatarItem fullName={employee.fullName} /></td>
       <td>{employee.roleName}</td>
-      <td>{/* #Projects */}</td>
+      <td>{(projects != undefined) ? projects.size : 0}</td>
       <td>{/* Pensum */}</td>
       <td>{/* Contracts */}</td>
       <td>
@@ -96,14 +98,36 @@ const EmployeeListItem: Component<EmployeeRow> = ({ employee, contracts, actions
 
 const EmployeeList: Component<Props> = ({ state, actions }) => {
   const { filterString } = state.view.employees;
-  const employees = state.employee.list || [];
+  const employees = state.employee.list;
   const contracts = state.contract.list;
+  const allocations = state.allocation.list;
+  const projects = state.project.list;
+
   const filteredEmployees = filterEmployees(employees, filterString);
+
+  const employeesProjectMap: Map<number, Set<ProjectModel>> = new Map();
+
+  allocations.forEach((allocation) => {
+    const { projectId, contractId } = allocation;
+
+    const contract = contracts.find(c => c.id === contractId);
+    const project = projects.find(p => p.id === projectId);
+
+    if (contract && project) {
+      const employeeId = contract.employeeId;
+      if (!employeesProjectMap.has(employeeId)) {
+        employeesProjectMap.set(employeeId, new Set())
+      }
+
+      const set = employeesProjectMap.get(employeeId)!;
+      set.add(project);
+    }
+  });
 
   const createEmployeeListItem = (employee: EmployeeModel) => {
     const employeeContracts = contracts!.filter(contract => contract.employeeId === employee.id);
 
-    return <EmployeeListItem key={employee.id} employee={employee} contracts={employeeContracts} actions={actions} />;
+    return <EmployeeListItem key={employee.id} employee={employee} projects={employeesProjectMap.get(employee.id)} contracts={employeeContracts} actions={actions} />;
   };
 
   return (
