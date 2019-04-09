@@ -56,15 +56,9 @@ class EmployeeService {
       .then((response: Contract) => new ContractModel(response));
   }
 
-<<<<<<< HEAD
-  public deleteContract(id: number): void {
-    this.api.delete<null>(`/api/contract/${id}`)
-      .then();
-=======
   public deleteContract(id: number): Promise<void> {
     return this.api.delete<void>(`/api/contract/${id}`)
       .then(() => {});
->>>>>>> remotes/origin/develop
   }
 
   public getAllContracts(fromDate?: string, toDate?: string): Promise<ContractModel[]> {
