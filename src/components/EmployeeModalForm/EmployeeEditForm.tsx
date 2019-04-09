@@ -7,9 +7,16 @@ import { FormCheckbox } from '../FormCheckbox/FormCheckbox';
 import Button from '../Button/Button';
 import { EmployeeFormState } from '../../state/form/employee-form.state';
 import { Actions } from '../../actions';
-import { EmployeeFormProps, close } from './EmployeeModalForm';
+import { close } from './EmployeeModalForm';
 import { EmployeeModel } from '../../api/dto/employee.model';
-import { getApiErrorToast, getApiErrorToastMessage } from '../../utils';
+import { getApiErrorToast, getToastMessage } from '../../utils';
+import ContractForm from '../ContractForm/ContractForm';
+import { State } from '../../state';
+
+interface Props {
+  state: State;
+  actions: Actions;
+}
 
 const updateEmployee = (event: Event, state: EmployeeFormState, actions: Actions) => {
   event.preventDefault();
@@ -19,7 +26,7 @@ const updateEmployee = (event: Event, state: EmployeeFormState, actions: Actions
     .employee
     .update(state)
     .then((employee: EmployeeModel) => {
-      actions.toast.success(getApiErrorToastMessage(`Successfully updated employee '${employee.fullName}'.`));
+      actions.toast.success(getToastMessage(`Successfully updated employee '${employee.fullName}'.`));
 
       // Refresh underlying view
       actions.employee.fetchAll();
@@ -30,25 +37,27 @@ const updateEmployee = (event: Event, state: EmployeeFormState, actions: Actions
     });
 };
 
-export const EmployeeEditForm: Component<EmployeeFormProps> = ({ state, actions }) => {
-  const { firstName, lastName, emailAddress, active, role } = state.controls;
+export const EmployeeEditForm: Component<Props> = ({ state, actions }) => {
+  const formState = state.form.employee;
+  const { id, firstName, lastName, emailAddress, active, role } = formState.controls;
   const { employee: formActions } = actions.form;
 
   return (
-    <div className="modal-card">
-      <header className="modal-card-head">
-        <p className="modal-card-title">Edit Employee</p>
-        <button
-          className="button"
-          aria-label="close"
-          onClick={() => close(actions)}
-        >
-            <span className="icon is-small">
-              <i className="fas fa-times"/>
-            </span>
-        </button>
-      </header>
-      <form onsubmit={(event: Event) => updateEmployee(event, state, actions)}>
+    <form onSubmit={(event: Event) => updateEmployee(event, formState, actions)}>
+      <div className="modal-card">
+        <header className="modal-card-head">
+          <p className="modal-card-title">Edit Employee</p>
+          <button
+            className="button"
+            type="button"
+            aria-label="close"
+            onclick={() => close(actions)}
+          >
+              <span className="icon is-small">
+                <i className="fas fa-times"/>
+              </span>
+          </button>
+        </header>
         <section className="modal-card-body">
           <FormField labelText="First Name" required={true}>
             <FormInput
@@ -93,24 +102,33 @@ export const EmployeeEditForm: Component<EmployeeFormProps> = ({ state, actions 
               onInputChange={formActions.updateValue}
             />
           </FormField>
+          {state.form.contract.list.map((contractForm, index) => <ContractForm key={index} state={contractForm} actions={actions} />)}
+          <button
+            type="button"
+            className="button is-fullwidth"
+            onclick={() => actions.form.contract.addEmpty(id.value!)}
+          >
+            Add Contract
+          </button>
         </section>
         <footer className="modal-card-foot">
           <Button
             label="Cancel"
-            disabled={state.isSaving}
-            isLoading={state.isSaving}
+            disabled={formState.isSaving}
+            isLoading={formState.isSaving}
             onClick={() => close(actions)}
           />
           <Button
             label="Save"
-            disabled={state.isSaving}
-            isLoading={state.isSaving}
+            disabled={formState.isSaving}
+            isLoading={formState.isSaving}
             theme="primary"
             type="submit"
           />
         </footer>
-      </form>
-    </div>
+      </div>
+    </form>
+
   );
 };
 

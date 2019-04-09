@@ -17,13 +17,13 @@ export class EmployeeModel extends EmployeeBaseModel {
   constructor(employee: Employee) {
     super(employee);
 
-    if (employee.id) {
+    if (employee.id != null) {
       this.id = employee.id;
     } else {
       throw new Error(`The field 'id' is missing.`);
     }
 
-    if (employee.role) {
+    if (employee.role != null) {
       this.role = employee.role;
     } else {
       throw new Error(`The field 'role' is missing.`);

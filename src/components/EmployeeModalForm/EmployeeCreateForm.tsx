@@ -9,7 +9,13 @@ import FormInput from '../FormInput/FormInput';
 import { FormCheckbox } from '../FormCheckbox/FormCheckbox';
 import { FormSelect } from '../FormSelect/FormSelect';
 import Button from '../Button/Button';
-import { EmployeeFormProps, close } from './EmployeeModalForm';
+import { close } from './EmployeeModalForm';
+import { State } from '../../state';
+
+interface Props {
+  state: State;
+  actions: Actions;
+}
 
 const createEmployee = (event: Event, state: EmployeeFormState, actions: Actions) => {
   event.preventDefault();
@@ -33,8 +39,9 @@ const createEmployee = (event: Event, state: EmployeeFormState, actions: Actions
     });
 };
 
-export const EmployeeCreateForm: Component<EmployeeFormProps> = ({ state, actions }) => {
-  const { firstName, lastName, emailAddress, password, active, role } = state.controls;
+export const EmployeeCreateForm: Component<Props> = ({ state, actions }) => {
+  const formState = state.form.employee;
+  const { firstName, lastName, emailAddress, password, active, role } = formState.controls;
   const { employee: formActions } = actions.form;
 
   const roles: RoleEnum[] = Object
@@ -42,20 +49,21 @@ export const EmployeeCreateForm: Component<EmployeeFormProps> = ({ state, action
     .map(r => (r as RoleEnum));
 
   return (
-    <div className="modal-card">
-      <header className="modal-card-head">
-        <p className="modal-card-title">Create Employee</p>
-        <button
-          className="button"
-          aria-label="close"
-          onClick={() => close(actions)}
-        >
-            <span className="icon is-small">
-              <i className="fas fa-times"/>
-            </span>
-        </button>
-      </header>
-      <form onsubmit={(event: Event) => createEmployee(event, state, actions)}>
+    <form onSubmit={(event: Event) => createEmployee(event, formState, actions)}>
+      <div className="modal-card">
+        <header className="modal-card-head">
+          <p className="modal-card-title">Create Employee</p>
+          <button
+            className="button"
+            type="button"
+            aria-label="close"
+            onclick={() => close(actions)}
+          >
+              <span className="icon is-small">
+                <i className="fas fa-times"/>
+              </span>
+          </button>
+        </header>
         <section className="modal-card-body">
           <FormField labelText="First Name" required={true}>
             <FormInput
@@ -109,11 +117,20 @@ export const EmployeeCreateForm: Component<EmployeeFormProps> = ({ state, action
           </FormField>
         </section>
         <footer className="modal-card-foot">
-          <Button label="Cancel" onClick={() => close(actions)} />
-          <Button label="Save" theme="primary" type="submit" />
+          <Button
+            label="Cancel"
+            onClick={() => close(actions)}
+            isLoading={formState.isSaving}
+            disabled={formState.isSaving}
+          />
+          <Button
+            label="Save"
+            theme="primary"
+            type="submit"
+          />
         </footer>
-      </form>
-    </div>
+      </div>
+    </form>
   );
 };
 

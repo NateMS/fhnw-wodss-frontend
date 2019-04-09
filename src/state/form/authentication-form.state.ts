@@ -1,6 +1,6 @@
-import { FormControl, BaseFormState } from './types';
+import { FormControl, BaseForm } from './types';
 
-export interface AuthenticationFormState extends BaseFormState {
+export interface AuthenticationFormState extends BaseForm {
   controls: {
     emailAddress: FormControl<string>;
     rawPassword: FormControl<string>;

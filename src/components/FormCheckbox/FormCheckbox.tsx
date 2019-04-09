@@ -6,14 +6,16 @@ interface Props extends FormControlProps<boolean> {
 }
 
 export const FormCheckbox: Component<Props> = props => (
-  <label className="checkbox">
-    <input
-      type="checkbox"
-      name={props.name}
-      disabled={props.disabled}
-      checked={props.value}
-      value={props.value}
-      onchange={() => props.onInputChange({ name: props.name, value: !props.value })}
-    /> {props.labelText}
-  </label>
+  <div className="control">
+    <label className="checkbox">
+      <input
+        type="checkbox"
+        name={props.name}
+        disabled={props.disabled}
+        checked={props.value}
+        value={props.value}
+        onchange={() => props.onInputChange({ name: props.name, value: !props.value })}
+      /> {props.labelText}
+    </label>
+  </div>
 );
