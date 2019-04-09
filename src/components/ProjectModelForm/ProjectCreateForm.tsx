@@ -10,7 +10,6 @@ import Button from '../Button/Button';
 import { ProjectFormProps, close } from './ProjectModalForm';
 import { EmployeeSelect } from '../EmployeeSelect/EmployeeSelect';
 import { employeeService } from '../../services/EmployeeService';
-import { EmployeeModel } from '../../api/dto/employee.model';
 
 const createProject = (event: Event, state: ProjectFormState, actions: Actions) => {
   event.preventDefault();
@@ -62,7 +61,6 @@ export const ProjectCreateForm: Component<ProjectFormProps> = ({ state, actions 
   const { project: formActions } = actions.form;
 
   const projectManagers = employeeService.filterListByRole(state.employee.list, RoleEnum.PROJECTMANAGER);
-  const currentProjectManger = projectManagers.find(e => e.id === projectManagerId.value)
   const isEditMode = id.value != null;
 
   return (
@@ -117,7 +115,7 @@ export const ProjectCreateForm: Component<ProjectFormProps> = ({ state, actions 
           <FormField labelText="Project Manager" required={true}>
             <EmployeeSelect
               name={projectManagerId.name}
-              value={currentProjectManger == undefined ? null : currentProjectManger}
+              value={projectManagerId.value}
               placeholder="Please select"
               items={projectManagers}
               onInputChange={formActions.updateValue}

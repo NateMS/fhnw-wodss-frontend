@@ -103,7 +103,7 @@ export const EmployeeCreateForm: Component<EmployeeFormProps> = ({ state, action
               value={role.value}
               placeholder="Please select"
               items={roles}
-              labler={(r: RoleEnum) => roleNameMap[r]}
+              labeler={(r: RoleEnum) => roleNameMap[r]}
               onInputChange={formActions.updateValue}
             />
           </FormField>
