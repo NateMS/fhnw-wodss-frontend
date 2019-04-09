@@ -39,7 +39,7 @@ export const Projects: Component<ViewProps> = ({ state, actions }) => {
             onClick={() => showProjectCreateForm(true, actions)}
           />
         </div>
-        {isLoading && <Spinner isLoading={true} /> }
+        {isLoading && <Spinner isLoading={true} />}
         {!isLoading && <ProjectList state={state} actions={actions} />}
       </div>
       <ProjectModalForm state={state} actions={actions} />

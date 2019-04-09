@@ -13,7 +13,7 @@ interface Props {
 
 interface ProjectRow {
   project: ProjectModel;
-  employees: Set<EmployeeModel>;
+  employees: Set<EmployeeModel> | undefined;
   actions: Actions;
 }
 
@@ -33,7 +33,7 @@ const ProjectRowItem: Component<ProjectRow> = ({ project, employees, actions }) 
       <td>{project.name}</td>
       <td>{project.startDate} - {project.endDate}</td>
       <td>{project.ftePercentage}</td>
-      <td>{employees.size}</td>
+      <td>{employees != null ? employees.size : 0}</td>
       <td>
         <div className="dropdown is-right is-hoverable">
           <div className="dropdown-trigger">

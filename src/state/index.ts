@@ -12,27 +12,27 @@ export interface ToastState {
 }
 
 export interface ContractState {
-  list: ContractModel[] | null;
+  list: ContractModel[];
   isLoading: boolean;
 }
 
 export interface EmployeeState {
-  list: EmployeeModel[] | null;
+  list: EmployeeModel[];
   isLoading: boolean;
 }
 
 export interface ProjectState {
-  list: ProjectModel[] | null;
+  list: ProjectModel[];
   isLoading: boolean;
 }
 
 export interface AllocationState {
-  list: AllocationModel[] | null;
+  list: AllocationModel[];
   isLoading: boolean;
 }
 
 export interface ContractState {
-  list: ContractModel[] | null;
+  list: ContractModel[];
   isLoading: boolean;
 }
 
@@ -60,19 +60,19 @@ export const state: State = {
     employee: null,
   },
   employee: {
-    list: null,
+    list: [],
     isLoading: false,
   },
   project: {
-    list: null,
+    list: [],
     isLoading: false,
   },
   allocation: {
-    list: null,
+    list: [],
     isLoading: false,
   },
   contract: {
-    list: null,
+    list: [],
     isLoading: false,
   },
   form: defaultFormState,
