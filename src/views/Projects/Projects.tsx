@@ -9,13 +9,17 @@ import { showProjectCreateForm } from '../../actions/form/project-form.actions';
 
 const onRender = (actions: Actions) => {
   actions.employee.fetchAll();
+  actions.contract.fetchAll();
   actions.project.fetchAll();
   actions.allocation.fetchAll();
 };
 
 export const Projects: Component<ViewProps> = ({ state, actions }) => {
   const { filterString } = state.view.projects;
-  const isLoading = state.employee.isLoading || state.project.isLoading || state.allocation.isLoading;
+  const isLoading = state.employee.isLoading ||
+    state.contract.isLoading ||
+    state.project.isLoading ||
+    state.allocation.isLoading;
 
   return (
     <div oncreate={() => onRender(actions)}>

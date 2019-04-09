@@ -1,10 +1,10 @@
 import { Component, h } from 'hyperapp';
 import { Actions } from '../../actions';
 import { ProjectModel } from '../../api/dto/project.model';
-import { getApiErrorToast, getToastMessage } from '../../utils';
 import { State } from '../../state';
-import { allocationService } from '../../services/AllocationService';
-import { AllocationModel } from '../../api/dto/allocation.model';
+import { deleteProject } from '../../actions/project.actions';
+import { showProjectEditForm } from '../../actions/form/project-form.actions';
+import { EmployeeModel } from '../../api/dto/employee.model';
 
 interface Props {
   state: State;
@@ -13,39 +13,27 @@ interface Props {
 
 interface ProjectRow {
   project: ProjectModel;
+  employees: Set<EmployeeModel>;
   actions: Actions;
 }
 
-const openEditForm = (event: Event, project: ProjectModel, actions: Actions): void => {
+const onEditClick = (event: Event, project: ProjectModel, actions: Actions): void => {
   event.preventDefault();
-
-  actions.form.project.patch({
-    ...project,
-  });
-
-  actions.form.project.setOpen(true);
+  showProjectEditForm(project, actions);
 };
 
-const deleteProject = (event: Event, project: ProjectModel, actions: Actions): void => {
+const onDeleteClick = (event: Event, project: ProjectModel, actions: Actions): void => {
   event.preventDefault();
-
-  actions.project
-    .delete(project.id)
-    .then(() => {
-      actions.toast.success(getToastMessage(`Project '${project.name}' successfully deleted.`));
-    })
-    .catch((error: Error) => {
-      actions.toast.error(getApiErrorToast('Error deleting project', error));
-    });
+  deleteProject(project, actions);
 };
 
-const ProjectRows: Component<ProjectRow> = ({ project, actions }) => {
+const ProjectRowItem: Component<ProjectRow> = ({ project, employees, actions }) => {
   return (
     <tr>
       <td>{project.name}</td>
       <td>{project.startDate} - {project.endDate}</td>
       <td>{project.ftePercentage}</td>
-      <td>{/* #Devs */}</td>
+      <td>{employees.size}</td>
       <td>
         <div className="dropdown is-right is-hoverable">
           <div className="dropdown-trigger">
@@ -56,7 +44,7 @@ const ProjectRows: Component<ProjectRow> = ({ project, actions }) => {
               <a
                 href="#"
                 className="dropdown-item"
-                onclick={(event: Event) => openEditForm(event, project, actions)}
+                onclick={(event: Event) => onEditClick(event, project, actions)}
               >
                 Edit
               </a>
@@ -64,7 +52,7 @@ const ProjectRows: Component<ProjectRow> = ({ project, actions }) => {
               <a
                 href="#"
                 className="dropdown-item"
-                onclick={(event: Event) => deleteProject(event, project, actions)}
+                onclick={(event: Event) => onDeleteClick(event, project, actions)}
               >
                 Delete
               </a>
@@ -77,8 +65,46 @@ const ProjectRows: Component<ProjectRow> = ({ project, actions }) => {
 };
 
 const ProjectList: Component<Props> = ({ state, actions }) => {
-  const projects = state.project.list;
-  const allocations = state.allocation.list;
+  const projects = state.project.list!;
+  const allocations = state.allocation.list!;
+  const contracts = state.contract.list!;
+  const employees = state.employee.list!;
+
+  const contractEmployeeMap: Map<number, EmployeeModel> = new Map();
+  const projectEmployeesMap: Map<number, Set<EmployeeModel>> = new Map();
+
+  contracts.forEach((contract) => {
+    const { id, employeeId } = contract;
+
+    const employee = employees.find(e => e.id === employeeId);
+
+    if (employee) {
+      contractEmployeeMap.set(id, employee);
+    }
+  });
+
+  allocations.forEach((allocation) => {
+    const { projectId, contractId } = allocation;
+
+    if (!projectEmployeesMap.has(projectId)) {
+      projectEmployeesMap.set(projectId, new Set());
+    }
+
+    const set = projectEmployeesMap.get(projectId)!;
+    const employee = contractEmployeeMap.get(contractId);
+
+    if (employee != null) {
+      set.add(employee);
+    }
+  });
+
+  const createProjectRowItem = (project: ProjectModel) => (
+    <ProjectRowItem
+      project={project}
+      employees={projectEmployeesMap.get(project.id)}
+      actions={actions}
+    />
+  );
 
   return (
     <table className="table is-fullwidth is-hoverable">
@@ -92,7 +118,7 @@ const ProjectList: Component<Props> = ({ state, actions }) => {
         </tr>
       </thead>
       <tbody>
-        {projects && projects.map((e: ProjectModel) => <ProjectRows project={e} actions={actions} />)}
+        {projects && projects.map((project: ProjectModel) => createProjectRowItem(project))}
       </tbody>
     </table>
   );
