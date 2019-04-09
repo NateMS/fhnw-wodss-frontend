@@ -31,7 +31,7 @@ export const Projects: Component<ViewProps> = ({ state, actions }) => {
             className="input view__filter"
             placeholder="Filter"
             value={filterString}
-            onInput={(e: any) => actions.view.projects.updateFilterString(e.target.value)}
+            oninput={(e: any) => actions.view.projects.updateFilterString(e.target.value)}
           />
           <Button
             theme="primary"
