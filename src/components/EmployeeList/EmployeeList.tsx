@@ -6,6 +6,7 @@ import { AvatarItem } from '../Avatar/Avatar';
 import { getApiErrorToast, getToastMessage } from '../../utils';
 import { ContractModel } from '../../api/dto/contract.model';
 import { ProjectModel } from '../../api/dto/project.model';
+import moment from 'moment'
 
 interface Props {
   state: State;
@@ -15,6 +16,7 @@ interface Props {
 interface EmployeeRow {
   employee: EmployeeModel;
   projects: Set<ProjectModel> | undefined;
+  contract: ContractModel | undefined;
   contracts: ContractModel[];
   actions: Actions;
 }
@@ -58,14 +60,14 @@ const filterEmployees = (employees: EmployeeModel[], filterString: string): Empl
   return employees;
 };
 
-const EmployeeListItem: Component<EmployeeRow> = ({ employee, projects, contracts, actions }) => {
+const EmployeeListItem: Component<EmployeeRow> = ({ employee, projects, contract, contracts, actions }) => {
   return (
     <tr>
       <td><AvatarItem fullName={employee.fullName} /></td>
       <td>{employee.roleName}</td>
       <td>{(projects != undefined) ? projects.size : 0}</td>
-      <td>{/* Pensum */}</td>
-      <td>{/* Contracts */}</td>
+      <td>{(contract != undefined) ? `${contract.pensumPercentage}%` : "-"}</td>
+      <td>{(contract != undefined) ? `${contract.startDate} - ${contract.endDate}` : "-"}</td>
       <td>
         <div className="dropdown is-right is-hoverable">
           <div className="dropdown-trigger">
@@ -80,7 +82,7 @@ const EmployeeListItem: Component<EmployeeRow> = ({ employee, projects, contract
               >
                 Edit
               </a>
-              <hr className="dropdown-divider"/>
+              <hr className="dropdown-divider" />
               <a
                 href="#"
                 className="dropdown-item"
@@ -106,6 +108,7 @@ const EmployeeList: Component<Props> = ({ state, actions }) => {
   const filteredEmployees = filterEmployees(employees, filterString);
 
   const employeesProjectMap: Map<number, Set<ProjectModel>> = new Map();
+  const employeesContractMap: Map<number, ContractModel | undefined> = new Map();
 
   allocations.forEach((allocation) => {
     const { projectId, contractId } = allocation;
@@ -124,10 +127,27 @@ const EmployeeList: Component<Props> = ({ state, actions }) => {
     }
   });
 
+  employees.forEach((employee) => {
+    const sortedContracts = contracts.filter(c => c.employeeId == employee.id).sort((a, b) => moment(a.endDate, "YYY-MM-DD").diff(moment(b.endDate, "YYY-MM-DD")))
+    var relevantContract: ContractModel | undefined = undefined;
+    if (sortedContracts.length > 0) {
+      relevantContract = sortedContracts.reduce((prev, curr) => {
+        if (moment().isAfter(curr.endDate)) {
+          return curr;
+        } else {
+          return prev ? prev : curr;
+        }
+      });
+    }
+    employeesContractMap.set(employee.id, relevantContract);
+  });
+
   const createEmployeeListItem = (employee: EmployeeModel) => {
     const employeeContracts = contracts!.filter(contract => contract.employeeId === employee.id);
+    const projects = employeesProjectMap.get(employee.id);
+    const relevantContract = employeesContractMap.get(employee.id);
 
-    return <EmployeeListItem key={employee.id} employee={employee} projects={employeesProjectMap.get(employee.id)} contracts={employeeContracts} actions={actions} />;
+    return <EmployeeListItem key={employee.id} employee={employee} projects={projects} contract={relevantContract} contracts={employeeContracts} actions={actions} />;
   };
 
   return (

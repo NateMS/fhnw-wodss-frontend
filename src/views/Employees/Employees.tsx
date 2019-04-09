@@ -13,11 +13,16 @@ const showCreateForm = (show: boolean, actions: Actions): void => {
 const onRender = (actions: Actions): void => {
   actions.employee.fetchAll();
   actions.contract.fetchAll();
+  actions.allocation.fetchAll();
+  actions.project.fetchAll();
 };
 
 export const Employees: Component<ViewProps> = ({ state, actions }) => {
   const { filterString } = state.view.employees;
-  const isLoading = state.employee.isLoading || state.contract.isLoading;
+  const isLoading = state.employee.isLoading ||
+    state.contract.isLoading ||
+    state.project.isLoading ||
+    state.allocation.isLoading;
 
   return (
     <div oncreate={() => onRender(actions)}>
