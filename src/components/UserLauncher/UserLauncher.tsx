@@ -21,7 +21,7 @@ const UserLauncher: Component<Props> = ({ state }) => {
         <div className="dropdown-menu" role="menu">
           <div className="dropdown-content">
             <div className="dropdown-item">
-              <strong>{employee!.fullName}</strong>
+              <strong><Link to="/profile">{employee!.fullName}</Link></strong>
               <br />
               {employee!.roleName}
             </div>

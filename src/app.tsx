@@ -12,6 +12,7 @@ import { protect } from './views/ProtectedView';
 import { EmployeeModel } from './api/dto/employee.model';
 import ToastList from './components/ToastList/ToastList';
 import { LOCAL_STORAGE_KEY_USER } from './constants';
+import Profile from './views/Profile/Profile';
 
 export const view: View<State, Actions> = (state, actions) =>  {
   const user = window.localStorage.getItem(LOCAL_STORAGE_KEY_USER);
@@ -26,6 +27,7 @@ export const view: View<State, Actions> = (state, actions) =>  {
       <Route path="/planning" render={() => protect(Planning)({ state, actions })} />
       <Route path="/projects" render={() => protect(Projects)({ state, actions })} />
       <Route path="/employees" render={() => protect(Employees)({ state, actions })} />
+      <Route path="/profile" render={() => protect(Profile)({ state, actions })} />
       <Route path="/logout" render={() => protect(Logout)({ state, actions })} />
       <Route path="/" render={() => Login({ state, actions })} />
       <ToastList state={state.toast} />
