@@ -6,6 +6,7 @@ import { employeeActions, EmployeeActions } from './employee.actions';
 import { toastActions, ToastActions } from './toast.actions';
 import { formActions, FormActions } from './form';
 import { ProjectActions, projectActions } from './project.actions';
+import { AllocationActions, allocationActions } from './allocation.actions';
 
 export interface Actions {
   location: LocationActions;
@@ -13,6 +14,7 @@ export interface Actions {
   form: FormActions;
   employee: EmployeeActions;
   project: ProjectActions;
+  allocation: AllocationActions;
   toast: ToastActions;
 }
 
@@ -22,5 +24,6 @@ export const actions: ActionsType<State, Actions> = {
   form: formActions,
   employee: employeeActions,
   project: projectActions,
+  allocation: allocationActions,
   toast: toastActions,
 };

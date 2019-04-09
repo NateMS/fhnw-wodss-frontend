@@ -1,6 +1,5 @@
-import { EmployeeState, State } from '../state';
+import { EmployeeState } from '../state';
 import { Employee } from '../api/dto/employee';
-import { Actions } from './index';
 import { ActionResult, ActionsType } from 'hyperapp';
 import { employeeService } from '../services/EmployeeService';
 import { EmployeeModel } from '../api/dto/employee.model';

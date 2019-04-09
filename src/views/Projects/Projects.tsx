@@ -9,6 +9,7 @@ export const Projects: Component<ViewProps> = ({ state, actions }) => {
   const onCreateActions = (actions: Actions) => {
     actions.employee.fetchAll();
     actions.project.fetchAll();
+    actions.allocation.fetchAll();
   };
 
   return (

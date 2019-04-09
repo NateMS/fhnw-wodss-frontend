@@ -3,6 +3,8 @@ import { defaultFormState, FormState } from './form/index';
 import { EmployeeModel } from '../api/dto/employee.model';
 import { Toast } from '../actions/toast.actions';
 import { ProjectModel } from '../api/dto/project.model';
+import { AllocationModel } from '../api/dto/allocation.model';
+import { ContractModel } from '../api/dto/contract.model';
 
 export interface ToastState {
   list: Toast[];
@@ -18,6 +20,16 @@ export interface ProjectState {
   isLoading: boolean;
 }
 
+export interface AllocationState {
+  list: AllocationModel[] | null;
+  isLoading: boolean;
+}
+
+export interface ContractState {
+  list: ContractModel[] | null;
+  isLoading: boolean;
+}
+
 export interface UserState {
   authenticated: boolean;
   employee: EmployeeModel | null;
@@ -29,6 +41,8 @@ export interface State {
   form: FormState;
   employee: EmployeeState;
   project: ProjectState;
+  allocation: AllocationState;
+  contract: ContractState;
   toast: ToastState;
 }
 
@@ -43,6 +57,14 @@ export const state: State = {
     isLoading: false,
   },
   project: {
+    list: null,
+    isLoading: false,
+  },
+  allocation: {
+    list: null,
+    isLoading: false,
+  },
+  contract: {
     list: null,
     isLoading: false,
   },

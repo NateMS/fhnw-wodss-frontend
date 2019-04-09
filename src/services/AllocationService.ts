@@ -36,8 +36,12 @@ class AllocationService {
   }
 
   public delete(id: number): Promise<void> {
-    return this.api.get<Allocation>(`/api/allocation/${id}`)
+    return this.api.delete<Allocation>(`/api/allocation/${id}`)
       .then(() => {});
+  }
+
+  public filterByProject(allocations: AllocationModel[] | null, projectId: number): AllocationModel[] {
+    return (null === allocations) ? [] : allocations.filter(e => e.projectId === projectId);
   }
 
   public static getInstance(): AllocationService {

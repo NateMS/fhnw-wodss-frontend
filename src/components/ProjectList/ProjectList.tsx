@@ -3,6 +3,8 @@ import { Actions } from '../../actions';
 import { ProjectModel } from '../../api/dto/project.model';
 import { getApiErrorToast, getToastMessage } from '../../utils';
 import { State } from '../../state';
+import { allocationService } from '../../services/AllocationService';
+import { AllocationModel } from '../../api/dto/allocation.model';
 
 interface Props {
   state: State;
@@ -76,6 +78,7 @@ const ProjectRows: Component<ProjectRow> = ({ project, actions }) => {
 
 const ProjectList: Component<Props> = ({ state, actions }) => {
   const projects = state.project.list;
+  const allocations = state.allocation.list;
 
   return (
     <table className="table is-fullwidth is-hoverable">

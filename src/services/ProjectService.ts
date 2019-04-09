@@ -35,7 +35,7 @@ class ProjectService {
   }
 
   public delete(id: number): Promise<void> {
-    return this.api.get<Project>(`/api/project/${id}`)
+    return this.api.delete<null>(`/api/project/${id}`)
       .then(() => {});
   }
 

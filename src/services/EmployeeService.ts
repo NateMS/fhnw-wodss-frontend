@@ -57,7 +57,7 @@ class EmployeeService {
   }
 
   public deleteContract(id: number): void {
-    this.api.delete(`/api/contract/${id}`)
+    this.api.delete<null>(`/api/contract/${id}`)
       .then();
   }
 
@@ -75,6 +75,21 @@ class EmployeeService {
     return this.api.get<ContractModel>(`/api/contract/${id}`)
       .then(e => new ContractModel(e))
   }
+
+  // public getRelevantContract(employee: EmployeeModel): Promise<ContractModel | undefined> {
+  //   return this.getAllContracts().then(contracts => {
+  //     var relevantContract: ContractModel | undefined
+  //     const sortedContracts = contracts.sort((a,b) => new Moment(a.endDate).format('YYYYMMDD') - new Moment(b.endDate).format('YYYYMMDD'))
+  //     sortedContracts.forEach(contract => {
+  //       if (moment().isAfter(contract.endDate)) {
+  //         relevantContract = contract;
+  //       } else {
+  //         return relevantContract ? relevantContract : contract;
+  //       }
+  //     });
+  //     return relevantContract
+  //   }).then(respone: ContractModel)
+  // }
 
   public filterListByRole(employees: EmployeeModel[] | null, role: RoleEnum): EmployeeModel[] {
     return (null === employees) ? [] : employees.filter(e => e.role === role);
