@@ -13,7 +13,6 @@ const createFlatPickrInstance = (element: any, props: Props): void => {
     minDate: min ? min : undefined,
     maxDate: max ? max : undefined,
     onValueUpdate: (_, value: string) => {
-      console.log(props.name, 'change', value);
       onInputChange({
         name,
         value,
