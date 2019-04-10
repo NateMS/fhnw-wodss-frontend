@@ -26,7 +26,6 @@ const AllocationModalForm: Component<AllocationFormProps> = ({ state, actions })
     <div className={stateClassName}>
       <div className="modal-background" />
       {!isEditMode && <AllocationCreateForm state={state} actions={actions} />}
-      {isEditMode && <AllocationEditForm state={state} actions={actions} />}
     </div>
   );
 };

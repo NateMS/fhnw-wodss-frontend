@@ -29,7 +29,7 @@ export const EmployeeCreateForm: Component<Props> = ({ state, actions }) => {
   const { employee: formActions } = actions.form;
 
   return (
-    <form onSubmit={(event: Event) => onSubmit(event, formState, actions)}>
+    <form onsubmit={(event: Event) => onSubmit(event, formState, actions)}>
       <div className="modal-card">
         <header className="modal-card-head">
           <p className="modal-card-title">Create Employee</p>

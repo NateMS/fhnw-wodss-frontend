@@ -4,8 +4,8 @@ import { FormControlProps } from '../FormControlProps';
 interface Props extends FormControlProps<string | number> {
   type: string;
   suffix?: string;
-  min?: number | string | null;
-  max?: number | string | null;
+  min?: number | null;
+  max?: number | null;
 }
 
 interface FormInputSuffixProps {

@@ -10,6 +10,7 @@ import { ProjectModel } from '../../api/dto/project.model';
 import { EmployeeSelect } from '../EmployeeSelect/EmployeeSelect';
 import { AllocationFormState } from '../../state/form/allocation-form.state';
 import { ContractModel } from '../../api/dto/contract.model';
+import DatePicker from '../DatePicker/DatePicker';
 
 interface Props {
   state: State;
@@ -19,8 +20,6 @@ interface Props {
 const onSubmit = (event: Event, state: AllocationFormState, actions: Actions) => {
   event.preventDefault();
   event.stopPropagation();
-
-  debugger;
 };
 
 export const AllocationCreateForm: Component<Props> = ({ state, actions }) => {
@@ -80,18 +79,18 @@ export const AllocationCreateForm: Component<Props> = ({ state, actions }) => {
             />
           </FormField>
           <FormField labelText="Start date" required={true}>
-            <FormInput
+            <DatePicker
               name={startDate.name}
               value={startDate.value}
-              type="date"
+              max={endDate.value}
               onInputChange={formActions.updateValue}
             />
           </FormField>
           <FormField labelText="End date" required={true}>
-            <FormInput
+            <DatePicker
               name={endDate.name}
               value={endDate.value}
-              type="date"
+              min={startDate.value}
               onInputChange={formActions.updateValue}
             />
           </FormField>
