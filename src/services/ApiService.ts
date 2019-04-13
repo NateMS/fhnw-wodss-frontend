@@ -108,7 +108,7 @@ export class ApiService {
         throw error;
       }
 
-      throw new ApiError(500, error.message);
+      throw new ApiError(ResponseStatusCode.InternalServerError, error.message);
     });
   }
 
