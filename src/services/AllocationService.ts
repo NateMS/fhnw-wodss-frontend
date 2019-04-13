@@ -2,14 +2,15 @@ import { apiService, ApiService } from './ApiService';
 import { AllocationModel } from '../api/dto/allocation.model';
 import { Allocation } from '../api/dto/allocation';
 import { AllocationBaseModel } from '../api/dto/allocation.base.model';
+import { AllocationRequestModel } from '../api/dto/allocation.request.model';
 
 class AllocationService {
   private static instance: AllocationService;
 
   private constructor(private api: ApiService) {}
 
-  public create(allocation: Allocation): Promise<AllocationModel> {
-    return this.api.post<Allocation>("/api/allocation", allocation)
+  public create(allocation: AllocationBaseModel): Promise<AllocationModel> {
+    return this.api.post<Allocation>("/api/allocation", new AllocationRequestModel(allocation))
       .then(e => new AllocationModel(e));
   }
 
@@ -30,8 +31,8 @@ class AllocationService {
       .then(e => new AllocationModel(e));
   }
 
-  public update(allocation: Allocation): Promise<AllocationModel> {
-    return this.api.put<Allocation>(`/api/allocation/${allocation.id}`, new AllocationBaseModel(allocation))
+  public update(allocation: AllocationBaseModel, id: number): Promise<AllocationModel> {
+    return this.api.put<Allocation>(`/api/allocation/${id}`, new AllocationRequestModel(allocation))
      .then(e => new AllocationModel(e))
   }
 

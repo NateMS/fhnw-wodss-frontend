@@ -1,22 +1,24 @@
+import { DATE_FORMAT_STRING } from '../../constants';
 import { Allocation } from './allocation';
-import moment from 'moment';
+import { AllocationModel } from './allocation.model';
+import { AllocationBaseModel } from './allocation.base.model';
 
-export class AllocationBaseModel implements Allocation {
-  public readonly startDate: moment.Moment;
-  public readonly endDate: moment.Moment;
+export class AllocationRequestModel implements Allocation {
+  public readonly startDate: string;
+  public readonly endDate: string;
   public readonly pensumPercentage: number;
   public readonly contractId: number;
   public readonly projectId: number;
 
-  constructor(allocation: Allocation) {
+  constructor(allocation: AllocationBaseModel | AllocationModel) {
     if (allocation.startDate) {
-      this.startDate = moment(allocation.startDate);
+      this.startDate = allocation.startDate.format(DATE_FORMAT_STRING);
     } else {
       throw new Error(`The field 'startDate' is missing.`);
     }
 
     if (allocation.endDate) {
-      this.endDate = moment(allocation.endDate);
+      this.endDate = allocation.endDate.format(DATE_FORMAT_STRING);
     } else {
       throw new Error(`The field 'endDate' is missing.`);
     }

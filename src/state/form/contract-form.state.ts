@@ -1,11 +1,12 @@
+import { Moment } from 'moment';
 import { BaseForm, FormControl, ListForm } from './types';
 
 export interface ContractForm extends BaseForm {
   controls: {
     id: FormControl<number>;
     employeeId: FormControl<number>;
-    startDate: FormControl<string>;
-    endDate: FormControl<string>;
+    startDate: FormControl<Moment>;
+    endDate: FormControl<Moment>;
     pensumPercentage: FormControl<number>;
   };
 }

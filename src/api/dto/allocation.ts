@@ -1,3 +1,5 @@
+import { Moment } from 'moment';
+
 /**
  * Represents the work unit an employee is doing for a project
  * @export
@@ -15,13 +17,13 @@ export interface Allocation {
    * @type {string}
    * @memberof Allocation
    */
-  startDate: string;
+  startDate: string | Moment;
   /**
    * Allocation end date (YYYY-MM-DD)
    * @type {string}
    * @memberof Allocation
    */
-  endDate: string;
+  endDate: string | Moment;
   /**
    * Full time equivalent for the contract as percentage value (0.5 FTE = 50)
    * @type {number}

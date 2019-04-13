@@ -1,21 +1,22 @@
 import { Component, h } from 'hyperapp';
+import moment, { Moment } from 'moment';
 import flatpickr from 'flatpickr';
 import { FormControlProps } from '../FormControlProps';
 
-interface Props extends FormControlProps<string> {
-  min?: string | null;
-  max?: string | null;
+interface Props extends FormControlProps<Moment> {
+  min?: Moment | null;
+  max?: Moment | null;
 }
 
 const createFlatPickrInstance = (element: any, props: Props): void => {
   const { min, max, name, onInputChange } = props;
   flatpickr(element, {
-    minDate: min ? min : undefined,
-    maxDate: max ? max : undefined,
+    minDate: min ? min.toDate() : undefined,
+    maxDate: max ? max.toDate() : undefined,
     onValueUpdate: (_, value: string) => {
       onInputChange({
         name,
-        value,
+        value: moment(value),
       });
     },
   });
