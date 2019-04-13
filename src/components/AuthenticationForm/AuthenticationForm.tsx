@@ -4,6 +4,7 @@ import { Actions } from '../../actions';
 import FormInput from '../FormInput/FormInput';
 import { AuthenticationFormState } from '../../state/form/authentication-form.state';
 import { EmployeeModel } from '../../api/dto/employee.model';
+import { getApiErrorToast, getToastMessage } from '../../utils';
 
 interface Props {
   state: AuthenticationFormState;
@@ -27,10 +28,12 @@ const submit = (event: Event, state: AuthenticationFormState, actions: Actions) 
     rawPassword: rawPassword.value,
     emailAddress: emailAddress.value,
   })
-  .then((employee: EmployeeModel) => {
+  .then(() => {
     formActions.setSaving(false);
+    actions.toast.success(getToastMessage('Successfully logged in'));
     // Reset form
-  }).catch(() => {
+  }).catch((error) => {
+    actions.toast.error(getApiErrorToast('Login', error));
     formActions.setSaving(false);
   });
 };

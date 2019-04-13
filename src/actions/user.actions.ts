@@ -1,48 +1,92 @@
 import { ActionResult, ActionsType } from 'hyperapp';
 import { UserState } from '../state';
-import { Employee } from '../api/dto/employee';
 import { EmployeeModel } from '../api/dto/employee.model';
 import { Credentials } from '../api/dto/credentials';
-import { RoleEnum } from '../api/role.enum';
-import { LOCAL_STORAGE_KEY_USER } from '../constants';
+import { userService } from '../services/UserService';
+import moment from 'moment';
 
 export interface UserActions {
   login:
     (credentials: Credentials) =>
     (state: UserState, actions: UserActions) =>
-      Promise<Employee>;
+      Promise<EmployeeModel>;
+  refresh: () => (state: UserState, actions: UserActions) => Promise<EmployeeModel>;
+  scheduleRefresh: (expirationTimestamp?: number) => (state: UserState, actions: UserActions) => null;
+  restore: () => (state: UserState, actions: UserActions) => Promise<EmployeeModel>;
   logout: () => (state: UserState) => ActionResult<UserState>;
-  setEmployee: (employee: EmployeeModel) => (state: UserState) => ActionResult<UserState>;
+  patch: (values: Partial<UserState>) => (state: UserState) => ActionResult<UserState>;
 }
 
+/**
+ * Is executed if the server successfully returns a token.
+ * @param state
+ * @param actions
+ */
+const onSuccess = (state: UserState, actions: UserActions) => (token: string): EmployeeModel => {
+  const { employee, exp } = userService.decodeToken(token);
+  const employeeModel = new EmployeeModel(employee);
+
+  userService.setToken(token);
+
+  actions.patch({
+    token,
+    authenticated: true,
+    employee: employeeModel,
+  });
+
+  actions.scheduleRefresh(exp);
+
+  return employeeModel;
+};
+
 export const userActions: ActionsType<UserState, UserActions> = {
-  login: () => (state, actions) => {
-    return new Promise((resolve, reject) => {
-      if (state.authenticated) {
-        // @TODO Show message
-        reject('User is already logged in');
-        throw new Error('User is already logged in');
+  login: credentials => (state, actions) => {
+    return userService
+      .login(credentials)
+      .then(onSuccess(state, actions));
+  },
+
+  refresh: () => (state, actions) => {
+    return userService
+      .refresh()
+      .then(onSuccess(state, actions));
+  },
+
+  /**
+   * IMPORTANT: Timestamps and the TTL config value have to be in unix timestamp.
+   * @param expirationTimestamp - unix timestamp (in seconds)
+   */
+  scheduleRefresh: expirationTimestamp => (_, actions) => {
+    const configTtl = process.env.BACKEND_JWT_TOKEN_TTL;
+    let scheduleIn = configTtl ? +configTtl : null;
+    const now = moment();
+
+    if (expirationTimestamp != null) {
+      const expirationDate = moment(expirationTimestamp, 'X');
+
+      if (expirationDate.diff(now) > 0) {
+        scheduleIn = Math.round(expirationDate.diff(now) / 1000);
       }
+    }
 
-      setTimeout(
-        () => {
-          const employee = new EmployeeModel({
-            id: 1,
-            emailAddress: 'kelvin.louis@students.fhnw.ch',
-            firstName: 'Kelvin',
-            lastName: 'Louis',
-            active: true,
-            role: RoleEnum.ADMINISTRATOR,
-          });
+    if (scheduleIn != null) {
+      // Schedule 10 percent before expiration (milliseconds)
+      const scheduleBeforeExpiration = Math.round(scheduleIn - (scheduleIn * 0.1)) * 1000;
 
-          // @TODO: Replace with real storage procedure
-          window.localStorage.setItem('user', JSON.stringify(employee));
-          resolve(employee);
-          actions.setEmployee(employee);
-        },
-        2000,
-      );
-    });
+      setTimeout(() => {
+        actions.refresh();
+      }, scheduleBeforeExpiration);
+    }
+  },
+
+  restore: () => (_, actions) => {
+    return actions
+      .refresh()
+      .catch(() => {
+        actions.patch({
+          authenticated: false,
+        });
+      });
   },
 
   logout: () => (state) => {
@@ -50,7 +94,7 @@ export const userActions: ActionsType<UserState, UserActions> = {
       throw new Error('User is not authenticated');
     }
 
-    window.localStorage.removeItem(LOCAL_STORAGE_KEY_USER);
+    userService.removeToken();
 
     return {
       authenticated: false,
@@ -58,10 +102,8 @@ export const userActions: ActionsType<UserState, UserActions> = {
     };
   },
 
-  setEmployee: employee => (state) => {
-    return Object.assign({}, state, {
-      employee,
-      authenticated: true,
-    });
-  },
+  patch: newValues => state => ({
+    ...state,
+    ...newValues,
+  }),
 };
