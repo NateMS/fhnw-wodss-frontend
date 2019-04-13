@@ -1,6 +1,7 @@
 import { apiService, ApiService } from './ApiService';
 import { Project } from '../api/dto/project';
 import { ProjectModel } from '../api/dto/project.model';
+import { ProjectBaseModel } from '../api/dto/project.base.model';
 import { ProjectRequestModel } from '../api/dto/project.request.model';
 
 class ProjectService {
@@ -8,7 +9,7 @@ class ProjectService {
 
   private constructor(private api: ApiService) {}
 
-  public create(project: ProjectModel): Promise<ProjectModel> {
+  public create(project: ProjectBaseModel): Promise<ProjectModel> {
     return this.api.post<Project>("/api/project", new ProjectRequestModel(project))
       .then(e => new ProjectModel(e));
   }
@@ -29,8 +30,8 @@ class ProjectService {
       .then(e => new ProjectModel(e));
   }
 
-  public update(project: ProjectModel): Promise<ProjectModel> {
-    return this.api.put<Project>(`/api/project/${project.id}`, new ProjectRequestModel(project))
+  public update(project: ProjectBaseModel, id: number): Promise<ProjectModel> {
+    return this.api.put<Project>(`/api/project/${id}`, new ProjectRequestModel(project))
      .then(e => new ProjectModel(e))
   }
 

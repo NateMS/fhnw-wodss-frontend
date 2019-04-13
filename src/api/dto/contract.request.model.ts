@@ -1,6 +1,7 @@
 import { DATE_FORMAT_STRING } from '../../constants';
 import { Contract } from './contract';
 import { ContractModel } from './contract.model';
+import { ContractBaseModel } from './contract.base.model';
 
 export class ContractRequestModel implements Contract {
   public readonly startDate: string;
@@ -8,7 +9,7 @@ export class ContractRequestModel implements Contract {
   public readonly pensumPercentage: number;
   public readonly employeeId: number;
 
-  constructor(contract: ContractModel) {
+  constructor(contract: ContractBaseModel | ContractModel) {
     if (contract.startDate != null) {
       this.startDate = contract.startDate.format(DATE_FORMAT_STRING);
     } else {

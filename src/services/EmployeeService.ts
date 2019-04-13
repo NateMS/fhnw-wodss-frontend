@@ -1,10 +1,12 @@
 import { apiService, ApiService } from './ApiService';
 import { Employee } from '../api/dto/employee';
 import { EmployeeModel } from '../api/dto/employee.model';
+import { EmployeeBaseModel } from '../api/dto/employee.base.model';
 import { EmployeeRequestModel } from '../api/dto/employee.request.model';
 import { RoleEnum } from '../api/role.enum';
 import { Contract } from '../api/dto/contract';
 import { ContractModel } from '../api/dto/contract.model';
+import { ContractBaseModel } from '../api/dto/contract.base.model';
 import { ContractRequestModel } from '../api/dto/contract.request.model';
 
 class EmployeeService {
@@ -12,7 +14,7 @@ class EmployeeService {
 
   private constructor(private api: ApiService) {}
 
-  public create(employee: EmployeeModel, password: string, role: RoleEnum): Promise<EmployeeModel> {
+  public create(employee: EmployeeBaseModel, password: string, role: RoleEnum): Promise<EmployeeModel> {
     const params = {
       password,
       role,
@@ -36,8 +38,8 @@ class EmployeeService {
       .then((response: Employee) => new EmployeeModel(response));
   }
 
-  public update(employee: EmployeeModel): Promise<EmployeeModel> {
-    return this.api.put<Employee>(`/api/employee/${employee.id}`, new EmployeeRequestModel(employee))
+  public update(employee: EmployeeBaseModel, id: number): Promise<EmployeeModel> {
+    return this.api.put<Employee>(`/api/employee/${id}`, new EmployeeRequestModel(employee))
       .then((response: Employee) => new EmployeeModel(response));
   }
 
@@ -46,13 +48,13 @@ class EmployeeService {
       .then(() => {});
   }
 
-  public createContract(contract: ContractModel): Promise<ContractModel> {
+  public createContract(contract: ContractBaseModel): Promise<ContractModel> {
     return this.api.post<Contract>('/api/contract', new ContractRequestModel(contract))
       .then((response: Contract) => new ContractModel(response));
   }
 
-  public updateContract(contract: ContractModel): Promise<ContractModel> {
-    return this.api.put<Contract>(`/api/contract/${contract.id}`, new ContractRequestModel(contract))
+  public updateContract(contract: ContractBaseModel, id: number): Promise<ContractModel> {
+    return this.api.put<Contract>(`/api/contract/${id}`, new ContractRequestModel(contract))
       .then((response: Contract) => new ContractModel(response));
   }
 

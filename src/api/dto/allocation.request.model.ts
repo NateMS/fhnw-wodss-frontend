@@ -1,6 +1,7 @@
+import { DATE_FORMAT_STRING } from '../../constants';
 import { Allocation } from './allocation';
 import { AllocationModel } from './allocation.model';
-import { DATE_FORMAT_STRING } from '../../constants';
+import { AllocationBaseModel } from './allocation.base.model';
 
 export class AllocationRequestModel implements Allocation {
   public readonly startDate: string;
@@ -9,7 +10,7 @@ export class AllocationRequestModel implements Allocation {
   public readonly contractId: number;
   public readonly projectId: number;
 
-  constructor(allocation: AllocationModel) {
+  constructor(allocation: AllocationBaseModel | AllocationModel) {
     if (allocation.startDate) {
       this.startDate = allocation.startDate.format(DATE_FORMAT_STRING);
     } else {

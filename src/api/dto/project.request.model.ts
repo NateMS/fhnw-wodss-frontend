@@ -1,6 +1,7 @@
+import { DATE_FORMAT_STRING } from '../../constants';
 import { Project } from './project';
 import { ProjectModel } from './project.model';
-import { DATE_FORMAT_STRING } from '../../constants';
+import { ProjectBaseModel } from './project.base.model';
 
 export class ProjectRequestModel implements Project {
   name: string;
@@ -9,7 +10,7 @@ export class ProjectRequestModel implements Project {
   endDate: string;
   projectManagerId: number;
 
-  constructor(project: ProjectModel) {
+  constructor(project: ProjectBaseModel | ProjectModel) {
     if (project.name) {
       this.name = project.name;
     } else {
