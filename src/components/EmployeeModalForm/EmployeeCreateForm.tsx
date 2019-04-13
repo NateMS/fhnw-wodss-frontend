@@ -1,7 +1,7 @@
 import { EmployeeFormState } from '../../state/form/employee-form.state';
 import { Actions } from '../../actions';
 import { Component, h } from 'hyperapp';
-import { RoleEnum, roleNameMap } from '../../api/role.enum';
+import { RoleEnum, roleList, roleNameMap } from '../../api/role.enum';
 import { FormField } from '../FormField/FormField';
 import FormInput from '../FormInput/FormInput';
 import { FormCheckbox } from '../FormCheckbox/FormCheckbox';
@@ -28,12 +28,8 @@ export const EmployeeCreateForm: Component<Props> = ({ state, actions }) => {
   const { firstName, lastName, emailAddress, password, active, role } = formState.controls;
   const { employee: formActions } = actions.form;
 
-  const roles: RoleEnum[] = Object
-    .keys(roleNameMap)
-    .map(r => (r as RoleEnum));
-
   return (
-    <form onSubmit={(event: Event) => onSubmit(event, formState, actions)}>
+    <form onsubmit={(event: Event) => onSubmit(event, formState, actions)}>
       <div className="modal-card">
         <header className="modal-card-head">
           <p className="modal-card-title">Create Employee</p>
@@ -94,7 +90,7 @@ export const EmployeeCreateForm: Component<Props> = ({ state, actions }) => {
               name={role.name}
               value={role.value}
               placeholder="Please select"
-              items={roles}
+              items={roleList}
               labeler={(r: RoleEnum) => roleNameMap[r]}
               onInputChange={formActions.updateValue}
             />
