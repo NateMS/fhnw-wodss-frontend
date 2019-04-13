@@ -9,6 +9,7 @@ import { ProjectFormProps, close } from './ProjectModalForm';
 import { EmployeeSelect } from '../EmployeeSelect/EmployeeSelect';
 import { employeeService } from '../../services/EmployeeService';
 import { createProject, updateProject } from '../../actions/project.actions';
+import DatePicker from '../DatePicker/DatePicker';
 
 const onSubmit = (isEditMode: boolean, event: Event, state: ProjectFormState, actions: Actions) => {
   event.preventDefault();
@@ -64,18 +65,18 @@ export const ProjectCreateForm: Component<ProjectFormProps> = ({ state, actions 
             />
           </FormField>
           <FormField labelText="Start date" required={true}>
-            <FormInput
+            <DatePicker
               name={startDate.name}
               value={startDate.value}
-              type="date"
+              max={endDate.value}
               onInputChange={formActions.updateValue}
             />
           </FormField>
           <FormField labelText="End date" required={true}>
-            <FormInput
+            <DatePicker
               name={endDate.name}
               value={endDate.value}
-              type="date"
+              min={startDate.value}
               onInputChange={formActions.updateValue}
             />
           </FormField>

@@ -10,6 +10,7 @@ import {
 } from '../../actions/form/contract-form.actions';
 import Button from '../Button/Button';
 import { createContract, deleteContract, updateContract } from '../../actions/contract.actions';
+import DatePicker from '../DatePicker/DatePicker';
 
 interface Props {
   state: State;
@@ -28,22 +29,20 @@ export const ContractForm: Component<Props> = ({ state, actions, key }) => {
       <div className="contract-form__column">Contract #{key + 1}</div>
       <div className="contract-form__column">
         <FormField labelText="From" required={true}>
-          <FormInput
+          <DatePicker
             name={startDate.name}
             value={startDate.value}
             max={endDate.value}
-            type="date"
             onInputChange={updateContractFormValue(key, formActions)}
           />
         </FormField>
       </div>
       <div className="contract-form__column">
         <FormField labelText="To" required={true}>
-          <FormInput
+          <DatePicker
             name={endDate.name}
             value={endDate.value}
             min={startDate.value}
-            type="date"
             onInputChange={updateContractFormValue(key, formActions)}
           />
         </FormField>
