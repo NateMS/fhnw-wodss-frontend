@@ -3,6 +3,7 @@ import { Redirect } from '@hyperapp/router';
 import { ViewProps } from './ViewProps';
 import Navigation from '../components/Navigation/Navigation';
 import UserLauncher from '../components/UserLauncher/UserLauncher';
+import { Spinner } from '../components/Spinner/Spinner';
 
 /**
  * Protects the view from being accessed without being authenticated.
@@ -24,7 +25,13 @@ export const protect = (View: Component<ViewProps>) => (props: ViewProps) => {
 export const ProtectedView: Component<ViewProps> = ({ state, actions }, children) => {
   const authenticated = state.user.authenticated;
 
-  if (!authenticated) {
+  if (authenticated === null) {
+    console.info('Checking if session can be restored');
+
+    return <Spinner isLoading={true} />;
+  }
+
+  if (authenticated === false) {
     console.warn('Not allowed to access view: User is not authenticated.');
 
     // Redirects to login page

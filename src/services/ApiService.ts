@@ -1,6 +1,6 @@
-enum ResponseStatusCode {
-  NoContent = 204,
-}
+import { ApiError } from '../api/ApiError';
+import { ResponseStatusCode } from '../api/response-status-code.enum';
+import userService from './UserService';
 
 enum RequestMethods {
   GET = 'GET',
@@ -11,9 +11,6 @@ enum RequestMethods {
 
 interface ConfigurationParameters {
   apiKey?: string | ((name: string) => string);
-  username?: string;
-  password?: string;
-  accessToken?: string | ((name: string, scopes?: string[]) => string);
   basePath?: string;
 }
 
@@ -28,14 +25,6 @@ class Configuration {
   apiKey?: string | ((name: string) => string);
 
   /**
-   * parameter for oauth2 security
-   * @param name security name
-   * @param scopes oauth2 scope
-   * @memberof Configuration
-   */
-  accessToken?: string | ((name: string, scopes?: string[]) => string);
-
-  /**
    * override base path
    *
    * @type {string}
@@ -45,7 +34,6 @@ class Configuration {
 
   constructor(param: ConfigurationParameters = {}) {
     this.apiKey = param.apiKey;
-    this.accessToken = param.accessToken;
     this.basePath = param.basePath;
   }
 }
@@ -74,6 +62,14 @@ export class ApiService {
   public request<T>(method: string, endpoint: string, body?: any, queryParams?: URLParams): Promise<T> {
     const { basePath } = this.configuration;
     const url = new URL(`${basePath}${endpoint}`);
+    const token = userService.getToken();
+    let authorizationHeaders;
+
+    if (token != null) {
+      authorizationHeaders = {
+        Authorization: `Bearer ${token}`,
+      };
+    }
 
     if (queryParams != null) {
       Object
@@ -88,6 +84,7 @@ export class ApiService {
       method,
       body: JSON.stringify(body),
       headers: {
+        ...authorizationHeaders,
         'Content-Type': 'application/json',
       },
       mode: 'cors',
@@ -95,7 +92,7 @@ export class ApiService {
     })
     .then((response: Response) => {
       if (!response.ok) {
-        throw new Error(response.statusText);
+        throw new ApiError(response.status, response.statusText);
       }
 
       if (response.status === ResponseStatusCode.NoContent) {
@@ -107,14 +104,17 @@ export class ApiService {
         .then(body => body as T);
     })
     .catch((error: Error) => {
-      throw error;
+      if (error instanceof ApiError) {
+        throw error;
+      }
+
+      throw new ApiError(500, error.message);
     });
   }
 
   public static getInstance(): ApiService {
     if (!ApiService.instance) {
       ApiService.instance = new ApiService({
-        apiKey: '',
         basePath: process.env.BACKEND_URL,
       });
     }

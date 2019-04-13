@@ -25,11 +25,14 @@
   },
   "dependencies": {
     "@hyperapp/router": "^0.7.1",
+    "@types/jwt-decode": "^2.2.1",
     "assemble": "~0.3.11",
     "bulma": "0.7.4",
     "flatpickr": "^4.5.7",
     "grunt": "~0.4.0",
     "hyperapp": "1.2.9",
+    "jwt-decode": "^2.2.0",
+    "moment": "^2.24.0",
     "parcel-bundler": "^1.11.0",
     "styles": "^0.2.1",
     "tippy.js": "^4.2.1"

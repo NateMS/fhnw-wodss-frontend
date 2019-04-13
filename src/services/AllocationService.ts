@@ -9,7 +9,7 @@ class AllocationService {
   private constructor(private api: ApiService) {}
 
   public create(allocation: Allocation): Promise<AllocationModel> {
-    return this.api.post<Allocation>("/api/allocation", allocation)
+    return this.api.post<Allocation>('/api/allocation', allocation)
       .then(e => new AllocationModel(e));
   }
 
@@ -32,7 +32,7 @@ class AllocationService {
 
   public update(allocation: Allocation): Promise<AllocationModel> {
     return this.api.put<Allocation>(`/api/allocation/${allocation.id}`, new AllocationBaseModel(allocation))
-     .then(e => new AllocationModel(e))
+     .then(e => new AllocationModel(e));
   }
 
   public delete(id: number): Promise<void> {
