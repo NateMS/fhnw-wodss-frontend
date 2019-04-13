@@ -11,6 +11,9 @@
   ],
   "license": "MIT",
   "main": "public/index.html",
+  "engines": {
+    "node": ">=10.15.3"
+  },
   "scripts": {
     "clean": "rm -rf dist .cache",
     "prestart": "yarn clean",
