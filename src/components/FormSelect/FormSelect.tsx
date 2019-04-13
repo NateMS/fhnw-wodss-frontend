@@ -75,7 +75,7 @@ export const FormSelect: Component<FormSelectProps<any, any>> = (props) => {
 
   return (
     <div className="control">
-      <div class="select">
+      <div className="select">
         <select
           className="form-control"
           name={props.name}
