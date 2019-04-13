@@ -26,14 +26,10 @@ export const ProtectedView: Component<ViewProps> = ({ state, actions }, children
   const authenticated = state.user.authenticated;
 
   if (authenticated === null) {
-    console.info('Checking if session can be restored');
-
     return <Spinner isLoading={true} />;
   }
 
   if (authenticated === false) {
-    console.warn('Not allowed to access view: User is not authenticated.');
-
     // Redirects to login page
     return <Redirect to="/" />;
   }
