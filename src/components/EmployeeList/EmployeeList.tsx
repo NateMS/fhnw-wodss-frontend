@@ -124,7 +124,7 @@ const EmployeeList: Component<Props> = ({ state, actions }) => {
         </tbody>
       </table>
       <div className="employee-list__counter">
-        Employees: {filteredEmployees.length} / {employees.length}
+        Visible: {filteredEmployees.length} / {employees.length}
       </div>
     </div>
   );

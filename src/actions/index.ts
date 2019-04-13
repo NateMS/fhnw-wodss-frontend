@@ -5,6 +5,8 @@ import { State } from '../state';
 import { employeeActions, EmployeeActions } from './employee.actions';
 import { toastActions, ToastActions } from './toast.actions';
 import { formActions, FormActions } from './form';
+import { ProjectActions, projectActions } from './project.actions';
+import { AllocationActions, allocationActions } from './allocation.actions';
 import { contractActions, ContractActions } from './contract.actions';
 import { viewActions, ViewActions } from './view';
 
@@ -14,6 +16,8 @@ export interface Actions {
   form: FormActions;
   view: ViewActions;
   employee: EmployeeActions;
+  project: ProjectActions;
+  allocation: AllocationActions;
   contract: ContractActions;
   toast: ToastActions;
 }
@@ -24,6 +28,8 @@ export const actions: ActionsType<State, Actions> = {
   form: formActions,
   view: viewActions,
   employee: employeeActions,
+  project: projectActions,
+  allocation: allocationActions,
   contract: contractActions,
   toast: toastActions,
 };

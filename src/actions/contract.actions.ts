@@ -4,6 +4,9 @@ import { employeeService } from '../services/EmployeeService';
 import { ContractForm } from '../state/form/contract-form.state';
 import { ContractModel } from '../api/dto/contract.model';
 import { Contract } from '../api/dto/contract';
+import { getApiErrorToast, getToastMessage } from '../utils';
+import { Actions } from './index';
+import { removeContractForm } from './form/contract-form.actions';
 
 export interface ContractActions {
   setLoading: (isLoading: boolean) => (state: ContractState) => ActionResult<ContractState>;
@@ -78,4 +81,55 @@ export const contractActions: ActionsType<ContractState, ContractActions> = {
   delete: (id: number) => () => {
     return employeeService.deleteContract(id);
   },
+};
+
+// TODO RENAME STATE FORM
+export const deleteContract = (state: ContractForm, key: number, actions: Actions) => {
+  // TODO VALIDATE if id is available
+  actions
+    .contract
+    .delete(state.controls.id.value!)
+    .then(() => {
+      // TODO add more description to the message
+      // TODO move remove contract row?
+      removeContractForm(key, actions);
+      actions.toast.success(getToastMessage('Contract successfully deleted.'));
+      actions.contract.fetchAll();
+    })
+    .catch((error: Error) => {
+      actions.toast.error(getApiErrorToast('Error deleting contract', error));
+    });
+};
+
+export const createContract = (state: ContractForm, index: number, actions: Actions) => {
+  // TODO VALIDATE
+  actions
+    .contract
+    .create(state)
+    .then((contract: ContractModel) => {
+      actions.toast.success(getToastMessage(`Contract successfully created`));
+      actions.contract.fetchAll();
+      actions.form.contract.patch({
+        index,
+        values: contract,
+      });
+    })
+    .catch((error: Error) => {
+      actions.toast.error(getApiErrorToast('Error creating contract', error));
+    });
+};
+
+// TODO RENAME STATE FORM
+export const updateContract = (state: ContractForm, actions: Actions) => {
+  actions
+    .contract
+    .update(state)
+    .then(() => {
+      // TODO Add more description to the toast
+      actions.toast.success(getToastMessage(`Contract successfully updated`));
+      actions.contract.fetchAll();
+    })
+    .catch((error: Error) => {
+      actions.toast.error(getApiErrorToast('Error creating contract', error));
+    });
 };

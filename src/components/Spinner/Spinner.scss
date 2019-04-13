@@ -1,0 +1,24 @@
+@import "../../styles/base/variables";
+@import "~bulma/sass/utilities/mixins";
+
+$spinner-size: 3rem;
+
+.spinner {
+  display: none;
+  position: relative;
+  width: $spinner-size;
+  height: $spinner-size;
+
+  &.is-loading {
+    display: block;
+  }
+
+  &::before {
+    @include loader();
+    width: $spinner-size;
+    height: $spinner-size;
+    border: 2px solid $pink;
+    border-right-color: transparent;
+    border-top-color: transparent;
+  }
+}

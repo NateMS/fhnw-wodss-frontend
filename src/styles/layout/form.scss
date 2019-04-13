@@ -3,3 +3,14 @@
   padding-left: 0.25rem;
 }
 
+.flatpickr-day {
+  &.selected {
+    background-color: $primary;
+    border-color: lighten($primary, 50%);
+
+    &:hover {
+      background-color: $pink;
+      border-color: lighten($pink, 50%);
+    }
+  }
+}

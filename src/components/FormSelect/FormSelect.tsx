@@ -1,5 +1,4 @@
 import { Component, h } from 'hyperapp';
-// import Choices from 'choices.js';
 import { FormControlProps } from '../FormControlProps';
 
 export interface FormSelectItem<T> {
@@ -8,11 +7,12 @@ export interface FormSelectItem<T> {
   selected?: boolean;
 }
 
-export interface FormSelectProps<T> extends FormControlProps<T> {
-  items: ReadonlyArray<T>;
+export interface FormSelectProps<I, T> extends FormControlProps<T> {
+  items: ReadonlyArray<I>;
   searchEnabled?: boolean;
-  comparer?: (t1: T, t2: T) => boolean;
-  labler?: (t1: T) => string;
+  valueMapper?: (t: T) => I;
+  comparer?: (t: T, i: I) => boolean;
+  labeler?: (t1: T) => string;
 }
 
 const FormSelectOption: Component<FormSelectItem<any>> = (props) => {
@@ -32,31 +32,29 @@ const FormSelectOption: Component<FormSelectItem<any>> = (props) => {
  * @param props
  * @constructor
  */
-export const FormSelect: Component<FormSelectProps<any>> = (props) => {
+export const FormSelect: Component<FormSelectProps<any, any>> = (props) => {
   const selectedValue = props.value;
 
   // Identity comparer
   let compare = (o1: any, o2: any) => o1 === o2;
-  let lable = (o1: any) => o1;
+  let label = (o: any) => o;
+  let value = (o: any) => o;
 
   if (props.comparer != null) {
     compare = (o1, o2) => o1 == null || o2 == null ? false : props.comparer!(o1, o2);
   }
 
-  if (props.labler != null) {
-    lable = o1 => o1 != null ? props.labler!(o1) : '';
+  if (props.labeler != null) {
+    label = o1 => o1 != null ? props.labeler!(o1) : '';
+  }
+
+  if (props.valueMapper != null) {
+    value = o => o != null ? props.valueMapper!(o) : null;
   }
 
   const onCreate = (e: Element) => {
-    // new Choices(e, {
-    //   items: props.items,
-    //   searchEnabled: props.searchEnabled || false,
-    //   itemSelectText: '',
-    // });
-
     if (props.onInputChange) {
       e.addEventListener('change', (event: any) => {
-        // props.onInputChange(event.detail.value);
         props.onInputChange({
           name: props.name,
           value: event.target.value,
@@ -68,8 +66,8 @@ export const FormSelect: Component<FormSelectProps<any>> = (props) => {
   const createOption = (item: any) => {
     return (
       <FormSelectOption
-        value={item}
-        label={lable(item)}
+        value={value(item)}
+        label={label(item)}
         selected={compare(item, selectedValue)}
       />
     );
