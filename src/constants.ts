@@ -3,6 +3,9 @@
  */
 export const TOAST_DURATION = 4000;
 
-export const LOCAL_STORAGE_KEY_USER = 'user';
-
 export const DATE_FORMAT_STRING = 'YYYY-MM-DD';
+
+/**
+ * Key name in the local storage, where the token is saved.
+ */
+export const LOCAL_STORAGE_USER_TOKEN = 'user';

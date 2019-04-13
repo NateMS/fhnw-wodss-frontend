@@ -37,7 +37,8 @@ export interface ContractState {
 }
 
 export interface UserState {
-  authenticated: boolean;
+  authenticated: boolean | null;
+  token: string | null;
   employee: EmployeeModel | null;
 }
 
@@ -56,7 +57,8 @@ export interface State {
 export const state: State = {
   location: location.state,
   user: {
-    authenticated: false,
+    token: null,
+    authenticated: null,
     employee: null,
   },
   employee: {

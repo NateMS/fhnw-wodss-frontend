@@ -9,19 +9,17 @@ import Employees from './views/Employees/Employees';
 import Login from './views/Login/Login';
 import Logout from './views/Logout/Logout';
 import { protect } from './views/ProtectedView';
-import { EmployeeModel } from './api/dto/employee.model';
 import ToastList from './components/ToastList/ToastList';
-import { LOCAL_STORAGE_KEY_USER } from './constants';
 import Profile from './views/Profile/Profile';
 
 export const view: View<State, Actions> = (state, actions) =>  {
-  const user = window.localStorage.getItem(LOCAL_STORAGE_KEY_USER);
-  const authenticated = state.user.authenticated;
+  const { authenticated } = state.user;
 
-  // Check in the local storage if the user is already authenticated
-  if (!authenticated && user != null) {
-    actions.user.setEmployee(new EmployeeModel(JSON.parse(user)));
+  if (authenticated === null) {
+    // Tries to restore a previous session
+    actions.user.restore();
   }
+
   return (
     <main class="app-container">
       <Route path="/planning" render={() => protect(Planning)({ state, actions })} />
