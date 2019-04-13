@@ -19,7 +19,7 @@
     "build": "env NODE_ENV=production parcel build --experimental-scope-hoisting --detailed-report --public-url ./ ./public/index.html",
     "lint": "tslint --format stylish --project tsconfig.json",
     "lint-scss": "stylelint src/**/*.scss",
-    "pretest": "yarn lint",
+    "pretest": "yarn lint && yarn lint-scss",
     "test": "jest",
     "test:watch": "jest --watch"
   },
