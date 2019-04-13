@@ -1,11 +1,10 @@
 import { apiService, ApiService } from './ApiService';
 import { Employee } from '../api/dto/employee';
 import { EmployeeModel } from '../api/dto/employee.model';
+import { EmployeeRequestModel } from '../api/dto/employee.request.model';
 import { RoleEnum } from '../api/role.enum';
-import { ContractModel } from '../api/dto/contract.model';
 import { Contract } from '../api/dto/contract';
-import { EmployeeBaseModel } from '../api/dto/employee.base.model';
-import { ContractBaseModel } from '../api/dto/contract.base.model';
+import { ContractModel } from '../api/dto/contract.model';
 import { ContractRequestModel } from '../api/dto/contract.request.model';
 
 class EmployeeService {
@@ -13,13 +12,13 @@ class EmployeeService {
 
   private constructor(private api: ApiService) {}
 
-  public create(employee: Employee, password: string, role: RoleEnum): Promise<EmployeeModel> {
+  public create(employee: EmployeeModel, password: string, role: RoleEnum): Promise<EmployeeModel> {
     const params = {
       password,
       role,
     };
 
-    return this.api.post<Employee>('/api/employee', employee, params)
+    return this.api.post<Employee>('/api/employee', new EmployeeRequestModel(employee), params)
       .then((response: Employee) => new EmployeeModel(response));
   }
 
@@ -37,8 +36,8 @@ class EmployeeService {
       .then((response: Employee) => new EmployeeModel(response));
   }
 
-  public update(employee: Employee): Promise<EmployeeModel> {
-    return this.api.put<Employee>(`/api/employee/${employee.id}`, new EmployeeBaseModel(employee))
+  public update(employee: EmployeeModel): Promise<EmployeeModel> {
+    return this.api.put<Employee>(`/api/employee/${employee.id}`, new EmployeeRequestModel(employee))
       .then((response: Employee) => new EmployeeModel(response));
   }
 
