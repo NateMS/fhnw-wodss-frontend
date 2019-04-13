@@ -1,15 +1,15 @@
 import { apiService, ApiService } from './ApiService';
-import { ProjectModel } from '../api/dto/project.model';
 import { Project } from '../api/dto/project';
-import { ProjectBaseModel } from '../api/dto/project.base.model';
+import { ProjectModel } from '../api/dto/project.model';
+import { ProjectRequestModel } from '../api/dto/project.request.model';
 
 class ProjectService {
   private static instance: ProjectService;
 
   private constructor(private api: ApiService) {}
 
-  public create(project: Project): Promise<ProjectModel> {
-    return this.api.post<Project>("/api/project", project)
+  public create(project: ProjectModel): Promise<ProjectModel> {
+    return this.api.post<Project>("/api/project", new ProjectRequestModel(project))
       .then(e => new ProjectModel(e));
   }
 
@@ -29,8 +29,8 @@ class ProjectService {
       .then(e => new ProjectModel(e));
   }
 
-  public update(project: Project): Promise<ProjectModel> {
-    return this.api.put<Project>(`/api/project/${project.id}`, new ProjectBaseModel(project))
+  public update(project: ProjectModel): Promise<ProjectModel> {
+    return this.api.put<Project>(`/api/project/${project.id}`, new ProjectRequestModel(project))
      .then(e => new ProjectModel(e))
   }
 

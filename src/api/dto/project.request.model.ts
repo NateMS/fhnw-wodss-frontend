@@ -1,14 +1,15 @@
 import { Project } from './project';
-import moment from 'moment';
+import { ProjectModel } from './project.model';
+import { DATE_FORMAT_STRING } from '../../constants';
 
-export class ProjectBaseModel implements Project {
+export class ProjectRequestModel implements Project {
   name: string;
   ftePercentage: number;
-  startDate: moment.Moment;
-  endDate: moment.Moment;
+  startDate: string;
+  endDate: string;
   projectManagerId: number;
 
-  constructor(project: Project) {
+  constructor(project: ProjectModel) {
     if (project.name) {
       this.name = project.name;
     } else {
@@ -22,13 +23,13 @@ export class ProjectBaseModel implements Project {
     }
 
     if (project.startDate) {
-      this.startDate = moment(project.startDate);
+      this.startDate = project.startDate.format(DATE_FORMAT_STRING);
     } else {
       throw new Error(`The field 'startDate' is missing.`);
     }
 
     if (project.endDate) {
-      this.endDate = moment(project.endDate);
+      this.endDate = project.endDate.format(DATE_FORMAT_STRING);
     } else {
       throw new Error(`The field 'endDate' is missing.`);
     }

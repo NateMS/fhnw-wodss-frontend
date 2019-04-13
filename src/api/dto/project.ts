@@ -1,3 +1,5 @@
+import { Moment } from "moment";
+
 /**
  * Represents a FHNW research project with a given full-time-equivalent (FTE) workload in percentages managed by a project manager employee
  * @export
@@ -27,13 +29,13 @@ export interface Project {
    * @type {string}
    * @memberof Project
    */
-  startDate: string;
+  startDate: string | Moment;
   /**
    * Project end date (YYYY-MM-DD)
    * @type {string}
    * @memberof Project
    */
-  endDate: string;
+  endDate: string | Moment;
   /**
    * Project manager employee ID
    * @type {number}
