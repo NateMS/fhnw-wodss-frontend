@@ -9,7 +9,7 @@ class AllocationService {
   private constructor(private api: ApiService) {}
 
   public create(allocation: AllocationModel): Promise<AllocationModel> {
-    return this.api.post<Allocation>("/api/allocation", allocation)
+    return this.api.post<Allocation>("/api/allocation", new AllocationRequestModel(allocation))
       .then(e => new AllocationModel(e));
   }
 

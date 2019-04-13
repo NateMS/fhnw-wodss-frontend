@@ -6,6 +6,7 @@ import { ContractModel } from '../api/dto/contract.model';
 import { Contract } from '../api/dto/contract';
 import { EmployeeBaseModel } from '../api/dto/employee.base.model';
 import { ContractBaseModel } from '../api/dto/contract.base.model';
+import { ContractRequestModel } from '../api/dto/contract.request.model';
 
 class EmployeeService {
   private static instance: EmployeeService;
@@ -46,13 +47,13 @@ class EmployeeService {
       .then(() => {});
   }
 
-  public createContract(contract: Contract): Promise<ContractModel> {
-    return this.api.post<Contract>('/api/contract', contract)
+  public createContract(contract: ContractModel): Promise<ContractModel> {
+    return this.api.post<Contract>('/api/contract', new ContractRequestModel(contract))
       .then((response: Contract) => new ContractModel(response));
   }
 
-  public updateContract(contract: Contract): Promise<ContractModel> {
-    return this.api.put<Contract>(`/api/contract/${contract.id}`, new ContractBaseModel(contract))
+  public updateContract(contract: ContractModel): Promise<ContractModel> {
+    return this.api.put<Contract>(`/api/contract/${contract.id}`, new ContractRequestModel(contract))
       .then((response: Contract) => new ContractModel(response));
   }
 
@@ -75,21 +76,6 @@ class EmployeeService {
     return this.api.get<ContractModel>(`/api/contract/${id}`)
       .then(e => new ContractModel(e));
   }
-
-  // public getRelevantContract(employee: EmployeeModel): Promise<ContractModel | undefined> {
-  //   return this.getAllContracts().then(contracts => {
-  //     var relevantContract: ContractModel | undefined
-  //     const sortedContracts = contracts.sort((a,b) => new Moment(a.endDate).format('YYYYMMDD') - new Moment(b.endDate).format('YYYYMMDD'))
-  //     sortedContracts.forEach(contract => {
-  //       if (moment().isAfter(contract.endDate)) {
-  //         relevantContract = contract;
-  //       } else {
-  //         return relevantContract ? relevantContract : contract;
-  //       }
-  //     });
-  //     return relevantContract
-  //   }).then(respone: ContractModel)
-  // }
 
   public filterListByRole(employees: EmployeeModel[] | null, role: RoleEnum): EmployeeModel[] {
     return (null === employees) ? [] : employees.filter(e => e.role === role);
