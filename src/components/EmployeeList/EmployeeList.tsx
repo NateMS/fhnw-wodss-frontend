@@ -67,7 +67,7 @@ const EmployeeListItem: Component<EmployeeRow> = ({ employee, projects, contract
       <td>{employee.roleName}</td>
       <td>{(projects != undefined) ? projects.size : 0}</td>
       <td>{(contract != undefined) ? `${contract.pensumPercentage}%` : "-"}</td>
-      <td>{(contract != undefined) ? `${contract.startDate} - ${contract.endDate}` : "-"}</td>
+      <td>{(contract != undefined) ? `${contract.startDate} – ${contract.endDate}` : "-"}</td>
       <td>
         <div className="dropdown is-right is-hoverable">
           <div className="dropdown-trigger">
@@ -123,6 +123,19 @@ const EmployeeList: Component<Props> = ({ state, actions }) => {
       }
 
       const set = employeesProjectMap.get(employeeId)!;
+      set.add(project);
+    }
+  });
+
+  projects.forEach((project) => {
+    const { projectManagerId } = project;
+
+    if (project) {
+      if (!employeesProjectMap.has(projectManagerId)) {
+        employeesProjectMap.set(projectManagerId, new Set())
+      }
+
+      const set = employeesProjectMap.get(projectManagerId)!;
       set.add(project);
     }
   });
