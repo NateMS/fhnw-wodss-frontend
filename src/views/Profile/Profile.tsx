@@ -1,8 +1,8 @@
-import { Component, h } from "../../../node_modules/hyperapp";
-import { ViewProps } from "../ViewProps";
-import { Actions } from "../../actions";
-import { Spinner } from "../../components/Spinner/Spinner";
-import { Avatar, AvatarItem } from "../../components/Avatar/Avatar";
+import { Component, h } from 'hyperapp';
+import { ViewProps } from '../ViewProps';
+import { Actions } from '../../actions';
+import { Spinner } from '../../components/Spinner/Spinner';
+import { AvatarItem } from '../../components/Avatar/Avatar';
 
 const onRender = (actions: Actions) => {
   actions.employee.fetchAll();
@@ -11,13 +11,13 @@ const onRender = (actions: Actions) => {
   actions.allocation.fetchAll();
 };
 
-const ProfileDetail: Component<ViewProps> = ({ state, actions }) => {
+const ProfileDetail: Component<ViewProps> = ({ state }) => {
   const employee = state.user.employee!;
 
   return (
     <div>
       <div class="field is-horizontal">
-        <div class="field-label"></div>
+        <div class="field-label" />
         <div class="field-body">
           <div class="field">
             <AvatarItem fullName={employee.fullName} />

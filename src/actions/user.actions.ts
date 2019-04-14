@@ -73,9 +73,12 @@ export const userActions: ActionsType<UserState, UserActions> = {
       // Schedule 10 percent before expiration (milliseconds)
       const scheduleBeforeExpiration = Math.round(scheduleIn - (scheduleIn * 0.1)) * 1000;
 
-      setTimeout(() => {
-        actions.refresh();
-      }, scheduleBeforeExpiration);
+      setTimeout(
+        () => {
+          actions.refresh();
+        },
+        scheduleBeforeExpiration,
+      );
     }
   },
 

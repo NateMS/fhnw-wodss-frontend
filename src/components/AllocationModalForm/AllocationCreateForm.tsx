@@ -17,7 +17,7 @@ interface Props {
   actions: Actions;
 }
 
-const onSubmit = (event: Event, state: AllocationFormState, actions: Actions) => {
+const onSubmit = (event: Event) => {
   event.preventDefault();
   event.stopPropagation();
 };
@@ -31,7 +31,7 @@ export const AllocationCreateForm: Component<Props> = ({ state, actions }) => {
   const contracts = state.contract.list;
 
   return (
-    <form onSubmit={(event: Event) => onSubmit(event, formState, actions)}>
+    <form onSubmit={(event: Event) => onSubmit(event)}>
       <div className="modal-card">
         <header className="modal-card-head">
           <p className="modal-card-title">Create Allocation</p>
