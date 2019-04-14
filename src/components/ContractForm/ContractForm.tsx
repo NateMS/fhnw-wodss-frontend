@@ -12,6 +12,7 @@ import Button from '../Button/Button';
 import { createContract, deleteContract, updateContract } from '../../actions/contract.actions';
 import DatePicker from '../DatePicker/DatePicker';
 import FormHint from '../FormHint/FormHint';
+import { CONTRACT_PENSUM_VALUE_MIN, CONTRACT_PENSUM_VALUE_MAX } from '../../constants';
 
 interface Props {
   state: State;
@@ -59,8 +60,8 @@ export const ContractForm: Component<Props> = ({ state, actions, key }) => {
             value={pensumPercentage.value}
             type="number"
             suffix="fas fa-percent"
-            min={1}
-            max={100}
+            min={CONTRACT_PENSUM_VALUE_MIN}
+            max={CONTRACT_PENSUM_VALUE_MAX}
             onInputChange={updateContractFormValue(key, formActions)}
           />
           {pensumPercentage.errors == null && <FormHint label={String.fromCharCode(160)} />}

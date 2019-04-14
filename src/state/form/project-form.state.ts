@@ -50,7 +50,7 @@ export const initProjectForm: () => ProjectFormState = () => ({
       name: 'projectManagerId',
       value: null,
       validators: [
-        selectValidator("Please select"),
+        selectValidator,
       ],
     },
   },

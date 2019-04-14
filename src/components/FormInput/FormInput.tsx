@@ -8,6 +8,7 @@ interface Props extends FormControlProps<string | number> {
   max?: number | null;
   minLength?: number | null;
   maxLength?: number | null;
+  hasError?: boolean;
 }
 
 interface FormInputSuffixProps {
@@ -22,7 +23,9 @@ const FormInputSuffix: Component<FormInputSuffixProps> = ({ suffix }) => (
 
 export const FormInput: Component<Props> = (props) => {
   const controlClassName = props.suffix ? 'control has-icons-right' : 'control';
-  const inputClassName = props.isLoading ? 'input is-loading' : 'input';
+  let inputClassName = 'input';
+  inputClassName = props.isLoading ? inputClassName + ' is-loading' : inputClassName;
+  inputClassName = props.hasError ? inputClassName + ' is-danger' : inputClassName;
 
   return (
     <div className={controlClassName}>

@@ -11,6 +11,7 @@ import { employeeService } from '../../services/EmployeeService';
 import { createProject, updateProject } from '../../actions/project.actions';
 import DatePicker from '../DatePicker/DatePicker';
 import FormHint from '../FormHint/FormHint';
+import { INPUT_LENGTH_SHORT_MAX, PROJECT_FTE_VALUE_MAX, PROJECT_FTE_VALUE_MIN } from '../../constants';
 
 const onSubmit = (isEditMode: boolean, event: Event, state: ProjectFormState, actions: Actions) => {
   event.preventDefault();
@@ -52,19 +53,19 @@ export const ProjectCreateForm: Component<ProjectFormProps> = ({ state, actions 
             <FormInput
               name={name.name}
               value={name.value}
-              maxLength={50}
+              maxLength={INPUT_LENGTH_SHORT_MAX}
               type="text"
+              hasError={name.errors != null && name.errors.required}
               onInputChange={formActions.updateValue}
             />
-            {name.errors == null && <FormHint label={String.fromCharCode(160)} />}
             {name.errors != null && name.errors.required && <FormHint theme="danger" label="Name is required" />}
           </FormField>
           <FormField labelText="FTE" required={true}>
             <FormInput
               name={ftePercentage.name}
               value={ftePercentage.value}
-              min={1}
-              max={9223372036854775807}
+              min={PROJECT_FTE_VALUE_MIN}
+              max={PROJECT_FTE_VALUE_MAX}
               suffix="fas fa-percent"
               type="number"
               onInputChange={formActions.updateValue}
@@ -75,9 +76,9 @@ export const ProjectCreateForm: Component<ProjectFormProps> = ({ state, actions 
               name={startDate.name}
               value={startDate.value}
               max={endDate.value}
+              hasError={startDate.errors != null && startDate.errors.negativeDuration}
               onInputChange={formActions.updateValue}
             />
-            {startDate.errors == null && <FormHint label={String.fromCharCode(160)} />}
             {startDate.errors != null && startDate.errors.negativeDuration && <FormHint theme="danger" label="Project has negative duration" />}
           </FormField>
           <FormField labelText="End date" required={true}>
@@ -85,9 +86,9 @@ export const ProjectCreateForm: Component<ProjectFormProps> = ({ state, actions 
               name={endDate.name}
               value={endDate.value}
               min={startDate.value}
+              hasError={endDate.errors != null && endDate.errors.negativeDuration}
               onInputChange={formActions.updateValue}
             />
-            {endDate.errors == null && <FormHint label={String.fromCharCode(160)} />}
             {endDate.errors != null && endDate.errors.negativeDuration && <FormHint theme="danger" label="Project has negative duration" />}
           </FormField>
           <FormField labelText="Project Manager" required={true}>
@@ -96,9 +97,9 @@ export const ProjectCreateForm: Component<ProjectFormProps> = ({ state, actions 
               value={projectManagerId.value}
               placeholder="Please select"
               items={projectManagers}
+              hasError={projectManagerId.errors != null && projectManagerId.errors.required}
               onInputChange={formActions.updateValue}
             />
-            {projectManagerId.errors == null && <FormHint label={String.fromCharCode(160)} />}
             {projectManagerId.errors != null && projectManagerId.errors.required && <FormHint theme="danger" label="Project Manager is required" />}
           </FormField>
         </section>

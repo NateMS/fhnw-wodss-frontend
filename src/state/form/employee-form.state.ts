@@ -39,7 +39,7 @@ export const initEmployeeForm: () => EmployeeFormState = () => ({
       name: 'role',
       value: null,
       validators: [
-        selectValidator("Please select"),
+        selectValidator,
       ],
     },
     emailAddress: {

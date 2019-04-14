@@ -8,14 +8,10 @@ interface Props {
 export const FormHint: Component<Props> = ({ label, theme }) => {
   let className = 'help';
 
-  if (theme) {
-    className = `${className} is-${theme}`;
-  }
+  if (theme) { className = `${className} is-${theme}`; }
 
   return (
-    <p
-      className={className}
-    >
+    <p className={className}>
       {label}
     </p>
   );
