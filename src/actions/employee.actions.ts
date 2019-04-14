@@ -14,7 +14,7 @@ export interface EmployeeActions {
   setList: (employees: EmployeeModel[]) => (state: EmployeeState) => ActionResult<EmployeeState>;
   create: (form: EmployeeFormState) => () => Promise<EmployeeModel>;
   update: (form: EmployeeFormState) => () => Promise<EmployeeModel>;
-  delete: (id: number) => () => Promise<void>;
+  delete: (id: string) => () => Promise<void>;
 }
 
 export const employeeActions: ActionsType<EmployeeState, EmployeeActions> = {
@@ -77,7 +77,7 @@ export const employeeActions: ActionsType<EmployeeState, EmployeeActions> = {
       });
   },
 
-  delete: (id: number) => () => {
+  delete: (id: string) => () => {
     return employeeService.delete(id);
   },
 };

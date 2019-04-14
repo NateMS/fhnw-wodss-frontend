@@ -2,7 +2,7 @@ import { Allocation } from './allocation';
 import { AllocationBaseModel } from './allocation.base.model';
 
 export class AllocationModel extends AllocationBaseModel {
-  public readonly id?: number | undefined;
+  public readonly id?: string | undefined;
 
   constructor(allocation: Allocation) {
     super(allocation);

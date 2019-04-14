@@ -2,7 +2,7 @@ import { Project } from './project';
 import { ProjectBaseModel } from './project.base.model';
 
 export class ProjectModel extends ProjectBaseModel {
-  id: number;
+  id: string;
 
   constructor(project: Project) {
     super(project);

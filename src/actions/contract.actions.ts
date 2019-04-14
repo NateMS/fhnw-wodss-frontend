@@ -14,7 +14,7 @@ export interface ContractActions {
   setList: (employees: ContractModel[]) => (state: ContractState) => ActionResult<ContractState>;
   create: (form: ContractForm) => () => Promise<ContractModel>;
   update: (form: ContractForm) => () => Promise<ContractModel>;
-  delete: (id: number) => () => Promise<void>;
+  delete: (id: string) => () => Promise<void>;
 }
 
 export const contractActions: ActionsType<ContractState, ContractActions> = {
@@ -77,7 +77,7 @@ export const contractActions: ActionsType<ContractState, ContractActions> = {
       });
   },
 
-  delete: (id: number) => () => {
+  delete: (id: string) => () => {
     return employeeService.deleteContract(id);
   },
 };

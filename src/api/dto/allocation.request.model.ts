@@ -7,8 +7,8 @@ export class AllocationRequestModel implements Allocation {
   public readonly startDate: string;
   public readonly endDate: string;
   public readonly pensumPercentage: number;
-  public readonly contractId: number;
-  public readonly projectId: number;
+  public readonly contractId: string;
+  public readonly projectId: string;
 
   constructor(allocation: AllocationBaseModel | AllocationModel) {
     if (allocation.startDate) {

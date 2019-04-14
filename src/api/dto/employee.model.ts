@@ -3,7 +3,7 @@ import { RoleEnum, roleNameMap } from '../role.enum';
 import { EmployeeBaseModel } from './employee.base.model';
 
 export class EmployeeModel extends EmployeeBaseModel {
-  public readonly id: number;
+  public readonly id: string;
   public readonly role: RoleEnum;
 
   public get fullName(): string {

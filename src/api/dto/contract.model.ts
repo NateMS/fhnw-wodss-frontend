@@ -2,7 +2,7 @@ import { Contract } from './contract';
 import { ContractBaseModel } from './contract.base.model';
 
 export class ContractModel extends ContractBaseModel {
-  public readonly id: number;
+  public readonly id: string;
 
   constructor(contract: Contract) {
     super(contract);

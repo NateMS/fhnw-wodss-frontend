@@ -26,7 +26,7 @@ interface ListPatch {
 }
 
 export interface ContractFormActions {
-  addEmpty: (employeeId: number) => (state: ContractFormState) => ActionResult<ContractFormState>;
+  addEmpty: (employeeId: string) => (state: ContractFormState) => ActionResult<ContractFormState>;
   set: (form: ContractForm[]) => () => ActionResult<ContractFormState>;
   remove: (index: number) => (state: ContractFormState) => ActionResult<ContractFormState>;
   updateValue: (update: ListUpdateValue<any>) => (state: ContractFormState) => ActionResult<ContractFormState>;

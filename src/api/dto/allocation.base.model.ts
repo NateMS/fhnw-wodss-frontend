@@ -5,8 +5,8 @@ export class AllocationBaseModel implements Allocation {
   public readonly startDate: moment.Moment;
   public readonly endDate: moment.Moment;
   public readonly pensumPercentage: number;
-  public readonly contractId: number;
-  public readonly projectId: number;
+  public readonly contractId: string;
+  public readonly projectId: string;
 
   constructor(allocation: Allocation) {
     if (allocation.startDate) {
