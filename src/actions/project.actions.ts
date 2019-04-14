@@ -13,7 +13,7 @@ export interface ProjectActions {
   setList: (projects: ProjectModel[]) => (state: ProjectState) => ActionResult<ProjectState>;
   create: (form: ProjectFormState) => () => Promise<ProjectModel>;
   update: (form: ProjectFormState) => () => Promise<ProjectModel>;
-  delete: (id: number) => () => Promise<void>;
+  delete: (id: string) => () => Promise<void>;
 }
 
 export const projectActions: ActionsType<ProjectState, ProjectActions> = {
@@ -78,7 +78,7 @@ export const projectActions: ActionsType<ProjectState, ProjectActions> = {
       });
   },
 
-  delete: (id: number) => () => {
+  delete: (id: string) => () => {
     return projectService.delete(id);
   },
 };

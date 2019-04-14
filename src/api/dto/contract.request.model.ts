@@ -7,7 +7,7 @@ export class ContractRequestModel implements Contract {
   public readonly startDate: string;
   public readonly endDate: string;
   public readonly pensumPercentage: number;
-  public readonly employeeId: number;
+  public readonly employeeId: string;
 
   constructor(contract: ContractBaseModel | ContractModel) {
     if (contract.startDate != null) {

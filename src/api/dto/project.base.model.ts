@@ -6,7 +6,7 @@ export class ProjectBaseModel implements Project {
   ftePercentage: number;
   startDate: moment.Moment;
   endDate: moment.Moment;
-  projectManagerId: number;
+  projectManagerId: string;
 
   constructor(project: Project) {
     if (project.name) {

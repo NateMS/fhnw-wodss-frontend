@@ -81,8 +81,8 @@ const ProjectList: Component<Props> = ({ state, actions }) => {
 
   const filteredProjects = filterProjects(projects, filterString);
 
-  const contractEmployeeMap: Map<number, EmployeeModel> = new Map();
-  const projectEmployeesMap: Map<number, Set<EmployeeModel>> = new Map();
+  const contractEmployeeMap: Map<string, EmployeeModel> = new Map();
+  const projectEmployeesMap: Map<string, Set<EmployeeModel>> = new Map();
 
   contracts.forEach((contract) => {
     const { id, employeeId } = contract;

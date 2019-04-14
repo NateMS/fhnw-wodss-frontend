@@ -14,7 +14,7 @@ class ProjectService {
       .then(e => new ProjectModel(e));
   }
 
-  public getAll(projectManagerId?: number, fromDate?: string, toDate?: string): Promise<ProjectModel[]> {
+  public getAll(projectManagerId?: string, fromDate?: string, toDate?: string): Promise<ProjectModel[]> {
     const params = {
       projectManagerId,
       fromDate,
@@ -25,17 +25,17 @@ class ProjectService {
       .then((list: Project[]) => list.map(e => new ProjectModel(e)));
   }
 
-  public get(id: number): Promise<ProjectModel> {
+  public get(id: string): Promise<ProjectModel> {
     return this.api.get<Project>(`/api/project/${id}`)
       .then(e => new ProjectModel(e));
   }
 
-  public update(project: ProjectBaseModel, id: number): Promise<ProjectModel> {
+  public update(project: ProjectBaseModel, id: string): Promise<ProjectModel> {
     return this.api.put<Project>(`/api/project/${id}`, new ProjectRequestModel(project))
      .then(e => new ProjectModel(e))
   }
 
-  public delete(id: number): Promise<void> {
+  public delete(id: string): Promise<void> {
     return this.api.delete<null>(`/api/project/${id}`)
       .then(() => {});
   }

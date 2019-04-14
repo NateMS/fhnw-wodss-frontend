@@ -55,7 +55,7 @@ export const AllocationCreateForm: Component<Props> = ({ state, actions }) => {
               value={projectId.value}
               valueMapper={(project: ProjectModel) => project.id}
               labeler={(project: ProjectModel) => project.name}
-              comparer={(project: ProjectModel, selectedId: number) => project.id === selectedId}
+              comparer={(project: ProjectModel, selectedId: string) => project.id === selectedId}
             />
           </FormField>
           <FormField labelText="Employee" required={true}>
@@ -75,7 +75,7 @@ export const AllocationCreateForm: Component<Props> = ({ state, actions }) => {
               value={contractId.value}
               valueMapper={(contract: ContractModel) => contract.id}
               labeler={(contract: ContractModel) => `${contract.startDate} - ${contract.endDate}`}
-              comparer={(contract: ContractModel, selectedId: number) => contract.id === selectedId}
+              comparer={(contract: ContractModel, selectedId: string) => contract.id === selectedId}
             />
           </FormField>
           <FormField labelText="Start date" required={true}>

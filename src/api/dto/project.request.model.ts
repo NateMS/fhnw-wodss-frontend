@@ -8,7 +8,7 @@ export class ProjectRequestModel implements Project {
   ftePercentage: number;
   startDate: string;
   endDate: string;
-  projectManagerId: number;
+  projectManagerId: string;
 
   constructor(project: ProjectBaseModel | ProjectModel) {
     if (project.name) {
