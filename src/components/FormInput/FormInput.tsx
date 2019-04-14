@@ -8,7 +8,6 @@ interface Props extends FormControlProps<string | number> {
   max?: number | null;
   minLength?: number | null;
   maxLength?: number | null;
-  hasError?: boolean;
 }
 
 interface FormInputSuffixProps {

@@ -7,7 +7,6 @@ import { DATE_FORMAT_STRING } from '../../constants';
 interface Props extends FormControlProps<Moment> {
   min?: Moment | null;
   max?: Moment | null;
-  hasError?: boolean;
 }
 
 const createFlatPickrInstance = (element: any, props: Props): void => {
