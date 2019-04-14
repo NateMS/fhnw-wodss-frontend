@@ -59,7 +59,7 @@ export const ContractForm: Component<Props> = ({ state, actions, key }) => {
             value={pensumPercentage.value}
             type="number"
             suffix="fas fa-percent"
-            min={0}
+            min={1}
             max={100}
             onInputChange={updateContractFormValue(key, formActions)}
           />

@@ -60,6 +60,7 @@ export const EmployeeCreateForm: Component<Props> = ({ state, actions }) => {
             <FormInput
               name={lastName.name}
               value={lastName.value}
+              maxLength={50}
               type="text"
               onInputChange={formActions.updateValue}
             />
@@ -70,6 +71,7 @@ export const EmployeeCreateForm: Component<Props> = ({ state, actions }) => {
             <FormInput
               name={emailAddress.name}
               value={emailAddress.value}
+              maxLength={120}
               type="email"
               onInputChange={formActions.updateValue}
             />

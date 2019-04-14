@@ -52,6 +52,7 @@ export const ProjectCreateForm: Component<ProjectFormProps> = ({ state, actions 
             <FormInput
               name={name.name}
               value={name.value}
+              maxLength={50}
               type="text"
               onInputChange={formActions.updateValue}
             />
@@ -62,6 +63,8 @@ export const ProjectCreateForm: Component<ProjectFormProps> = ({ state, actions 
             <FormInput
               name={ftePercentage.name}
               value={ftePercentage.value}
+              min={1}
+              max={9223372036854775807}
               suffix="fas fa-percent"
               type="number"
               onInputChange={formActions.updateValue}

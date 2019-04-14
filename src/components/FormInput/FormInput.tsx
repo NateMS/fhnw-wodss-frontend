@@ -33,10 +33,10 @@ export const FormInput: Component<Props> = (props) => {
         value={props.value ? props.value : undefined}
         disabled={props.disabled}
         placeholder={props.placeholder}
-        min={props.min || undefined}
-        max={props.max || undefined}
-        minLength={props.minLength || undefined}
-        maxLength={props.maxLength || undefined}
+        min={props.min != null ? props.min : undefined}
+        max={props.max != null ? props.max : undefined}
+        minLength={props.minLength != null ? props.minLength : undefined}
+        maxLength={props.maxLength != null ? props.maxLength : undefined}
         oninput={(e: any) => props.onInputChange({ name: props.name, value: e.target.value })}
       />
       {props.suffix && <FormInputSuffix suffix={props.suffix} />}
