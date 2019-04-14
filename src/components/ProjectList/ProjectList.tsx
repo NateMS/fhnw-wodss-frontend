@@ -27,6 +27,14 @@ const onDeleteClick = (event: Event, project: ProjectModel, actions: Actions): v
   deleteProject(project, actions);
 };
 
+const filterProjects = (projects: ProjectModel[], filterString: string): ProjectModel[] => {
+  if (filterString.length > 0) {
+    return projects.filter((project) => project.name.toLowerCase().indexOf(filterString) > -1);
+  }
+
+  return projects;
+};
+
 const ProjectRowItem: Component<ProjectRow> = ({ project, employees, actions }) => {
   return (
     <tr>
@@ -65,10 +73,13 @@ const ProjectRowItem: Component<ProjectRow> = ({ project, employees, actions }) 
 };
 
 const ProjectList: Component<Props> = ({ state, actions }) => {
+  const { filterString } = state.view.projects;
   const projects = state.project.list!;
   const allocations = state.allocation.list!;
   const contracts = state.contract.list!;
   const employees = state.employee.list!;
+
+  const filteredProjects = filterProjects(projects, filterString);
 
   const contractEmployeeMap: Map<number, EmployeeModel> = new Map();
   const projectEmployeesMap: Map<number, Set<EmployeeModel>> = new Map();
@@ -107,20 +118,25 @@ const ProjectList: Component<Props> = ({ state, actions }) => {
   );
 
   return (
-    <table className="table is-fullwidth is-hoverable">
-      <thead>
-        <tr>
-          <td>Name</td>
-          <td>Timespan</td>
-          <td>FTE Total</td>
-          <td># Devs</td>
-          <td>Actions</td>
-        </tr>
-      </thead>
-      <tbody>
-        {projects && projects.map((project: ProjectModel) => createProjectRowItem(project))}
-      </tbody>
-    </table>
+    <div className="project-list">
+      <table className="table is-fullwidth is-hoverable">
+        <thead>
+          <tr>
+            <td>Name</td>
+            <td>Timespan</td>
+            <td>FTE Total</td>
+            <td># Devs</td>
+            <td>Actions</td>
+          </tr>
+        </thead>
+        <tbody>
+          {filteredProjects.map((project: ProjectModel) => createProjectRowItem(project))}
+        </tbody>
+      </table>
+      <div className="project-list__counter">
+        Visible: {filteredProjects.length} / {projects.length}
+      </div>
+    </div>
   );
 }
 

@@ -5,6 +5,8 @@ import { State } from '../../state';
 import { AvatarItem } from '../Avatar/Avatar';
 import { getApiErrorToast, getToastMessage } from '../../utils';
 import { ContractModel } from '../../api/dto/contract.model';
+import { ProjectModel } from '../../api/dto/project.model';
+import moment from 'moment'
 
 interface Props {
   state: State;
@@ -13,6 +15,8 @@ interface Props {
 
 interface EmployeeRow {
   employee: EmployeeModel;
+  projects: Set<ProjectModel> | undefined;
+  contract: ContractModel | undefined;
   contracts: ContractModel[];
   actions: Actions;
 }
@@ -56,14 +60,14 @@ const filterEmployees = (employees: EmployeeModel[], filterString: string): Empl
   return employees;
 };
 
-const EmployeeListItem: Component<EmployeeRow> = ({ employee, contracts, actions }) => {
+const EmployeeListItem: Component<EmployeeRow> = ({ employee, projects, contract, contracts, actions }) => {
   return (
     <tr>
       <td><AvatarItem fullName={employee.fullName} /></td>
       <td>{employee.roleName}</td>
-      <td>{/* #Projects */}</td>
-      <td>{/* Pensum */}</td>
-      <td>{/* Contracts */}</td>
+      <td>{(projects != null) ? projects.size : 0}</td>
+      <td>{(contract != null) ? `${contract.pensumPercentage}%` : "-"}</td>
+      <td>{(contract != null) ? `${contract.startDate} – ${contract.endDate}` : "-"}</td>
       <td>
         <div className="dropdown is-right is-hoverable">
           <div className="dropdown-trigger">
@@ -78,7 +82,7 @@ const EmployeeListItem: Component<EmployeeRow> = ({ employee, contracts, actions
               >
                 Edit
               </a>
-              <hr className="dropdown-divider"/>
+              <hr className="dropdown-divider" />
               <a
                 href="#"
                 className="dropdown-item"
@@ -96,14 +100,75 @@ const EmployeeListItem: Component<EmployeeRow> = ({ employee, contracts, actions
 
 const EmployeeList: Component<Props> = ({ state, actions }) => {
   const { filterString } = state.view.employees;
-  const employees = state.employee.list || [];
+  const employees = state.employee.list;
   const contracts = state.contract.list;
+  const allocations = state.allocation.list;
+  const projects = state.project.list;
+
   const filteredEmployees = filterEmployees(employees, filterString);
+
+  const employeesProjectMap: Map<number, Set<ProjectModel>> = new Map();
+  const employeesLatestContractMap: Map<number, ContractModel | undefined> = new Map();
+
+  allocations.forEach((allocation) => {
+    const { projectId, contractId } = allocation;
+
+    const contract = contracts.find(c => c.id === contractId);
+    const project = projects.find(p => p.id === projectId);
+
+    if (contract && project) {
+      const employeeId = contract.employeeId;
+      if (!employeesProjectMap.has(employeeId)) {
+        employeesProjectMap.set(employeeId, new Set())
+      }
+
+      const set = employeesProjectMap.get(employeeId)!;
+      set.add(project);
+    }
+  });
+
+  projects.forEach((project) => {
+    const { projectManagerId } = project;
+
+    if (project) {
+      if (!employeesProjectMap.has(projectManagerId)) {
+        employeesProjectMap.set(projectManagerId, new Set())
+      }
+
+      const set = employeesProjectMap.get(projectManagerId)!;
+      set.add(project);
+    }
+  });
+
+  employees.forEach((employee) => {
+    const sortedContracts = contracts
+                              .filter(c => c.employeeId == employee.id)
+                              .sort((a, b) => a.endDate.diff(b.endDate))
+    var latestContract: ContractModel | undefined = undefined;
+    if (sortedContracts.length > 0) {
+      latestContract = sortedContracts.reduce((prev, curr) => {
+        if (moment().isAfter(curr.endDate)) {
+          return curr;
+        } else {
+          return prev ? prev : curr;
+        }
+      });
+    }
+    employeesLatestContractMap.set(employee.id, latestContract);
+  });
 
   const createEmployeeListItem = (employee: EmployeeModel) => {
     const employeeContracts = contracts!.filter(contract => contract.employeeId === employee.id);
+    const projects = employeesProjectMap.get(employee.id);
+    const latestContract = employeesLatestContractMap.get(employee.id);
 
-    return <EmployeeListItem key={employee.id} employee={employee} contracts={employeeContracts} actions={actions} />;
+    return <EmployeeListItem
+              key={employee.id}
+              employee={employee}
+              projects={projects}
+              contract={latestContract}
+              contracts={employeeContracts}
+              actions={actions} />;
   };
 
   return (

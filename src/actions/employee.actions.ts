@@ -1,5 +1,4 @@
 import { EmployeeState } from '../state';
-import { Employee } from '../api/dto/employee';
 import { ActionResult, ActionsType } from 'hyperapp';
 import { employeeService } from '../services/EmployeeService';
 import { EmployeeModel } from '../api/dto/employee.model';
@@ -7,6 +6,7 @@ import { EmployeeFormState } from '../state/form/employee-form.state';
 import { RoleEnum } from '../api/role.enum';
 import { Actions } from './index';
 import { getApiErrorToast, getToastMessage } from '../utils';
+import { EmployeeBaseModel } from '../api/dto/employee.base.model';
 
 export interface EmployeeActions {
   setLoading: (isLoading: boolean) => (state: EmployeeState) => ActionResult<EmployeeState>;
@@ -45,7 +45,7 @@ export const employeeActions: ActionsType<EmployeeState, EmployeeActions> = {
     const { emailAddress, firstName, lastName, active, password, role } = form.controls;
     // @TODO VALIDATION
 
-    const employee: Employee = {
+    const employee: EmployeeBaseModel = {
       emailAddress: emailAddress.value!,
       firstName: firstName.value!,
       lastName: lastName.value!,
@@ -63,8 +63,7 @@ export const employeeActions: ActionsType<EmployeeState, EmployeeActions> = {
     const { id, emailAddress, firstName, lastName, active } = form.controls;
     // @TODO VALIDATION
 
-    const employee: Employee = {
-      id: id.value!,
+    const employee: EmployeeBaseModel = {
       emailAddress: emailAddress.value!,
       firstName: firstName.value!,
       lastName: lastName.value!,
@@ -72,7 +71,7 @@ export const employeeActions: ActionsType<EmployeeState, EmployeeActions> = {
     };
 
     return employeeService
-      .update(employee)
+      .update(employee, id.value!)
       .then((employee: EmployeeModel) => {
         return employee;
       });

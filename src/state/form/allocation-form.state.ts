@@ -1,3 +1,4 @@
+import { Moment } from 'moment';
 import { BaseForm, FormControl } from './types';
 
 export interface AllocationFormState extends BaseForm {
@@ -6,8 +7,8 @@ export interface AllocationFormState extends BaseForm {
     projectId: FormControl<number>;
     employeeId: FormControl<number>;
     contractId: FormControl<number>;
-    startDate: FormControl<string>;
-    endDate: FormControl<string>;
+    startDate: FormControl<Moment>;
+    endDate: FormControl<Moment>;
     pensumPercentage: FormControl<number>;
   };
 }

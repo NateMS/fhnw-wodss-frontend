@@ -3,10 +3,10 @@ import { ActionResult, ActionsType } from 'hyperapp';
 import { employeeService } from '../services/EmployeeService';
 import { ContractForm } from '../state/form/contract-form.state';
 import { ContractModel } from '../api/dto/contract.model';
-import { Contract } from '../api/dto/contract';
 import { getApiErrorToast, getToastMessage } from '../utils';
 import { Actions } from './index';
 import { removeContractForm } from './form/contract-form.actions';
+import { ContractBaseModel } from '../api/dto/contract.base.model';
 
 export interface ContractActions {
   setLoading: (isLoading: boolean) => (state: ContractState) => ActionResult<ContractState>;
@@ -45,7 +45,7 @@ export const contractActions: ActionsType<ContractState, ContractActions> = {
     const { startDate, endDate, pensumPercentage, employeeId } = form.controls;
     // @TODO VALIDATION
 
-    const contract: Contract = {
+    const contract: ContractBaseModel = {
       startDate: startDate.value!,
       endDate: endDate.value!,
       pensumPercentage: pensumPercentage.value!,
@@ -63,8 +63,7 @@ export const contractActions: ActionsType<ContractState, ContractActions> = {
     const { id, startDate, endDate, pensumPercentage, employeeId } = form.controls;
     // @TODO VALIDATION
 
-    const contract: Contract = {
-      id: id.value!,
+    const contract: ContractBaseModel = {
       startDate: startDate.value!,
       endDate: endDate.value!,
       pensumPercentage: pensumPercentage.value!,
@@ -72,7 +71,7 @@ export const contractActions: ActionsType<ContractState, ContractActions> = {
     };
 
     return employeeService
-      .updateContract(contract)
+      .updateContract(contract, id.value!)
       .then((contract: ContractModel) => {
         return contract;
       });

@@ -1,3 +1,4 @@
+import { Moment } from 'moment';
 import { BaseForm, FormControl } from './types';
 
 export interface ProjectFormState extends BaseForm {
@@ -5,8 +6,8 @@ export interface ProjectFormState extends BaseForm {
     id: FormControl<number>;
     name: FormControl<string>;
     ftePercentage: FormControl<number>;
-    startDate: FormControl<string>;
-    endDate: FormControl<string>;
+    startDate: FormControl<Moment>;
+    endDate: FormControl<Moment>;
     projectManagerId: FormControl<number>;
   };
 }

@@ -3,6 +3,8 @@
  */
 export const TOAST_DURATION = 4000;
 
+export const DATE_FORMAT_STRING = 'YYYY-MM-DD';
+
 /**
  * Key name in the local storage, where the token is saved.
  */

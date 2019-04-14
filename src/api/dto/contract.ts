@@ -1,3 +1,5 @@
+import { Moment } from "moment";
+
 /**
  * Represents the contract an employee can have (Multiple contracts are possible, but date overlapping is not allowed)
  * @export
@@ -15,13 +17,13 @@ export interface Contract {
    * @type {string}
    * @memberof Contract
    */
-  startDate: string;
+  startDate: string | Moment;
   /**
    * Contract end date (YYYY-MM-DD)
    * @type {string}
    * @memberof Contract
    */
-  endDate: string;
+  endDate: string | Moment;
   /**
    * Full time equivalent for the contract as percentage value (0.5 FTE = 50)
    * @type {number}

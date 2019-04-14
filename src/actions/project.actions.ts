@@ -1,8 +1,8 @@
 import { ProjectState } from '../state';
-import { Project } from '../api/dto/project';
 import { ActionResult, ActionsType } from 'hyperapp';
 import { projectService } from '../services/ProjectService';
 import { ProjectModel } from '../api/dto/project.model';
+import { ProjectBaseModel } from '../api/dto/project.base.model';
 import { ProjectFormState } from '../state/form/project-form.state';
 import { Actions } from './index';
 import { getApiErrorToast, getToastMessage } from '../utils';
@@ -44,7 +44,7 @@ export const projectActions: ActionsType<ProjectState, ProjectActions> = {
     const { name, ftePercentage, startDate, endDate, projectManagerId } = form.controls;
     // @TODO VALIDATION
 
-    const project: Project = {
+    const project: ProjectBaseModel = {
       name: name.value!,
       ftePercentage: ftePercentage.value!,
       startDate: startDate.value!,
@@ -63,8 +63,7 @@ export const projectActions: ActionsType<ProjectState, ProjectActions> = {
     const { id, name, ftePercentage, startDate, endDate, projectManagerId } = form.controls;
     // @TODO VALIDATION
 
-    const project: Project = {
-      id: id.value!,
+    const project: ProjectBaseModel = {
       name: name.value!,
       ftePercentage: ftePercentage.value!,
       startDate: startDate.value!,
@@ -73,7 +72,7 @@ export const projectActions: ActionsType<ProjectState, ProjectActions> = {
     };
 
     return projectService
-      .update(project)
+      .update(project, id.value!)
       .then((project: ProjectModel) => {
         return project;
       });
