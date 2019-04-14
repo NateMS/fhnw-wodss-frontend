@@ -1,4 +1,5 @@
 import { BaseForm, FormControl } from './types';
+import { textMaxValidator, textRequiredValidator } from './validators';
 
 export interface EmployeeFormState extends BaseForm {
   controls: {
@@ -23,6 +24,10 @@ export const initEmployeeForm: () => EmployeeFormState = () => ({
     firstName: {
       name: 'firstName',
       value: null,
+      validators: [
+        textRequiredValidator,
+        textMaxValidator(50),
+      ],
     },
     lastName: {
       name: 'lastName',

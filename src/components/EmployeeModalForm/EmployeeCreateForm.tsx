@@ -19,7 +19,6 @@ interface Props {
 const onSubmit = (event: Event, state: EmployeeFormState, actions: Actions) => {
   event.preventDefault();
   event.stopPropagation();
-
   createEmployee(state, actions);
 };
 
@@ -49,9 +48,12 @@ export const EmployeeCreateForm: Component<Props> = ({ state, actions }) => {
             <FormInput
               name={firstName.name}
               value={firstName.value}
+              maxLength={50}
               type="text"
               onInputChange={formActions.updateValue}
             />
+            {firstName.errors != null && firstName.errors.required && <p className="help is-danger">Field is required</p>}
+            {firstName.errors != null && firstName.errors.max && <p className="help is-danger">Maximum characters: 50</p>}
           </FormField>
           <FormField labelText="Last Name" required={true}>
             <FormInput
@@ -77,13 +79,14 @@ export const EmployeeCreateForm: Component<Props> = ({ state, actions }) => {
               onInputChange={formActions.updateValue}
             />
           </FormField>
-          <FormField labelText="Status" required={true} hint="Inactive: No login possible">
+          <FormField labelText="Status" required={true}>
             <FormCheckbox
               name={active.name}
               value={active.value}
               labelText="Active"
               onInputChange={formActions.updateValue}
             />
+            <p className="help">Inactive: No login possible</p>
           </FormField>
           <FormField labelText="Role" required={true}>
             <FormSelect

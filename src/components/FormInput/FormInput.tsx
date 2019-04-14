@@ -6,6 +6,8 @@ interface Props extends FormControlProps<string | number> {
   suffix?: string;
   min?: number | null;
   max?: number | null;
+  minLength?: number | null;
+  maxLength?: number | null;
 }
 
 interface FormInputSuffixProps {
@@ -33,6 +35,8 @@ export const FormInput: Component<Props> = (props) => {
         placeholder={props.placeholder}
         min={props.min || undefined}
         max={props.max || undefined}
+        minLength={props.minLength || undefined}
+        maxLength={props.maxLength || undefined}
         oninput={(e: any) => props.onInputChange({ name: props.name, value: e.target.value })}
       />
       {props.suffix && <FormInputSuffix suffix={props.suffix} />}
