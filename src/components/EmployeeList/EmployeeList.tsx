@@ -65,9 +65,9 @@ const EmployeeListItem: Component<EmployeeRow> = ({ employee, projects, contract
     <tr>
       <td><AvatarItem fullName={employee.fullName} /></td>
       <td>{employee.roleName}</td>
-      <td>{(projects != undefined) ? projects.size : 0}</td>
-      <td>{(contract != undefined) ? `${contract.pensumPercentage}%` : "-"}</td>
-      <td>{(contract != undefined) ? `${contract.startDate} – ${contract.endDate}` : "-"}</td>
+      <td>{(projects != null) ? projects.size : 0}</td>
+      <td>{(contract != null) ? `${contract.pensumPercentage}%` : "-"}</td>
+      <td>{(contract != null) ? `${contract.startDate} – ${contract.endDate}` : "-"}</td>
       <td>
         <div className="dropdown is-right is-hoverable">
           <div className="dropdown-trigger">
@@ -108,7 +108,7 @@ const EmployeeList: Component<Props> = ({ state, actions }) => {
   const filteredEmployees = filterEmployees(employees, filterString);
 
   const employeesProjectMap: Map<number, Set<ProjectModel>> = new Map();
-  const employeesContractMap: Map<number, ContractModel | undefined> = new Map();
+  const employeesLatestContractMap: Map<number, ContractModel | undefined> = new Map();
 
   allocations.forEach((allocation) => {
     const { projectId, contractId } = allocation;
@@ -141,10 +141,12 @@ const EmployeeList: Component<Props> = ({ state, actions }) => {
   });
 
   employees.forEach((employee) => {
-    const sortedContracts = contracts.filter(c => c.employeeId == employee.id).sort((a, b) => moment(a.endDate, "YYY-MM-DD").diff(moment(b.endDate, "YYY-MM-DD")))
-    var relevantContract: ContractModel | undefined = undefined;
+    const sortedContracts = contracts
+                              .filter(c => c.employeeId == employee.id)
+                              .sort((a, b) => a.endDate.diff(b.endDate))
+    var latestContract: ContractModel | undefined = undefined;
     if (sortedContracts.length > 0) {
-      relevantContract = sortedContracts.reduce((prev, curr) => {
+      latestContract = sortedContracts.reduce((prev, curr) => {
         if (moment().isAfter(curr.endDate)) {
           return curr;
         } else {
@@ -152,15 +154,21 @@ const EmployeeList: Component<Props> = ({ state, actions }) => {
         }
       });
     }
-    employeesContractMap.set(employee.id, relevantContract);
+    employeesLatestContractMap.set(employee.id, latestContract);
   });
 
   const createEmployeeListItem = (employee: EmployeeModel) => {
     const employeeContracts = contracts!.filter(contract => contract.employeeId === employee.id);
     const projects = employeesProjectMap.get(employee.id);
-    const relevantContract = employeesContractMap.get(employee.id);
+    const latestContract = employeesLatestContractMap.get(employee.id);
 
-    return <EmployeeListItem key={employee.id} employee={employee} projects={projects} contract={relevantContract} contracts={employeeContracts} actions={actions} />;
+    return <EmployeeListItem
+              key={employee.id}
+              employee={employee}
+              projects={projects}
+              contract={latestContract}
+              contracts={employeeContracts}
+              actions={actions} />;
   };
 
   return (

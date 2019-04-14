@@ -118,20 +118,25 @@ const ProjectList: Component<Props> = ({ state, actions }) => {
   );
 
   return (
-    <table className="table is-fullwidth is-hoverable">
-      <thead>
-        <tr>
-          <td>Name</td>
-          <td>Timespan</td>
-          <td>FTE Total</td>
-          <td># Devs</td>
-          <td>Actions</td>
-        </tr>
-      </thead>
-      <tbody>
-        {filteredProjects.map((project: ProjectModel) => createProjectRowItem(project))}
-      </tbody>
-    </table>
+    <div className="project-list">
+      <table className="table is-fullwidth is-hoverable">
+        <thead>
+          <tr>
+            <td>Name</td>
+            <td>Timespan</td>
+            <td>FTE Total</td>
+            <td># Devs</td>
+            <td>Actions</td>
+          </tr>
+        </thead>
+        <tbody>
+          {filteredProjects.map((project: ProjectModel) => createProjectRowItem(project))}
+        </tbody>
+      </table>
+      <div className="project-list__counter">
+        Visible: {filteredProjects.length} / {projects.length}
+      </div>
+    </div>
   );
 }
 
