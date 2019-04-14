@@ -3,12 +3,12 @@ import { BaseForm, FormControl } from './types';
 
 export interface ProjectFormState extends BaseForm {
   controls: {
-    id: FormControl<number>;
+    id: FormControl<string>;
     name: FormControl<string>;
     ftePercentage: FormControl<number>;
     startDate: FormControl<Moment>;
     endDate: FormControl<Moment>;
-    projectManagerId: FormControl<number>;
+    projectManagerId: FormControl<string>;
   };
 }
 

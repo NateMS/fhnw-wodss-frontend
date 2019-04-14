@@ -3,8 +3,8 @@ import { BaseForm, FormControl, ListForm } from './types';
 
 export interface ContractForm extends BaseForm {
   controls: {
-    id: FormControl<number>;
-    employeeId: FormControl<number>;
+    id: FormControl<string>;
+    employeeId: FormControl<string>;
     startDate: FormControl<Moment>;
     endDate: FormControl<Moment>;
     pensumPercentage: FormControl<number>;

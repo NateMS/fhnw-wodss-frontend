@@ -2,7 +2,7 @@ import { BaseForm, FormControl } from './types';
 
 export interface EmployeeFormState extends BaseForm {
   controls: {
-    id: FormControl<number>;
+    id: FormControl<string>;
     firstName: FormControl<string>;
     lastName: FormControl<string>;
     emailAddress: FormControl<string>;

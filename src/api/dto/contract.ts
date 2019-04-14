@@ -8,10 +8,10 @@ import { Moment } from "moment";
 export interface Contract {
   /**
    * Contract ID
-   * @type {number}
+   * @type {string}
    * @memberof Contract
    */
-  id?: number;
+  id?: string;
   /**
    * Contract start date (YYYY-MM-DD)
    * @type {string}
@@ -32,8 +32,8 @@ export interface Contract {
   pensumPercentage: number;
   /**
    * Employee ID of the contract
-   * @type {number}
+   * @type {string}
    * @memberof Contract
    */
-  employeeId: number;
+  employeeId: string;
 }

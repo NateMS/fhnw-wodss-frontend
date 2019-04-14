@@ -8,10 +8,10 @@ import { Moment } from "moment";
 export interface Project {
   /**
    * Project ID
-   * @type {number}
+   * @type {string}
    * @memberof Project
    */
-  id?: number;
+  id?: string;
   /**
    * Project name
    * @type {string}
@@ -38,8 +38,8 @@ export interface Project {
   endDate: string | Moment;
   /**
    * Project manager employee ID
-   * @type {number}
+   * @type {string}
    * @memberof Project
    */
-  projectManagerId: number;
+  projectManagerId: string;
 }

@@ -10,9 +10,9 @@ import { RoleEnum } from '../role.enum';
 export interface Employee {
   /**
    * Employee ID
-   * @type {number}
+   * @type {string}
    */
-  id?: number;
+  id?: string;
 
   /**
    * @type {boolean}

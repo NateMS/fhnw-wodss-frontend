@@ -14,7 +14,7 @@ class AllocationService {
       .then(e => new AllocationModel(e));
   }
 
-  public getAll(employeeId?: number, projectId?: number, fromDate?: string, toDate?: string): Promise<AllocationModel[]> {
+  public getAll(employeeId?: string, projectId?: string, fromDate?: string, toDate?: string): Promise<AllocationModel[]> {
     const params = {
       employeeId,
       projectId,
@@ -26,22 +26,22 @@ class AllocationService {
       .then((list: Allocation[]) => list.map(e => new AllocationModel(e)));
   }
 
-  public get(id: number): Promise<AllocationModel> {
+  public get(id: string): Promise<AllocationModel> {
     return this.api.get<Allocation>(`/api/allocation/${id}`)
       .then(e => new AllocationModel(e));
   }
 
-  public update(allocation: AllocationBaseModel, id: number): Promise<AllocationModel> {
+  public update(allocation: AllocationBaseModel, id: string): Promise<AllocationModel> {
     return this.api.put<Allocation>(`/api/allocation/${id}`, new AllocationRequestModel(allocation))
      .then(e => new AllocationModel(e))
   }
 
-  public delete(id: number): Promise<void> {
+  public delete(id: string): Promise<void> {
     return this.api.delete<Allocation>(`/api/allocation/${id}`)
       .then(() => {});
   }
 
-  public filterByProject(allocations: AllocationModel[] | null, projectId: number): AllocationModel[] {
+  public filterByProject(allocations: AllocationModel[] | null, projectId: string): AllocationModel[] {
     return (null === allocations) ? [] : allocations.filter(e => e.projectId === projectId);
   }
 

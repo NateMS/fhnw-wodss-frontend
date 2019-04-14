@@ -8,10 +8,10 @@ import { Moment } from 'moment';
 export interface Allocation {
   /**
    * Allocation ID
-   * @type {number}
+   * @type {string}
    * @memberof Allocation
    */
-  id?: number;
+  id?: string;
   /**
    * Allocation start date (YYYY-MM-DD)
    * @type {string}
@@ -32,14 +32,14 @@ export interface Allocation {
   pensumPercentage: number;
   /**
    * Contract ID of the allocation
-   * @type {number}
+   * @type {string}
    * @memberof Allocation
    */
-  contractId: number;
+  contractId: string;
   /**
    * Project ID of the allocation
-   * @type {number}
+   * @type {string}
    * @memberof Allocation
    */
-  projectId: number;
+  projectId: string;
 }

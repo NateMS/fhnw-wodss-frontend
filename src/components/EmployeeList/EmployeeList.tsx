@@ -107,8 +107,8 @@ const EmployeeList: Component<Props> = ({ state, actions }) => {
 
   const filteredEmployees = filterEmployees(employees, filterString);
 
-  const employeesProjectMap: Map<number, Set<ProjectModel>> = new Map();
-  const employeesLatestContractMap: Map<number, ContractModel | undefined> = new Map();
+  const employeesProjectMap: Map<string, Set<ProjectModel>> = new Map();
+  const employeesLatestContractMap: Map<string, ContractModel | undefined> = new Map();
 
   allocations.forEach((allocation) => {
     const { projectId, contractId } = allocation;

@@ -3,10 +3,10 @@ import { BaseForm, FormControl } from './types';
 
 export interface AllocationFormState extends BaseForm {
   controls: {
-    id: FormControl<number>;
-    projectId: FormControl<number>;
-    employeeId: FormControl<number>;
-    contractId: FormControl<number>;
+    id: FormControl<string>;
+    projectId: FormControl<string>;
+    employeeId: FormControl<string>;
+    contractId: FormControl<string>;
     startDate: FormControl<Moment>;
     endDate: FormControl<Moment>;
     pensumPercentage: FormControl<number>;

@@ -3,7 +3,7 @@ import { FormSelect, FormSelectProps } from '../FormSelect/FormSelect';
 import { EmployeeModel } from '../../api/dto/employee.model';
 import { Employee } from '../../api/dto/employee';
 
-export const EmployeeSelect: Component<FormSelectProps<EmployeeModel, number>> = (props) => {
+export const EmployeeSelect: Component<FormSelectProps<EmployeeModel, string>> = (props) => {
   return (
     <FormSelect
       {...props}
