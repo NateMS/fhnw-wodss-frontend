@@ -2,6 +2,7 @@ import { Component, h } from 'hyperapp';
 import moment, { Moment } from 'moment';
 import flatpickr from 'flatpickr';
 import { FormControlProps } from '../FormControlProps';
+import { DATE_FORMAT_STRING } from '../../constants';
 
 interface Props extends FormControlProps<Moment> {
   min?: Moment | null;
@@ -43,22 +44,23 @@ const destroyFlatPickrInstance = (element: any): void => {
 
 export const DatePicker: Component<Props> = (props) => {
   const inputClassName = props.isLoading ? 'input is-loading' : 'input';
+  const formattedDate = props.value ? props.value.format(DATE_FORMAT_STRING) : undefined;
 
   return (
     <div
       className="control has-icons-left"
       oncreate={(element: any) => createFlatPickrInstance(element, props)}
       ondestroy={(element: any) => destroyFlatPickrInstance(element)}
-      onupdate={(element: any) => updateFlatPickrInstance(element, props)}
     >
       <input
         className={inputClassName}
         name={props.name}
         type="text"
-        value={props.value ? props.value : undefined}
+        value={formattedDate}
         disabled={props.disabled}
         min={props.min || undefined}
         max={props.max || undefined}
+        readonly={true}
       />
       <span className="icon is-left">
         <i className="fas fa-calendar-alt"/>

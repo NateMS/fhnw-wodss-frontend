@@ -3,7 +3,6 @@ import { Button } from '../Button/Button';
 import { Actions } from '../../actions';
 import FormInput from '../FormInput/FormInput';
 import { AuthenticationFormState } from '../../state/form/authentication-form.state';
-import { EmployeeModel } from '../../api/dto/employee.model';
 import { getApiErrorToast, getToastMessage } from '../../utils';
 
 interface Props {

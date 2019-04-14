@@ -1,7 +1,7 @@
 language: node_js
 node_js:
   - "10"
-  script:
+script:
   - yarn lint
   - yarn lint-scss
   - yarn test
