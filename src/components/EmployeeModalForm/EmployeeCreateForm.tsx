@@ -10,6 +10,7 @@ import Button from '../Button/Button';
 import { close } from './EmployeeModalForm';
 import { State } from '../../state';
 import { createEmployee } from '../../actions/employee.actions';
+import FormHint from '../FormHint/FormHint';
 
 interface Props {
   state: State;
@@ -52,8 +53,8 @@ export const EmployeeCreateForm: Component<Props> = ({ state, actions }) => {
               type="text"
               onInputChange={formActions.updateValue}
             />
-            {firstName.errors != null && firstName.errors.required && <p className="help is-danger">Field is required</p>}
-            {firstName.errors != null && firstName.errors.max && <p className="help is-danger">Maximum characters: 50</p>}
+            {firstName.errors == null && <FormHint label={String.fromCharCode(160)} />}
+            {firstName.errors != null && firstName.errors.required && <FormHint theme="danger" label="First name is required" />}
           </FormField>
           <FormField labelText="Last Name" required={true}>
             <FormInput
@@ -62,6 +63,8 @@ export const EmployeeCreateForm: Component<Props> = ({ state, actions }) => {
               type="text"
               onInputChange={formActions.updateValue}
             />
+            {lastName.errors == null && <FormHint label={String.fromCharCode(160)} />}
+            {lastName.errors != null && lastName.errors.required && <FormHint theme="danger" label="Last name is required" />}
           </FormField>
           <FormField labelText="Email" required={true}>
             <FormInput
@@ -70,6 +73,9 @@ export const EmployeeCreateForm: Component<Props> = ({ state, actions }) => {
               type="email"
               onInputChange={formActions.updateValue}
             />
+            {emailAddress.errors == null && <FormHint label={String.fromCharCode(160)} />}
+            {emailAddress.errors != null && emailAddress.errors.required && <FormHint theme="danger" label="Email is required" />}
+            {emailAddress.errors != null && emailAddress.errors.email && <FormHint theme="danger" label="Email invalid" />}
           </FormField>
           <FormField labelText="Password" required={true}>
             <FormInput
@@ -78,6 +84,8 @@ export const EmployeeCreateForm: Component<Props> = ({ state, actions }) => {
               type="password"
               onInputChange={formActions.updateValue}
             />
+            {password.errors == null && <FormHint label={String.fromCharCode(160)} />}
+            {password.errors != null && password.errors.required && <FormHint theme="danger" label="Password is required" />}
           </FormField>
           <FormField labelText="Status" required={true}>
             <FormCheckbox
@@ -86,7 +94,7 @@ export const EmployeeCreateForm: Component<Props> = ({ state, actions }) => {
               labelText="Active"
               onInputChange={formActions.updateValue}
             />
-            <p className="help">Inactive: No login possible</p>
+            {active.errors == null && <FormHint label={"Inactive: No login possible"} />}
           </FormField>
           <FormField labelText="Role" required={true}>
             <FormSelect
@@ -97,6 +105,8 @@ export const EmployeeCreateForm: Component<Props> = ({ state, actions }) => {
               labeler={(r: RoleEnum) => roleNameMap[r]}
               onInputChange={formActions.updateValue}
             />
+            {role.errors == null && <FormHint label={String.fromCharCode(160)} />}
+            {role.errors != null && role.errors.required && <FormHint theme="danger" label="Role is required" />}
           </FormField>
         </section>
         <footer className="modal-card-foot">

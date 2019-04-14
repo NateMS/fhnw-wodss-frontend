@@ -11,6 +11,7 @@ import { close } from './EmployeeModalForm';
 import ContractForm from '../ContractForm/ContractForm';
 import { State } from '../../state';
 import { updateEmployee } from '../../actions/employee.actions';
+import FormHint from '../FormHint/FormHint';
 
 interface Props {
   state: State;
@@ -53,6 +54,8 @@ export const EmployeeEditForm: Component<Props> = ({ state, actions }) => {
               type="text"
               onInputChange={formActions.updateValue}
             />
+            {firstName.errors == null && <FormHint label={String.fromCharCode(160)} />}
+            {firstName.errors != null && firstName.errors.required && <FormHint theme="danger" label="Field is required" />}
           </FormField>
           <FormField labelText="Last Name" required={true}>
             <FormInput
@@ -61,6 +64,28 @@ export const EmployeeEditForm: Component<Props> = ({ state, actions }) => {
               type="text"
               onInputChange={formActions.updateValue}
             />
+            {lastName.errors == null && <FormHint label={String.fromCharCode(160)} />}
+            {lastName.errors != null && lastName.errors.required && <FormHint theme="danger" label="Field is required" />}
+          </FormField>
+          <FormField labelText="Email" required={true}>
+            <FormInput
+              name={emailAddress.name}
+              value={emailAddress.value}
+              type="email"
+              onInputChange={formActions.updateValue}
+            />
+            {emailAddress.errors == null && <FormHint label={String.fromCharCode(160)} />}
+            {emailAddress.errors != null && emailAddress.errors.required && <FormHint theme="danger" label="Field is required" />}
+            {emailAddress.errors != null && emailAddress.errors.email && <FormHint theme="danger" label="Email invalid" />}
+          </FormField>
+          <FormField labelText="Status" required={true}>
+            <FormCheckbox
+              name={active.name}
+              value={active.value}
+              labelText="Active"
+              onInputChange={formActions.updateValue}
+            />
+            {active.errors == null && <FormHint label={"Inactive: No login possible"} />}
           </FormField>
           <FormField labelText="Role" required={true}>
             <FormSelect
@@ -72,22 +97,8 @@ export const EmployeeEditForm: Component<Props> = ({ state, actions }) => {
               labeler={(r: RoleEnum) => roleNameMap[r]}
               onInputChange={formActions.updateValue}
             />
-          </FormField>
-          <FormField labelText="Email" required={true}>
-            <FormInput
-              name={emailAddress.name}
-              value={emailAddress.value}
-              type="email"
-              onInputChange={formActions.updateValue}
-            />
-          </FormField>
-          <FormField labelText="Status" required={true} hint="Inactive: No login possible">
-            <FormCheckbox
-              name={active.name}
-              value={active.value}
-              labelText="Active"
-              onInputChange={formActions.updateValue}
-            />
+            {role.errors == null && <FormHint label={String.fromCharCode(160)} />}
+            {role.errors != null && role.errors.required && <FormHint theme="danger" label="Field is required" />}
           </FormField>
           {state.form.contract.list.map((contractForm, index) => <ContractForm key={index} state={contractForm} actions={actions} />)}
           <button

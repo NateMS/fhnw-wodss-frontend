@@ -1,5 +1,5 @@
 import { BaseForm, FormControl } from './types';
-import { textMaxValidator, textRequiredValidator } from './validators';
+import { textRequiredValidator, emailValidator, consoleLogValidator, selectValidator } from './validators';
 
 export interface EmployeeFormState extends BaseForm {
   controls: {
@@ -26,24 +26,36 @@ export const initEmployeeForm: () => EmployeeFormState = () => ({
       value: null,
       validators: [
         textRequiredValidator,
-        textMaxValidator(50),
       ],
     },
     lastName: {
       name: 'lastName',
       value: null,
+      validators: [
+        textRequiredValidator,
+      ],
     },
     role: {
       name: 'role',
       value: null,
+      validators: [
+        selectValidator("Please select"),
+      ],
     },
     emailAddress: {
       name: 'emailAddress',
       value: null,
+      validators: [
+        textRequiredValidator,
+        emailValidator,
+      ],
     },
     password: {
       name: 'password',
       value: null,
+      validators: [
+        textRequiredValidator,
+      ],
     },
     active: {
       name: 'active',

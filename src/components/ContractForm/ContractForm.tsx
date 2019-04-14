@@ -11,6 +11,7 @@ import {
 import Button from '../Button/Button';
 import { createContract, deleteContract, updateContract } from '../../actions/contract.actions';
 import DatePicker from '../DatePicker/DatePicker';
+import FormHint from '../FormHint/FormHint';
 
 interface Props {
   state: State;
@@ -35,6 +36,8 @@ export const ContractForm: Component<Props> = ({ state, actions, key }) => {
             max={endDate.value}
             onInputChange={updateContractFormValue(key, formActions)}
           />
+          {startDate.errors == null && <FormHint label={String.fromCharCode(160)} />}
+          {startDate.errors != null && startDate.errors.negativeDuration && <FormHint theme="danger" label="Contract has negative duration" />}
         </FormField>
       </div>
       <div className="contract-form__column">
@@ -45,10 +48,12 @@ export const ContractForm: Component<Props> = ({ state, actions, key }) => {
             min={startDate.value}
             onInputChange={updateContractFormValue(key, formActions)}
           />
+          {endDate.errors == null && <FormHint label={String.fromCharCode(160)} />}
+          {endDate.errors != null && endDate.errors.negativeDuration && <FormHint theme="danger" label="Contract has negative duration" />}
         </FormField>
       </div>
       <div className="contract-form__column">
-        <FormField labelText="Pensum" required={true} hint="0-100">
+        <FormField labelText="Pensum" required={true}>
           <FormInput
             name={pensumPercentage.name}
             value={pensumPercentage.value}
@@ -58,6 +63,7 @@ export const ContractForm: Component<Props> = ({ state, actions, key }) => {
             max={100}
             onInputChange={updateContractFormValue(key, formActions)}
           />
+          {pensumPercentage.errors == null && <FormHint label={String.fromCharCode(160)} />}
         </FormField>
       </div>
       <div className="contract-form__column contract-form__actions">

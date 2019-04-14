@@ -1,6 +1,7 @@
 export enum FormErrorType {
   required = 'required',
-  max = 'max',
+  email = 'email',
+  negativeDuration = 'negativeDuration',
 }
 
 export type FormErrors = {[key in FormErrorType]?: boolean} | undefined;

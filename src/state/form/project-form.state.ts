@@ -1,5 +1,6 @@
 import { Moment } from 'moment';
 import { BaseForm, FormControl } from './types';
+import { selectValidator, textRequiredValidator, durationValidator } from './validators';
 
 export interface ProjectFormState extends BaseForm {
   controls: {
@@ -23,6 +24,9 @@ export const initProjectForm: () => ProjectFormState = () => ({
     name: {
       name: 'name',
       value: null,
+      validators: [
+        textRequiredValidator,
+      ],
     },
     ftePercentage: {
       name: 'ftePercentage',
@@ -31,14 +35,23 @@ export const initProjectForm: () => ProjectFormState = () => ({
     startDate: {
       name: 'startDate',
       value: null,
+      validators: [
+        durationValidator,
+      ],
     },
     endDate: {
       name: 'endDate',
       value: null,
+      validators: [
+        durationValidator,
+      ],
     },
     projectManagerId: {
       name: 'projectManagerId',
       value: null,
+      validators: [
+        selectValidator("Please select"),
+      ],
     },
   },
 });

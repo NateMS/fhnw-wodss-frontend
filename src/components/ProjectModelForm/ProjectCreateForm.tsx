@@ -10,6 +10,7 @@ import { EmployeeSelect } from '../EmployeeSelect/EmployeeSelect';
 import { employeeService } from '../../services/EmployeeService';
 import { createProject, updateProject } from '../../actions/project.actions';
 import DatePicker from '../DatePicker/DatePicker';
+import FormHint from '../FormHint/FormHint';
 
 const onSubmit = (isEditMode: boolean, event: Event, state: ProjectFormState, actions: Actions) => {
   event.preventDefault();
@@ -54,6 +55,8 @@ export const ProjectCreateForm: Component<ProjectFormProps> = ({ state, actions 
               type="text"
               onInputChange={formActions.updateValue}
             />
+            {name.errors == null && <FormHint label={String.fromCharCode(160)} />}
+            {name.errors != null && name.errors.required && <FormHint theme="danger" label="Name is required" />}
           </FormField>
           <FormField labelText="FTE" required={true}>
             <FormInput
@@ -71,6 +74,8 @@ export const ProjectCreateForm: Component<ProjectFormProps> = ({ state, actions 
               max={endDate.value}
               onInputChange={formActions.updateValue}
             />
+            {startDate.errors == null && <FormHint label={String.fromCharCode(160)} />}
+            {startDate.errors != null && startDate.errors.negativeDuration && <FormHint theme="danger" label="Project has negative duration" />}
           </FormField>
           <FormField labelText="End date" required={true}>
             <DatePicker
@@ -79,6 +84,8 @@ export const ProjectCreateForm: Component<ProjectFormProps> = ({ state, actions 
               min={startDate.value}
               onInputChange={formActions.updateValue}
             />
+            {endDate.errors == null && <FormHint label={String.fromCharCode(160)} />}
+            {endDate.errors != null && endDate.errors.negativeDuration && <FormHint theme="danger" label="Project has negative duration" />}
           </FormField>
           <FormField labelText="Project Manager" required={true}>
             <EmployeeSelect
@@ -88,6 +95,8 @@ export const ProjectCreateForm: Component<ProjectFormProps> = ({ state, actions 
               items={projectManagers}
               onInputChange={formActions.updateValue}
             />
+            {projectManagerId.errors == null && <FormHint label={String.fromCharCode(160)} />}
+            {projectManagerId.errors != null && projectManagerId.errors.required && <FormHint theme="danger" label="Project Manager is required" />}
           </FormField>
         </section>
         <footer className="modal-card-foot">
