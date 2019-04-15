@@ -23,8 +23,8 @@ const FormInputSuffix: Component<FormInputSuffixProps> = ({ suffix }) => (
 export const FormInput: Component<Props> = (props) => {
   const controlClassName = props.suffix ? 'control has-icons-right' : 'control';
   let inputClassName = 'input';
-  inputClassName = props.isLoading ? inputClassName + ' is-loading' : inputClassName;
-  inputClassName = props.errors != null ? inputClassName + ' is-danger' : inputClassName;
+  inputClassName = props.isLoading ? `${inputClassName} is-loading` : inputClassName;
+  inputClassName = props.errors != null ? `${inputClassName} is-danger` : inputClassName;
 
   return (
     <div className={controlClassName}>

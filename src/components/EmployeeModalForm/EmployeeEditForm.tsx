@@ -93,7 +93,7 @@ export const EmployeeEditForm: Component<Props> = ({ state, actions }) => {
               errors={active.errors}
               onInputChange={formActions.updateValue}
             />
-            {active.errors == null && <FormHint label={"Inactive: No login possible"} />}
+            {active.errors == null && <FormHint label={'Inactive: No login possible'} />}
           </FormField>
           <FormField labelText="Role" required={true}>
             <FormSelect

@@ -12,9 +12,12 @@ export const textRequiredValidator = (control: FormControl<string>): FormErrors 
 };
 
 export const emailValidator = (control: FormControl<string>): FormErrors => {
-  var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  const emailRegex = new RegExp([
+    /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@/,
+    /((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+  ].map((r) => { return r.source; }).join(''));
 
-  if (control.value != null && control.value.length > 0 && !re.test(control.value.toLowerCase())) {
+  if (control.value != null && control.value.length > 0 && !emailRegex.test(control.value.toLowerCase())) {
     return {
       email: true,
     };
@@ -26,13 +29,13 @@ export const emailValidator = (control: FormControl<string>): FormErrors => {
 export const durationValidator = (control: FormControl<Moment>, state: BaseForm): FormErrors => {
   const { controls } = state;
 
-  if (control.value != null && control.name === "startDate" && control.value.isSameOrAfter(controls['endDate'].value)) {
+  if (control.value != null && control.name === 'startDate' && control.value.isSameOrAfter(controls['endDate'].value)) {
     return {
       negativeDuration: true,
     };
   }
 
-  if (control.value != null && control.name === "endDate" && control.value.isSameOrBefore(controls['startDate'].value)) {
+  if (control.value != null && control.name === 'endDate' && control.value.isSameOrBefore(controls['startDate'].value)) {
     return {
       negativeDuration: true,
     };

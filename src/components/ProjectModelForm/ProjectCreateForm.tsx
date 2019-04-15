@@ -58,7 +58,8 @@ export const ProjectCreateForm: Component<ProjectFormProps> = ({ state, actions 
               errors={name.errors}
               onInputChange={formActions.updateValue}
             />
-            {name.errors != null && name.errors.required && <FormHint theme="danger" label="Name is required" />}
+            {name.errors != null && name.errors.required &&
+              <FormHint theme="danger" label="Name is required" />}
           </FormField>
           <FormField labelText="FTE" required={true}>
             <FormInput
@@ -79,7 +80,8 @@ export const ProjectCreateForm: Component<ProjectFormProps> = ({ state, actions 
               errors={startDate.errors}
               onInputChange={formActions.updateValue}
             />
-            {startDate.errors != null && startDate.errors.negativeDuration && <FormHint theme="danger" label="Project has negative duration" />}
+            {startDate.errors != null && startDate.errors.negativeDuration &&
+              <FormHint theme="danger" label="Project has negative duration" />}
           </FormField>
           <FormField labelText="End date" required={true}>
             <DatePicker
@@ -89,7 +91,8 @@ export const ProjectCreateForm: Component<ProjectFormProps> = ({ state, actions 
               errors={endDate.errors}
               onInputChange={formActions.updateValue}
             />
-            {endDate.errors != null && endDate.errors.negativeDuration && <FormHint theme="danger" label="Project has negative duration" />}
+            {endDate.errors != null && endDate.errors.negativeDuration &&
+              <FormHint theme="danger" label="Project has negative duration" />}
           </FormField>
           <FormField labelText="Project Manager" required={true}>
             <EmployeeSelect
@@ -100,7 +103,8 @@ export const ProjectCreateForm: Component<ProjectFormProps> = ({ state, actions 
               errors={projectManagerId.errors}
               onInputChange={formActions.updateValue}
             />
-            {projectManagerId.errors != null && projectManagerId.errors.required && <FormHint theme="danger" label="Project Manager is required" />}
+            {projectManagerId.errors != null && projectManagerId.errors.required &&
+              <FormHint theme="danger" label="Project Manager is required" />}
           </FormField>
         </section>
         <footer className="modal-card-foot">

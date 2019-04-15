@@ -38,7 +38,8 @@ export const ContractForm: Component<Props> = ({ state, actions, key }) => {
             errors={startDate.errors}
             onInputChange={updateContractFormValue(key, formActions)}
           />
-          {startDate.errors != null && startDate.errors.negativeDuration && <FormHint theme="danger" label="Contract has negative duration" />}
+          {startDate.errors != null && startDate.errors.negativeDuration &&
+            <FormHint theme="danger" label="Contract has negative duration" />}
         </FormField>
       </div>
       <div className="contract-form__column">
@@ -50,7 +51,8 @@ export const ContractForm: Component<Props> = ({ state, actions, key }) => {
             errors={endDate.errors}
             onInputChange={updateContractFormValue(key, formActions)}
           />
-          {endDate.errors != null && endDate.errors.negativeDuration && <FormHint theme="danger" label="Contract has negative duration" />}
+          {endDate.errors != null && endDate.errors.negativeDuration &&
+            <FormHint theme="danger" label="Contract has negative duration" />}
         </FormField>
       </div>
       <div className="contract-form__column">
