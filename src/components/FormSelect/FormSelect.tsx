@@ -52,6 +52,8 @@ export const FormSelect: Component<FormSelectProps<any, any>> = (props) => {
     value = o => o != null ? props.valueMapper!(o) : null;
   }
 
+  const selectClassName = props.errors != null ? 'select is-danger' : 'select';
+
   const onCreate = (e: Element) => {
     if (props.onInputChange) {
       e.addEventListener('change', (event: any) => {
@@ -75,7 +77,7 @@ export const FormSelect: Component<FormSelectProps<any, any>> = (props) => {
 
   return (
     <div className="control">
-      <div className="select">
+      <div className={selectClassName}>
         <select
           className="form-control"
           name={props.name}
@@ -84,7 +86,7 @@ export const FormSelect: Component<FormSelectProps<any, any>> = (props) => {
           disabled={props.disabled}
           oncreate={(e: Element) => onCreate(e)}
         >
-          <option placeholder={true}>{props.placeholder}</option>
+          <option value="" placeholder={true}>{props.placeholder}</option>
           {props.items.map(item => createOption(item))}
         </select>
       </div>

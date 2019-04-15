@@ -11,6 +11,8 @@ import {
 import Button from '../Button/Button';
 import { createContract, deleteContract, updateContract } from '../../actions/contract.actions';
 import DatePicker from '../DatePicker/DatePicker';
+import FormHint from '../FormHint/FormHint';
+import { CONTRACT_PENSUM_VALUE_MIN, CONTRACT_PENSUM_VALUE_MAX } from '../../constants';
 
 interface Props {
   state: State;
@@ -33,8 +35,11 @@ export const ContractForm: Component<Props> = ({ state, actions, key }) => {
             name={startDate.name}
             value={startDate.value}
             max={endDate.value}
+            errors={startDate.errors}
             onInputChange={updateContractFormValue(key, formActions)}
           />
+          {startDate.errors != null && startDate.errors.negativeDuration &&
+            <FormHint theme="danger" label="Contract has negative duration" />}
         </FormField>
       </div>
       <div className="contract-form__column">
@@ -43,19 +48,22 @@ export const ContractForm: Component<Props> = ({ state, actions, key }) => {
             name={endDate.name}
             value={endDate.value}
             min={startDate.value}
+            errors={endDate.errors}
             onInputChange={updateContractFormValue(key, formActions)}
           />
+          {endDate.errors != null && endDate.errors.negativeDuration &&
+            <FormHint theme="danger" label="Contract has negative duration" />}
         </FormField>
       </div>
       <div className="contract-form__column">
-        <FormField labelText="Pensum" required={true} hint="0-100">
+        <FormField labelText="Pensum" required={true}>
           <FormInput
             name={pensumPercentage.name}
             value={pensumPercentage.value}
             type="number"
             suffix="fas fa-percent"
-            min={0}
-            max={100}
+            min={CONTRACT_PENSUM_VALUE_MIN}
+            max={CONTRACT_PENSUM_VALUE_MAX}
             onInputChange={updateContractFormValue(key, formActions)}
           />
         </FormField>

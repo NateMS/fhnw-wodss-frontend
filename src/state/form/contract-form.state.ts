@@ -1,5 +1,6 @@
 import { Moment } from 'moment';
 import { BaseForm, FormControl, ListForm } from './types';
+import { durationValidator } from './validators';
 
 export interface ContractForm extends BaseForm {
   controls: {
@@ -32,10 +33,16 @@ export const initContractForm: () => ContractForm = () => ({
     startDate: {
       name: 'startDate',
       value: null,
+      validators: [
+        durationValidator,
+      ],
     },
     endDate: {
       name: 'endDate',
       value: null,
+      validators: [
+        durationValidator,
+      ],
     },
     pensumPercentage: {
       name: 'pensumPercentage',

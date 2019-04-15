@@ -10,6 +10,8 @@ import Button from '../Button/Button';
 import { close } from './EmployeeModalForm';
 import { State } from '../../state';
 import { createEmployee } from '../../actions/employee.actions';
+import FormHint from '../FormHint/FormHint';
+import { INPUT_LENGTH_SHORT_MAX, INPUT_LENGTH_LONG_MAX } from '../../constants';
 
 interface Props {
   state: State;
@@ -19,7 +21,6 @@ interface Props {
 const onSubmit = (event: Event, state: EmployeeFormState, actions: Actions) => {
   event.preventDefault();
   event.stopPropagation();
-
   createEmployee(state, actions);
 };
 
@@ -50,27 +51,37 @@ export const EmployeeCreateForm: Component<Props> = ({ state, actions }) => {
               name={firstName.name}
               value={firstName.value}
               disabled={formState.isSaving}
+              maxLength={INPUT_LENGTH_SHORT_MAX}
               type="text"
+              errors={firstName.errors}
               onInputChange={formActions.updateValue}
             />
+            {firstName.errors != null && firstName.errors.required && <FormHint theme="danger" label="First name is required" />}
           </FormField>
           <FormField labelText="Last Name" required={true}>
             <FormInput
               name={lastName.name}
               value={lastName.value}
               disabled={formState.isSaving}
+              maxLength={INPUT_LENGTH_SHORT_MAX}
               type="text"
+              errors={lastName.errors}
               onInputChange={formActions.updateValue}
             />
+            {lastName.errors != null && lastName.errors.required && <FormHint theme="danger" label="Last name is required" />}
           </FormField>
           <FormField labelText="Email" required={true}>
             <FormInput
               name={emailAddress.name}
               value={emailAddress.value}
               disabled={formState.isSaving}
+              maxLength={INPUT_LENGTH_LONG_MAX}
               type="email"
+              errors={emailAddress.errors}
               onInputChange={formActions.updateValue}
             />
+            {emailAddress.errors != null && emailAddress.errors.required && <FormHint theme="danger" label="Email is required" />}
+            {emailAddress.errors != null && emailAddress.errors.email && <FormHint theme="danger" label="Email invalid" />}
           </FormField>
           <FormField labelText="Password" required={true}>
             <FormInput
@@ -78,17 +89,21 @@ export const EmployeeCreateForm: Component<Props> = ({ state, actions }) => {
               value={password.value}
               disabled={formState.isSaving}
               type="password"
+              errors={password.errors}
               onInputChange={formActions.updateValue}
             />
+            {password.errors != null && password.errors.required && <FormHint theme="danger" label="Password is required" />}
           </FormField>
-          <FormField labelText="Status" required={true} hint="Inactive: No login possible">
+          <FormField labelText="Status" required={true}>
             <FormCheckbox
               name={active.name}
               value={active.value}
               disabled={formState.isSaving}
               labelText="Active"
+              errors={active.errors}
               onInputChange={formActions.updateValue}
             />
+            {active.errors == null && <FormHint label="Inactive: No login possible" />}
           </FormField>
           <FormField labelText="Role" required={true}>
             <FormSelect
@@ -97,9 +112,11 @@ export const EmployeeCreateForm: Component<Props> = ({ state, actions }) => {
               disabled={formState.isSaving}
               placeholder="Please select"
               items={roleList}
+              errors={role.errors}
               labeler={(r: Role) => roleNameMap[r]}
               onInputChange={formActions.updateValue}
             />
+            {role.errors != null && role.errors.required && <FormHint theme="danger" label="Role is required" />}
           </FormField>
         </section>
         <footer className="modal-card-foot">

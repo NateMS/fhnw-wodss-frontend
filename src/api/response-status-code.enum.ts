@@ -4,4 +4,5 @@ export enum ResponseStatusCode {
   NotFound = 404,
   PreconditionFailed = 412,
   InternalServerError = 500,
+  NetworkError = 999,
 }

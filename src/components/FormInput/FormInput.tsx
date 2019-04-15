@@ -6,6 +6,8 @@ interface Props extends FormControlProps<string | number> {
   suffix?: string;
   min?: number | null;
   max?: number | null;
+  minLength?: number | null;
+  maxLength?: number | null;
 }
 
 interface FormInputSuffixProps {
@@ -20,7 +22,9 @@ const FormInputSuffix: Component<FormInputSuffixProps> = ({ suffix }) => (
 
 export const FormInput: Component<Props> = (props) => {
   const controlClassName = props.suffix ? 'control has-icons-right' : 'control';
-  const inputClassName = props.isLoading ? 'input is-loading' : 'input';
+  let inputClassName = 'input';
+  inputClassName = props.isLoading ? `${inputClassName} is-loading` : inputClassName;
+  inputClassName = props.errors != null ? `${inputClassName} is-danger` : inputClassName;
 
   return (
     <div className={controlClassName}>
@@ -31,8 +35,10 @@ export const FormInput: Component<Props> = (props) => {
         value={props.value ? props.value : undefined}
         disabled={props.disabled}
         placeholder={props.placeholder}
-        min={props.min || undefined}
-        max={props.max || undefined}
+        min={props.min != null ? props.min : undefined}
+        max={props.max != null ? props.max : undefined}
+        minLength={props.minLength != null ? props.minLength : undefined}
+        maxLength={props.maxLength != null ? props.maxLength : undefined}
         oninput={(e: any) => props.onInputChange({ name: props.name, value: e.target.value })}
       />
       {props.suffix && <FormInputSuffix suffix={props.suffix} />}
