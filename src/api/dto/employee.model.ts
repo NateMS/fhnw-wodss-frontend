@@ -1,10 +1,10 @@
 import { Employee } from './employee';
-import { RoleEnum, roleNameMap } from '../role.enum';
+import { Role, roleNameMap } from '../role';
 import { EmployeeBaseModel } from './employee.base.model';
 
 export class EmployeeModel extends EmployeeBaseModel {
   public readonly id: string;
-  public readonly role: RoleEnum;
+  public readonly role: Role;
 
   public get fullName(): string {
     return `${this.firstName} ${this.lastName}`;

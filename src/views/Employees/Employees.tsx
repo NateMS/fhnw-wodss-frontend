@@ -5,6 +5,7 @@ import EmployeeModalForm from '../../components/EmployeeModalForm/EmployeeModalF
 import EmployeeList from '../../components/EmployeeList/EmployeeList';
 import { Actions } from '../../actions';
 import { Spinner } from '../../components/Spinner/Spinner';
+import { hasAdminRole } from '../../utils';
 
 const showCreateForm = (show: boolean, actions: Actions): void => {
   actions.form.employee.setOpen(show);
@@ -18,6 +19,8 @@ const onRender = (actions: Actions): void => {
 };
 
 export const Employees: Component<ViewProps> = ({ state, actions }) => {
+  const userRole = state.user.employee!.role;
+
   const { filterString } = state.view.employees;
   const isLoading = state.employee.isLoading ||
     state.contract.isLoading ||
@@ -36,11 +39,13 @@ export const Employees: Component<ViewProps> = ({ state, actions }) => {
             value={filterString}
             oninput={(e: any) => actions.view.employees.updateFilterString(e.target.value)}
           />
-          <Button
-            theme="primary"
-            label="Create"
-            onClick={() => showCreateForm(true, actions)}
-          />
+          {hasAdminRole(userRole) && (
+            <Button
+              theme="primary"
+              label="Create"
+              onClick={() => showCreateForm(true, actions)}
+            />
+          )}
         </div>
         {isLoading && <Spinner isLoading={true} />}
         {!isLoading && <EmployeeList state={state} actions={actions} />}

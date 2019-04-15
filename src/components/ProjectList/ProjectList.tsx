@@ -2,78 +2,26 @@ import { Component, h } from 'hyperapp';
 import { Actions } from '../../actions';
 import { ProjectModel } from '../../api/dto/project.model';
 import { State } from '../../state';
-import { deleteProject } from '../../actions/project.actions';
-import { showProjectEditForm } from '../../actions/form/project-form.actions';
 import { EmployeeModel } from '../../api/dto/employee.model';
+import ProjectListItem from './ProjectListItem';
+import { hasAdminRole } from '../../utils';
 
 interface Props {
   state: State;
   actions: Actions;
 }
 
-interface ProjectRow {
-  project: ProjectModel;
-  employees: Set<EmployeeModel> | undefined;
-  actions: Actions;
-}
-
-const onEditClick = (event: Event, project: ProjectModel, actions: Actions): void => {
-  event.preventDefault();
-  showProjectEditForm(project, actions);
-};
-
-const onDeleteClick = (event: Event, project: ProjectModel, actions: Actions): void => {
-  event.preventDefault();
-  deleteProject(project, actions);
-};
-
 const filterProjects = (projects: ProjectModel[], filterString: string): ProjectModel[] => {
   if (filterString.length > 0) {
-    return projects.filter((project) => project.name.toLowerCase().indexOf(filterString) > -1);
+    return projects.filter(project => project.name.toLowerCase().indexOf(filterString) > -1);
   }
 
   return projects;
 };
 
-const ProjectRowItem: Component<ProjectRow> = ({ project, employees, actions }) => {
-  return (
-    <tr>
-      <td>{project.name}</td>
-      <td>{project.startDate} - {project.endDate}</td>
-      <td>{project.ftePercentage}</td>
-      <td>{employees != null ? employees.size : 0}</td>
-      <td>
-        <div className="dropdown is-right is-hoverable">
-          <div className="dropdown-trigger">
-            <i className="fas fa-ellipsis-h" />
-          </div>
-          <div className="dropdown-menu" role="menu">
-            <div className="dropdown-content">
-              <a
-                href="#"
-                className="dropdown-item"
-                onclick={(event: Event) => onEditClick(event, project, actions)}
-              >
-                Edit
-              </a>
-              <hr className="dropdown-divider"/>
-              <a
-                href="#"
-                className="dropdown-item"
-                onclick={(event: Event) => onDeleteClick(event, project, actions)}
-              >
-                Delete
-              </a>
-            </div>
-          </div>
-        </div>
-      </td>
-    </tr>
-  );
-};
-
 const ProjectList: Component<Props> = ({ state, actions }) => {
   const { filterString } = state.view.projects;
+  const user = state.user.employee!;
   const projects = state.project.list!;
   const allocations = state.allocation.list!;
   const contracts = state.contract.list!;
@@ -109,13 +57,19 @@ const ProjectList: Component<Props> = ({ state, actions }) => {
     }
   });
 
-  const createProjectRowItem = (project: ProjectModel) => (
-    <ProjectRowItem
-      project={project}
-      employees={projectEmployeesMap.get(project.id)}
-      actions={actions}
-    />
-  );
+  const createListItem = (project: ProjectModel) => {
+    const canEdit = hasAdminRole(user.role) || user.id === project.projectManagerId;
+    return (
+      <ProjectListItem
+        project={project}
+        projectManager={employees.find(e => project.projectManagerId === e.id)!}
+        employees={projectEmployeesMap.get(project.id)}
+        isEditEnabled={canEdit}
+        isDeleteEnabled={hasAdminRole(user.role)}
+        actions={actions}
+      />
+    );
+  };
 
   return (
     <div className="project-list">
@@ -123,6 +77,7 @@ const ProjectList: Component<Props> = ({ state, actions }) => {
         <thead>
           <tr>
             <td>Name</td>
+            <td>Project Manager</td>
             <td>Timespan</td>
             <td>FTE Total</td>
             <td># Devs</td>
@@ -130,7 +85,7 @@ const ProjectList: Component<Props> = ({ state, actions }) => {
           </tr>
         </thead>
         <tbody>
-          {filteredProjects.map((project: ProjectModel) => createProjectRowItem(project))}
+          {filteredProjects.map((project: ProjectModel) => createListItem(project))}
         </tbody>
       </table>
       <div className="project-list__counter">
@@ -138,6 +93,6 @@ const ProjectList: Component<Props> = ({ state, actions }) => {
       </div>
     </div>
   );
-}
+};
 
 export default ProjectList;

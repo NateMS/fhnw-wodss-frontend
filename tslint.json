@@ -4,12 +4,11 @@
     "tslint-react"
   ],
   "rules": {
-    "max-line-length": [true, 120],
+    "max-line-length": [true, 140],
     "quotemark": [true, "single", "jsx-double", "avoid-escape"],
     "variable-name": [true, "ban-keywords", "check-format", "allow-pascal-case"],
     "jsx-no-lambda": false,
-    "import-name": [true, {
-      "choices.js": "Choices"
-    }]
+    "jsx-no-multiline-js": false,
+    "no-boolean-literal-compare": false
   }
 }

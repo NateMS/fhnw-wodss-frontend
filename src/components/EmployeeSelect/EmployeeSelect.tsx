@@ -8,7 +8,7 @@ export const EmployeeSelect: Component<FormSelectProps<EmployeeModel, string>> =
     <FormSelect
       {...props}
       searchEnabled={true}
-      comparer={(item: Employee, selected: Employee) => item.id === selected.id}
+      comparer={(item: Employee, selected: string) => item.id === selected}
       valueMapper={(e: EmployeeModel) => e.id}
       labeler={(e: EmployeeModel) => e.fullName}
     />

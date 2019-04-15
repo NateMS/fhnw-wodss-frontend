@@ -3,7 +3,7 @@ import { Employee } from '../api/dto/employee';
 import { EmployeeModel } from '../api/dto/employee.model';
 import { EmployeeBaseModel } from '../api/dto/employee.base.model';
 import { EmployeeRequestModel } from '../api/dto/employee.request.model';
-import { RoleEnum } from '../api/role.enum';
+import { Role } from '../api/role';
 import { Contract } from '../api/dto/contract';
 import { ContractModel } from '../api/dto/contract.model';
 import { ContractBaseModel } from '../api/dto/contract.base.model';
@@ -14,7 +14,7 @@ class EmployeeService {
 
   private constructor(private api: ApiService) {}
 
-  public create(employee: EmployeeBaseModel, password: string, role: RoleEnum): Promise<EmployeeModel> {
+  public create(employee: EmployeeBaseModel, password: string, role: Role): Promise<EmployeeModel> {
     const params = {
       password,
       role,
@@ -24,7 +24,7 @@ class EmployeeService {
       .then((response: Employee) => new EmployeeModel(response));
   }
 
-  public getAll(role?: RoleEnum): Promise<EmployeeModel[]> {
+  public getAll(role?: Role): Promise<EmployeeModel[]> {
     const params = {
       role,
     };
@@ -78,7 +78,7 @@ class EmployeeService {
       .then(e => new ContractModel(e));
   }
 
-  public filterListByRole(employees: EmployeeModel[] | null, role: RoleEnum): EmployeeModel[] {
+  public filterListByRole(employees: EmployeeModel[] | null, role: Role): EmployeeModel[] {
     return (null === employees) ? [] : employees.filter(e => e.role === role);
   }
 

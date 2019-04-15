@@ -1,5 +1,5 @@
 import { Component, h } from 'hyperapp';
-import { RoleEnum, roleList, roleNameMap } from '../../api/role.enum';
+import { Role, roleList, roleNameMap } from '../../api/role';
 import { FormField } from '../FormField/FormField';
 import FormInput from '../FormInput/FormInput';
 import { FormSelect } from '../FormSelect/FormSelect';
@@ -52,6 +52,7 @@ export const EmployeeEditForm: Component<Props> = ({ state, actions }) => {
             <FormInput
               name={firstName.name}
               value={firstName.value}
+              disabled={formState.isSaving}
               maxLength={INPUT_LENGTH_SHORT_MAX}
               type="text"
               errors={firstName.errors}
@@ -63,6 +64,7 @@ export const EmployeeEditForm: Component<Props> = ({ state, actions }) => {
             <FormInput
               name={lastName.name}
               value={lastName.value}
+              disabled={formState.isSaving}
               maxLength={INPUT_LENGTH_SHORT_MAX}
               type="text"
               errors={lastName.errors}
@@ -78,6 +80,7 @@ export const EmployeeEditForm: Component<Props> = ({ state, actions }) => {
               type="email"
               errors={emailAddress.errors}
               onInputChange={formActions.updateValue}
+              disabled={formState.isSaving}
             />
             {emailAddress.errors != null && emailAddress.errors.required && <FormHint theme="danger" label="Field is required" />}
             {emailAddress.errors != null && emailAddress.errors.email && <FormHint theme="danger" label="Email invalid" />}
@@ -97,9 +100,9 @@ export const EmployeeEditForm: Component<Props> = ({ state, actions }) => {
               name={role.name}
               value={role.value}
               placeholder="Please select"
-              disabled={true}
+              disabled={formState.isSaving}
               items={roleList}
-              labeler={(r: RoleEnum) => roleNameMap[r]}
+              labeler={(r: Role) => roleNameMap[r]}
               errors={role.errors}
               onInputChange={formActions.updateValue}
             />

@@ -1,7 +1,7 @@
 import { ProjectFormState } from '../../state/form/project-form.state';
 import { Actions } from '../../actions';
 import { Component, h } from 'hyperapp';
-import { RoleEnum } from '../../api/role.enum';
+import { Role } from '../../api/role';
 import { FormField } from '../FormField/FormField';
 import FormInput from '../FormInput/FormInput';
 import Button from '../Button/Button';
@@ -29,7 +29,7 @@ export const ProjectCreateForm: Component<ProjectFormProps> = ({ state, actions 
   const { id, name, ftePercentage, startDate, endDate, projectManagerId } = formState.controls;
   const { project: formActions } = actions.form;
 
-  const projectManagers = employeeService.filterListByRole(state.employee.list, RoleEnum.PROJECTMANAGER);
+  const projectManagers = employeeService.filterListByRole(state.employee.list, Role.PROJECTMANAGER);
   const isEditMode = id.value != null;
 
   return (

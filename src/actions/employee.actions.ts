@@ -3,7 +3,7 @@ import { ActionResult, ActionsType } from 'hyperapp';
 import { employeeService } from '../services/EmployeeService';
 import { EmployeeModel } from '../api/dto/employee.model';
 import { EmployeeFormState } from '../state/form/employee-form.state';
-import { RoleEnum } from '../api/role.enum';
+import { Role } from '../api/role';
 import { Actions } from './index';
 import { getApiErrorToast, getToastMessage } from '../utils';
 import { EmployeeBaseModel } from '../api/dto/employee.base.model';
@@ -53,7 +53,7 @@ export const employeeActions: ActionsType<EmployeeState, EmployeeActions> = {
     };
 
     return employeeService
-      .create(employee, password!.value!, (role!.value as RoleEnum))
+      .create(employee, password!.value!, (role!.value as Role))
       .then((employee: EmployeeModel) => {
         return employee;
       });
@@ -83,11 +83,14 @@ export const employeeActions: ActionsType<EmployeeState, EmployeeActions> = {
 };
 
 export const createEmployee = (state: EmployeeFormState, actions: Actions): void => {
+  actions.form.employee.setSaving(true);
+
   actions
     .employee
     .create(state)
     .then((employee: EmployeeModel) => {
       actions.toast.success(getToastMessage(`Successfully created employee '${employee.fullName}'.`));
+      actions.form.employee.setSaving(false);
 
       actions.form.employee.patch({
         ...employee,
@@ -98,15 +101,19 @@ export const createEmployee = (state: EmployeeFormState, actions: Actions): void
     })
     .catch((error: Error) => {
       actions.toast.error(getApiErrorToast('Error creating employee', error));
+      actions.form.employee.setSaving(false);
     });
 };
 
 export const updateEmployee = (state: EmployeeFormState, actions: Actions) => {
+  actions.form.employee.setSaving(true);
+
   actions
     .employee
     .update(state)
     .then((employee: EmployeeModel) => {
       actions.toast.success(getToastMessage(`Successfully updated employee '${employee.fullName}'.`));
+      actions.form.employee.setSaving(false);
 
       // Refresh underlying view
       actions.employee.fetchAll();
@@ -114,5 +121,6 @@ export const updateEmployee = (state: EmployeeFormState, actions: Actions) => {
     })
     .catch((error: Error) => {
       actions.toast.error(getApiErrorToast('Error updating employee', error));
+      actions.form.employee.setSaving(false);
     });
 };

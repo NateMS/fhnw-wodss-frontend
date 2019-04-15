@@ -1,7 +1,7 @@
 import { EmployeeFormState } from '../../state/form/employee-form.state';
 import { Actions } from '../../actions';
 import { Component, h } from 'hyperapp';
-import { RoleEnum, roleList, roleNameMap } from '../../api/role.enum';
+import { Role, roleList, roleNameMap } from '../../api/role';
 import { FormField } from '../FormField/FormField';
 import FormInput from '../FormInput/FormInput';
 import { FormCheckbox } from '../FormCheckbox/FormCheckbox';
@@ -50,6 +50,7 @@ export const EmployeeCreateForm: Component<Props> = ({ state, actions }) => {
             <FormInput
               name={firstName.name}
               value={firstName.value}
+              disabled={formState.isSaving}
               maxLength={INPUT_LENGTH_SHORT_MAX}
               type="text"
               errors={firstName.errors}
@@ -61,6 +62,7 @@ export const EmployeeCreateForm: Component<Props> = ({ state, actions }) => {
             <FormInput
               name={lastName.name}
               value={lastName.value}
+              disabled={formState.isSaving}
               maxLength={INPUT_LENGTH_SHORT_MAX}
               type="text"
               errors={lastName.errors}
@@ -72,6 +74,7 @@ export const EmployeeCreateForm: Component<Props> = ({ state, actions }) => {
             <FormInput
               name={emailAddress.name}
               value={emailAddress.value}
+              disabled={formState.isSaving}
               maxLength={INPUT_LENGTH_LONG_MAX}
               type="email"
               errors={emailAddress.errors}
@@ -84,6 +87,7 @@ export const EmployeeCreateForm: Component<Props> = ({ state, actions }) => {
             <FormInput
               name={password.name}
               value={password.value}
+              disabled={formState.isSaving}
               type="password"
               errors={password.errors}
               onInputChange={formActions.updateValue}
@@ -94,6 +98,7 @@ export const EmployeeCreateForm: Component<Props> = ({ state, actions }) => {
             <FormCheckbox
               name={active.name}
               value={active.value}
+              disabled={formState.isSaving}
               labelText="Active"
               errors={active.errors}
               onInputChange={formActions.updateValue}
@@ -104,10 +109,11 @@ export const EmployeeCreateForm: Component<Props> = ({ state, actions }) => {
             <FormSelect
               name={role.name}
               value={role.value}
+              disabled={formState.isSaving}
               placeholder="Please select"
               items={roleList}
-              labeler={(r: RoleEnum) => roleNameMap[r]}
               errors={role.errors}
+              labeler={(r: Role) => roleNameMap[r]}
               onInputChange={formActions.updateValue}
             />
             {role.errors != null && role.errors.required && <FormHint theme="danger" label="Role is required" />}
@@ -124,6 +130,8 @@ export const EmployeeCreateForm: Component<Props> = ({ state, actions }) => {
             label="Save"
             theme="primary"
             type="submit"
+            isLoading={formState.isSaving}
+            disabled={formState.isSaving}
           />
         </footer>
       </div>

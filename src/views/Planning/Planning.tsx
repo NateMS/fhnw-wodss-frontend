@@ -6,6 +6,7 @@ import { showProjectCreateForm } from '../../actions/form/project-form.actions';
 import Button from '../../components/Button/Button';
 import { showAllocationCreateForm } from '../../actions/form/allocation-form.actions';
 import AllocationModalForm from '../../components/AllocationModalForm/AllocationModalForm';
+import { hasAdminRole, hasPrivilegedRole } from '../../utils';
 
 const onRender = (actions: Actions) => {
   actions.employee.fetchAll();
@@ -15,21 +16,27 @@ const onRender = (actions: Actions) => {
 };
 
 export const Planning: Component<ViewProps> = ({ state, actions }) => {
+  const userRole = state.user.employee!.role;
+
   return (
     <div oncreate={() => onRender(actions)}>
       <div className="view-container">
         <h1 className="title">Planning</h1>
-        <Button
-          theme="primary"
-          label="Create Project"
-          onClick={() => showProjectCreateForm(true, actions)}
-        />
+        {hasAdminRole(userRole) && (
+          <Button
+            theme="primary"
+            label="Create Project"
+            onClick={() => showProjectCreateForm(true, actions)}
+          />
+        )}
 
-        <Button
-          theme="primary"
-          label="Create Allocation"
-          onClick={() => showAllocationCreateForm(true, actions)}
-        />
+        {hasPrivilegedRole(userRole) && (
+          <Button
+            theme="primary"
+            label="Create Allocation"
+            onClick={() => showAllocationCreateForm(true, actions)}
+          />
+        )}
       </div>
       <ProjectModalForm state={state} actions={actions} />
       <AllocationModalForm state={state} actions={actions} />

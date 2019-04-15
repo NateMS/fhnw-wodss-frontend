@@ -10,7 +10,7 @@ class ProjectService {
   private constructor(private api: ApiService) {}
 
   public create(project: ProjectBaseModel): Promise<ProjectModel> {
-    return this.api.post<Project>("/api/project", new ProjectRequestModel(project))
+    return this.api.post<Project>('/api/project', new ProjectRequestModel(project))
       .then(e => new ProjectModel(e));
   }
 
@@ -32,7 +32,7 @@ class ProjectService {
 
   public update(project: ProjectBaseModel, id: string): Promise<ProjectModel> {
     return this.api.put<Project>(`/api/project/${id}`, new ProjectRequestModel(project))
-     .then(e => new ProjectModel(e))
+     .then(e => new ProjectModel(e));
   }
 
   public delete(id: string): Promise<void> {
