@@ -45,7 +45,7 @@ const destroyFlatPickrInstance = (element: any): void => {
 export const DatePicker: Component<Props> = (props) => {
   let inputClassName = 'input';
   inputClassName = props.isLoading ? inputClassName + ' is-loading' : inputClassName;
-  inputClassName = props.hasError ? inputClassName + ' is-danger' : inputClassName;
+  inputClassName = props.errors != null ? inputClassName + ' is-danger' : inputClassName;
   const formattedDate = props.value ? props.value.format(DATE_FORMAT_STRING) : undefined;
 
   return (

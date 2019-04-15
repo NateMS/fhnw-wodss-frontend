@@ -55,7 +55,7 @@ export const ProjectCreateForm: Component<ProjectFormProps> = ({ state, actions 
               value={name.value}
               maxLength={INPUT_LENGTH_SHORT_MAX}
               type="text"
-              hasError={name.errors != null && name.errors.required}
+              errors={name.errors}
               onInputChange={formActions.updateValue}
             />
             {name.errors != null && name.errors.required && <FormHint theme="danger" label="Name is required" />}
@@ -76,7 +76,7 @@ export const ProjectCreateForm: Component<ProjectFormProps> = ({ state, actions 
               name={startDate.name}
               value={startDate.value}
               max={endDate.value}
-              hasError={startDate.errors != null && startDate.errors.negativeDuration}
+              errors={startDate.errors}
               onInputChange={formActions.updateValue}
             />
             {startDate.errors != null && startDate.errors.negativeDuration && <FormHint theme="danger" label="Project has negative duration" />}
@@ -86,7 +86,7 @@ export const ProjectCreateForm: Component<ProjectFormProps> = ({ state, actions 
               name={endDate.name}
               value={endDate.value}
               min={startDate.value}
-              hasError={endDate.errors != null && endDate.errors.negativeDuration}
+              errors={endDate.errors}
               onInputChange={formActions.updateValue}
             />
             {endDate.errors != null && endDate.errors.negativeDuration && <FormHint theme="danger" label="Project has negative duration" />}
@@ -97,7 +97,7 @@ export const ProjectCreateForm: Component<ProjectFormProps> = ({ state, actions 
               value={projectManagerId.value}
               placeholder="Please select"
               items={projectManagers}
-              hasError={projectManagerId.errors != null && projectManagerId.errors.required}
+              errors={projectManagerId.errors}
               onInputChange={formActions.updateValue}
             />
             {projectManagerId.errors != null && projectManagerId.errors.required && <FormHint theme="danger" label="Project Manager is required" />}

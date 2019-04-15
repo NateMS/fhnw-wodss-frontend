@@ -54,7 +54,7 @@ export const EmployeeEditForm: Component<Props> = ({ state, actions }) => {
               value={firstName.value}
               maxLength={INPUT_LENGTH_SHORT_MAX}
               type="text"
-              hasError={firstName.errors != null && firstName.errors.required}
+              errors={firstName.errors}
               onInputChange={formActions.updateValue}
             />
             {firstName.errors != null && firstName.errors.required && <FormHint theme="danger" label="Field is required" />}
@@ -65,7 +65,7 @@ export const EmployeeEditForm: Component<Props> = ({ state, actions }) => {
               value={lastName.value}
               maxLength={INPUT_LENGTH_SHORT_MAX}
               type="text"
-              hasError={lastName.errors != null && lastName.errors.required}
+              errors={lastName.errors}
               onInputChange={formActions.updateValue}
             />
             {lastName.errors != null && lastName.errors.required && <FormHint theme="danger" label="Field is required" />}
@@ -76,7 +76,7 @@ export const EmployeeEditForm: Component<Props> = ({ state, actions }) => {
               value={emailAddress.value}
               maxLength={INPUT_LENGTH_LONG_MAX}
               type="email"
-              hasError={emailAddress.errors != null && (emailAddress.errors.required || emailAddress.errors.email)}
+              errors={emailAddress.errors}
               onInputChange={formActions.updateValue}
             />
             {emailAddress.errors != null && emailAddress.errors.required && <FormHint theme="danger" label="Field is required" />}
@@ -87,6 +87,7 @@ export const EmployeeEditForm: Component<Props> = ({ state, actions }) => {
               name={active.name}
               value={active.value}
               labelText="Active"
+              errors={active.errors}
               onInputChange={formActions.updateValue}
             />
             {active.errors == null && <FormHint label={"Inactive: No login possible"} />}
@@ -99,7 +100,7 @@ export const EmployeeEditForm: Component<Props> = ({ state, actions }) => {
               disabled={true}
               items={roleList}
               labeler={(r: RoleEnum) => roleNameMap[r]}
-              hasError={role.errors != null && role.errors.required}
+              errors={role.errors}
               onInputChange={formActions.updateValue}
             />
             {role.errors != null && role.errors.required && <FormHint theme="danger" label="Field is required" />}

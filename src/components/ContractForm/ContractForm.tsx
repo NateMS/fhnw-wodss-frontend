@@ -35,9 +35,9 @@ export const ContractForm: Component<Props> = ({ state, actions, key }) => {
             name={startDate.name}
             value={startDate.value}
             max={endDate.value}
+            errors={startDate.errors}
             onInputChange={updateContractFormValue(key, formActions)}
           />
-          {startDate.errors == null && <FormHint label={String.fromCharCode(160)} />}
           {startDate.errors != null && startDate.errors.negativeDuration && <FormHint theme="danger" label="Contract has negative duration" />}
         </FormField>
       </div>
@@ -47,9 +47,9 @@ export const ContractForm: Component<Props> = ({ state, actions, key }) => {
             name={endDate.name}
             value={endDate.value}
             min={startDate.value}
+            errors={endDate.errors}
             onInputChange={updateContractFormValue(key, formActions)}
           />
-          {endDate.errors == null && <FormHint label={String.fromCharCode(160)} />}
           {endDate.errors != null && endDate.errors.negativeDuration && <FormHint theme="danger" label="Contract has negative duration" />}
         </FormField>
       </div>
@@ -64,7 +64,6 @@ export const ContractForm: Component<Props> = ({ state, actions, key }) => {
             max={CONTRACT_PENSUM_VALUE_MAX}
             onInputChange={updateContractFormValue(key, formActions)}
           />
-          {pensumPercentage.errors == null && <FormHint label={String.fromCharCode(160)} />}
         </FormField>
       </div>
       <div className="contract-form__column contract-form__actions">

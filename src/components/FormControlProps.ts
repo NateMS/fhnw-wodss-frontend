@@ -5,5 +5,4 @@ export interface FormControlProps<T> extends FormControl<T> {
   placeholder?: string;
   disabled?: boolean;
   isLoading?: boolean;
-  hasError?: boolean;
 }

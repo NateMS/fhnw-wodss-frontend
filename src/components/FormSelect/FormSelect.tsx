@@ -52,7 +52,7 @@ export const FormSelect: Component<FormSelectProps<any, any>> = (props) => {
     value = o => o != null ? props.valueMapper!(o) : null;
   }
 
-  const selectClassName = props.hasError ? 'select is-danger' : 'select';
+  const selectClassName = props.errors != null ? 'select is-danger' : 'select';
 
   const onCreate = (e: Element) => {
     if (props.onInputChange) {
