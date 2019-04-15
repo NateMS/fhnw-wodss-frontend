@@ -29,11 +29,11 @@ export const EmployeeListItem: Component<Props> = (props) => {
       <td><AvatarItem fullName={employee.fullName} /></td>
       <td>{employee.roleName}</td>
       <td>{projects != null ? projects.size : 0}</td>
-      <td>{contract != null ? `${contract.pensumPercentage}%` : '-'}</td>
+      <td>{contract != null ? `${contract.pensumPercentage}%` : '–'}</td>
       <td>
         {startDate && endDate ?
           `${startDate.format(DATE_FORMAT_STRING)} – ${endDate.format(DATE_FORMAT_STRING)}` :
-          '-'
+          '–'
         }
       </td>
       <td>

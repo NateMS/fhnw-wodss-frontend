@@ -4,6 +4,7 @@ import { Actions } from '../../actions';
 import { Component, h } from 'hyperapp';
 import { AvatarItem } from '../Avatar/Avatar';
 import ProjectListItemActions from './ProjectListItemActions';
+import { DATE_FORMAT_STRING } from '../../constants';
 
 interface Props {
   project: ProjectModel;
@@ -21,7 +22,12 @@ export const ProjectListItem: Component<Props> = (props) => {
     <tr>
       <td>{project.name}</td>
       <td><AvatarItem fullName={projectManager.fullName} /></td>
-      <td>{project.startDate} - {project.endDate}</td>
+      <td>
+        {project.startDate && project.endDate ?
+          `${project.startDate.format(DATE_FORMAT_STRING)} – ${project.endDate.format(DATE_FORMAT_STRING)}` :
+          '–'
+        }
+      </td>
       <td>{project.ftePercentage}</td>
       <td>{employees != null ? employees.size : 0}</td>
       <td>
