@@ -1,68 +1,68 @@
 import { Component, h } from 'hyperapp';
-import { Link, LocationState } from '@hyperapp/router';
-import ToolTip from '../ToolTip/ToolTip';
 import './Navigation.scss';
+import NavigationItem from './NavigationItem';
+import { State } from '../../state';
+import { Role } from '../../api/role';
+import { hasPrivilegedRole } from '../../utils';
 
 interface Props {
-  state: LocationState;
+  state: State;
 }
 
-interface NavigationItem {
+export interface NavigationEntry {
   pathName: string;
   label: string;
   icon: string;
   active: boolean;
+  isVisible: (role: Role) => boolean;
 }
 
-const navigationItems: NavigationItem[] = [
+const navigationItems: NavigationEntry[] = [
   {
     pathName: '/planning',
     label: 'Planning',
     icon: 'fas fa-lg fa-calendar-alt',
     active: false,
+    isVisible: () => true,
   },
   {
     pathName: '/projects',
     label: 'Projects',
     icon: 'fab fa-lg fa-buffer',
     active: false,
+    isVisible: hasPrivilegedRole,
   },
   {
     pathName: '/employees',
     label: 'Employees',
     icon: 'fas fa-lg fa-users',
     active: false,
+    isVisible: hasPrivilegedRole,
   },
 ];
 
-const NavigationItem: Component<NavigationItem> = ({ pathName, label, active, icon }) => {
-  const className = active ? 'navigation__item navigation__item--active' : 'navigation__item';
-
-  const linkProps = {
-    className: 'navigation__item-link',
-    to: pathName,
-  };
-
-  return (
-    <ToolTip content={label} placement="right">
-      <li className={className}>
-        <Link {...linkProps}>
-          <span className="icon">
-            <i className={icon} aria-hidden="true" />
-          </span>
-        </Link>
-        </li>
-    </ToolTip>
-  );
+const createNavigationItem = (item: NavigationEntry, activePathName: string, userRole: Role) => {
+  if (item.isVisible(userRole) === true) {
+    return (
+      <NavigationItem
+        key={item.pathName}
+        pathName={item.pathName}
+        label={item.label}
+        icon={item.icon}
+        active={item.pathName === activePathName}
+      />
+    );
+  }
 };
 
-const Navigation: Component<Props> = (state) => {
-  const activePathName = state.state.pathname;
+const Navigation: Component<Props> = ({ state }) => {
+  const activePathName = state.location.pathname;
+  const userRole = state.user.employee!.role;
 
   return (
     <div className="navigation">
       <ul>
-        {navigationItems.map(item => <NavigationItem key={item.pathName} {...item} active={item.pathName === activePathName} />)}
+        {navigationItems.map(item => createNavigationItem(item, activePathName, userRole))}
       </ul>
     </div>
   );

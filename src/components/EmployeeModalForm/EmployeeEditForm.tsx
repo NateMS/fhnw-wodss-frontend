@@ -1,5 +1,5 @@
 import { Component, h } from 'hyperapp';
-import { RoleEnum, roleList, roleNameMap } from '../../api/role.enum';
+import { Role, roleList, roleNameMap } from '../../api/role';
 import { FormField } from '../FormField/FormField';
 import FormInput from '../FormInput/FormInput';
 import { FormSelect } from '../FormSelect/FormSelect';
@@ -50,6 +50,7 @@ export const EmployeeEditForm: Component<Props> = ({ state, actions }) => {
             <FormInput
               name={firstName.name}
               value={firstName.value}
+              disabled={formState.isSaving}
               type="text"
               onInputChange={formActions.updateValue}
             />
@@ -58,6 +59,7 @@ export const EmployeeEditForm: Component<Props> = ({ state, actions }) => {
             <FormInput
               name={lastName.name}
               value={lastName.value}
+              disabled={formState.isSaving}
               type="text"
               onInputChange={formActions.updateValue}
             />
@@ -69,7 +71,7 @@ export const EmployeeEditForm: Component<Props> = ({ state, actions }) => {
               placeholder="Please select"
               disabled={true}
               items={roleList}
-              labeler={(r: RoleEnum) => roleNameMap[r]}
+              labeler={(r: Role) => roleNameMap[r]}
               onInputChange={formActions.updateValue}
             />
           </FormField>
@@ -79,6 +81,7 @@ export const EmployeeEditForm: Component<Props> = ({ state, actions }) => {
               value={emailAddress.value}
               type="email"
               onInputChange={formActions.updateValue}
+              disabled={formState.isSaving}
             />
           </FormField>
           <FormField labelText="Status" required={true} hint="Inactive: No login possible">
@@ -87,6 +90,7 @@ export const EmployeeEditForm: Component<Props> = ({ state, actions }) => {
               value={active.value}
               labelText="Active"
               onInputChange={formActions.updateValue}
+              disabled={formState.isSaving}
             />
           </FormField>
           {state.form.contract.list.map((contractForm, index) => <ContractForm key={index} state={contractForm} actions={actions} />)}

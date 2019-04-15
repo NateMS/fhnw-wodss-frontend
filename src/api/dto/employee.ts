@@ -1,4 +1,4 @@
-import { RoleEnum } from '../role.enum';
+import { Role } from '../role';
 
 /**
  * Represents the employee of the FHNW.
@@ -41,5 +41,5 @@ export interface Employee {
    * Single employee role
    * @type {string}
    */
-  role?: RoleEnum;
+  role?: Role;
 }

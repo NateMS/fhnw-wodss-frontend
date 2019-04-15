@@ -38,7 +38,7 @@ export const ProtectedView: Component<ViewProps> = ({ state, actions }, children
   return (
     <div className="app">
       <div className="app__sidebar">
-        <Navigation state={state.location} />
+        <Navigation state={state} />
         <UserLauncher state={state.user} />
       </div>
       <div className="app__body">

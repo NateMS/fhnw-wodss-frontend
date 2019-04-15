@@ -33,7 +33,7 @@ class AllocationService {
 
   public update(allocation: AllocationBaseModel, id: string): Promise<AllocationModel> {
     return this.api.put<Allocation>(`/api/allocation/${id}`, new AllocationRequestModel(allocation))
-     .then(e => new AllocationModel(e))
+     .then(e => new AllocationModel(e));
   }
 
   public delete(id: string): Promise<void> {

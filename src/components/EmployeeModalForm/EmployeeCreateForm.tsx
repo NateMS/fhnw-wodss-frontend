@@ -1,7 +1,7 @@
 import { EmployeeFormState } from '../../state/form/employee-form.state';
 import { Actions } from '../../actions';
 import { Component, h } from 'hyperapp';
-import { RoleEnum, roleList, roleNameMap } from '../../api/role.enum';
+import { Role, roleList, roleNameMap } from '../../api/role';
 import { FormField } from '../FormField/FormField';
 import FormInput from '../FormInput/FormInput';
 import { FormCheckbox } from '../FormCheckbox/FormCheckbox';
@@ -49,6 +49,7 @@ export const EmployeeCreateForm: Component<Props> = ({ state, actions }) => {
             <FormInput
               name={firstName.name}
               value={firstName.value}
+              disabled={formState.isSaving}
               type="text"
               onInputChange={formActions.updateValue}
             />
@@ -57,6 +58,7 @@ export const EmployeeCreateForm: Component<Props> = ({ state, actions }) => {
             <FormInput
               name={lastName.name}
               value={lastName.value}
+              disabled={formState.isSaving}
               type="text"
               onInputChange={formActions.updateValue}
             />
@@ -65,6 +67,7 @@ export const EmployeeCreateForm: Component<Props> = ({ state, actions }) => {
             <FormInput
               name={emailAddress.name}
               value={emailAddress.value}
+              disabled={formState.isSaving}
               type="email"
               onInputChange={formActions.updateValue}
             />
@@ -73,6 +76,7 @@ export const EmployeeCreateForm: Component<Props> = ({ state, actions }) => {
             <FormInput
               name={password.name}
               value={password.value}
+              disabled={formState.isSaving}
               type="password"
               onInputChange={formActions.updateValue}
             />
@@ -81,6 +85,7 @@ export const EmployeeCreateForm: Component<Props> = ({ state, actions }) => {
             <FormCheckbox
               name={active.name}
               value={active.value}
+              disabled={formState.isSaving}
               labelText="Active"
               onInputChange={formActions.updateValue}
             />
@@ -89,9 +94,10 @@ export const EmployeeCreateForm: Component<Props> = ({ state, actions }) => {
             <FormSelect
               name={role.name}
               value={role.value}
+              disabled={formState.isSaving}
               placeholder="Please select"
               items={roleList}
-              labeler={(r: RoleEnum) => roleNameMap[r]}
+              labeler={(r: Role) => roleNameMap[r]}
               onInputChange={formActions.updateValue}
             />
           </FormField>
@@ -107,6 +113,8 @@ export const EmployeeCreateForm: Component<Props> = ({ state, actions }) => {
             label="Save"
             theme="primary"
             type="submit"
+            isLoading={formState.isSaving}
+            disabled={formState.isSaving}
           />
         </footer>
       </div>

@@ -6,6 +6,7 @@ import { Actions } from '../../actions';
 import Button from '../../components/Button/Button';
 import { Spinner } from '../../components/Spinner/Spinner';
 import { showProjectCreateForm } from '../../actions/form/project-form.actions';
+import { hasAdminRole } from '../../utils';
 
 const onRender = (actions: Actions) => {
   actions.employee.fetchAll();
@@ -16,6 +17,7 @@ const onRender = (actions: Actions) => {
 
 export const Projects: Component<ViewProps> = ({ state, actions }) => {
   const { filterString } = state.view.projects;
+  const userRole = state.user.employee!.role;
   const isLoading = state.employee.isLoading ||
     state.contract.isLoading ||
     state.project.isLoading ||
@@ -33,11 +35,13 @@ export const Projects: Component<ViewProps> = ({ state, actions }) => {
             value={filterString}
             oninput={(e: any) => actions.view.projects.updateFilterString(e.target.value)}
           />
-          <Button
-            theme="primary"
-            label="Create"
-            onClick={() => showProjectCreateForm(true, actions)}
-          />
+          {hasAdminRole(userRole) && (
+            <Button
+              theme="primary"
+              label="Create"
+              onClick={() => showProjectCreateForm(true, actions)}
+            />
+          )}
         </div>
         {isLoading && <Spinner isLoading={true} />}
         {!isLoading && <ProjectList state={state} actions={actions} />}

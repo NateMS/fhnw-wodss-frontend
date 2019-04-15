@@ -3,8 +3,9 @@ import './Notification.scss';
 
 interface NotificationProps {
   message: string;
-  title?: string;
   theme: string;
+  key: string;
+  title?: string;
   onClose?: () => void;
 }
 
