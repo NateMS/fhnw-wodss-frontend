@@ -2,9 +2,9 @@ import { Component, h } from 'hyperapp';
 import './Notification.scss';
 
 interface NotificationProps {
+  key: number;
   message: string;
   theme: string;
-  key: string;
   title?: string;
   onClose?: () => void;
 }
@@ -23,12 +23,14 @@ const CloseButton: Component<CloseButtonProps> = ({ onClose }) => {
   );
 };
 
-export const Notification: Component<NotificationProps> = ({ message, title, theme, onClose }) => (
-  <div className={`notification is-${theme}`}>
-    {onClose && <CloseButton onClose={onClose} />}
-    {title && <span className="notification__title">{title}</span>}
-    {message}
-  </div>
-);
+export const Notification: Component<NotificationProps> = ({ message, title, theme, onClose }) => {
+  return (
+    <div className={`notification is-${theme}`}>
+      {onClose && <CloseButton onClose={onClose} />}
+      {title && <span className="notification__title">{title}</span>}
+      {message}
+    </div>
+  );
+};
 
 export default Notification;
