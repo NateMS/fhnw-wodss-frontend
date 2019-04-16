@@ -1,8 +1,10 @@
 import { Project } from './project';
 import { ProjectBaseModel } from './project.base.model';
+import { AllocationModel } from './allocation.model';
+import { getDaysOfDateRange } from '../../utils';
 
 export class ProjectModel extends ProjectBaseModel {
-  id: string;
+  public readonly id: string;
 
   constructor(project: Project) {
     super(project);
@@ -12,5 +14,21 @@ export class ProjectModel extends ProjectBaseModel {
     } else {
       throw new Error(`The field 'id' is missing.`);
     }
+  }
+
+  public getAllocations(allocations: AllocationModel[]): AllocationModel[] {
+    return allocations.filter(a => a.projectId === this.id);
+  }
+
+  public getTotalAllocatedPercentage(allocations: AllocationModel[]): number {
+    const projectAllocations = this.getAllocations(allocations);
+
+    return projectAllocations.reduce(
+      (prev, allocation) => {
+        const days = getDaysOfDateRange(allocation.startDate, allocation.endDate, true);
+        return prev + (days * allocation.pensumPercentage);
+      },
+      0,
+    );
   }
 }

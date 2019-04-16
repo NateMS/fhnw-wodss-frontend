@@ -1,7 +1,6 @@
 import { Component, h } from 'hyperapp';
 import { Actions } from '../../actions';
-import AllocationCreateForm from './AllocationCreateForm';
-import AllocationEditForm from './AllocationEditForm';
+import AllocationManageForm from './AllocationManageForm';
 import { State } from '../../state';
 
 export interface AllocationFormProps {
@@ -25,7 +24,7 @@ const AllocationModalForm: Component<AllocationFormProps> = ({ state, actions })
   return (
     <div className={stateClassName}>
       <div className="modal-background" />
-      {!isEditMode && <AllocationCreateForm state={state} actions={actions} />}
+      {!isEditMode && <AllocationManageForm state={state} actions={actions} />}
     </div>
   );
 };

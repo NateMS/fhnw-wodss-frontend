@@ -2,11 +2,19 @@ import { Project } from './project';
 import moment from 'moment';
 
 export class ProjectBaseModel implements Project {
-  name: string;
-  ftePercentage: number;
-  startDate: moment.Moment;
-  endDate: moment.Moment;
-  projectManagerId: string;
+  public readonly name: string;
+  public readonly ftePercentage: number;
+  public readonly startDate: moment.Moment;
+  public readonly endDate: moment.Moment;
+  public readonly projectManagerId: string;
+
+  public get durationInDays(): number {
+    return this.endDate.diff(this.startDate, 'days');
+  }
+
+  public get totalPercentage(): number {
+    return this.durationInDays * this.ftePercentage;
+  }
 
   constructor(project: Project) {
     if (project.name) {
