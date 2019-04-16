@@ -96,7 +96,7 @@ export const createProject = (state: ProjectFormState, actions: Actions) => {
       actions.project.fetchAll();
     })
     .catch((error: Error) => {
-      actions.toast.error(getApiErrorToast('Error creating project', error));
+      actions.toast.error(getApiErrorToast('Error creating project.', error));
     });
 };
 
@@ -113,7 +113,7 @@ export const updateProject = (state: ProjectFormState, actions: Actions): void =
       actions.project.fetchAll();
     })
     .catch((error: Error) => {
-      actions.toast.error(getApiErrorToast('Error updateing project', error));
+      actions.toast.error(getApiErrorToast('Error updateing project.', error));
     });
 };
 
@@ -124,6 +124,6 @@ export const deleteProject = (project: ProjectModel, actions: Actions): void => 
       actions.toast.success(getToastMessage(`Project '${project.name}' successfully deleted.`));
     })
     .catch((error: Error) => {
-      actions.toast.error(getApiErrorToast('Error deleting project', error));
+      actions.toast.error(getApiErrorToast(`Error deleting project: '${project.name}'.`, error));
     });
 };

@@ -33,6 +33,14 @@ class UserService {
           throw new ServiceError('Precondition for the username/password failed');
         }
 
+        if (error.status === ResponseStatusCode.InternalServerError) {
+          throw new ServiceError('Internal server error');
+        }
+
+        if (error.status === ResponseStatusCode.NetworkError) {
+          throw new ServiceError('Error contacting server');
+        }
+
         throw error;
       });
   }
@@ -59,6 +67,14 @@ class UserService {
 
         if (error.status === ResponseStatusCode.PreconditionFailed) {
           throw new ServiceError('Precondition for the token failed');
+        }
+
+        if (error.status === ResponseStatusCode.InternalServerError) {
+          throw new ServiceError('Internal server error');
+        }
+
+        if (error.status === ResponseStatusCode.NetworkError) {
+          throw new ServiceError('Error contacting server');
         }
 
         throw error;

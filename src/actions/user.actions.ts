@@ -94,7 +94,7 @@ export const userActions: ActionsType<UserState, UserActions> = {
 
   logout: () => (state) => {
     if (!state.authenticated) {
-      throw new Error('User is not authenticated');
+      throw new Error('User is not authenticated.');
     }
 
     userService.removeToken();

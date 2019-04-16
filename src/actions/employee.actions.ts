@@ -100,7 +100,7 @@ export const createEmployee = (state: EmployeeFormState, actions: Actions): void
       actions.employee.fetchAll();
     })
     .catch((error: Error) => {
-      actions.toast.error(getApiErrorToast('Error creating employee', error));
+      actions.toast.error(getApiErrorToast('Error creating employee.', error));
       actions.form.employee.setSaving(false);
     });
 };
@@ -120,7 +120,19 @@ export const updateEmployee = (state: EmployeeFormState, actions: Actions) => {
       actions.form.employee.reset();
     })
     .catch((error: Error) => {
-      actions.toast.error(getApiErrorToast('Error updating employee', error));
+      actions.toast.error(getApiErrorToast('Error updating employee.', error));
       actions.form.employee.setSaving(false);
+    });
+};
+
+export const deleteEmployee = (employee: EmployeeModel, actions: Actions) => {
+  actions
+    .employee
+    .delete(employee.id)
+    .then(() => {
+      actions.toast.success(getToastMessage(`Employee '${employee.fullName}' successfully deleted.`));
+    })
+    .catch((error: Error) => {
+      actions.toast.error(getApiErrorToast(`Error deleting employee '${employee.fullName}'.`, error));
     });
 };

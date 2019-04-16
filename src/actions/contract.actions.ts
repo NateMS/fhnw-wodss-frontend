@@ -82,6 +82,39 @@ export const contractActions: ActionsType<ContractState, ContractActions> = {
   },
 };
 
+export const createContract = (state: ContractForm, index: number, actions: Actions) => {
+  // TODO VALIDATE
+  actions
+    .contract
+    .create(state)
+    .then((contract: ContractModel) => {
+      actions.toast.success(getToastMessage(`Contract successfully created.`));
+      actions.contract.fetchAll();
+      actions.form.contract.patch({
+        index,
+        values: contract,
+      });
+    })
+    .catch((error: Error) => {
+      actions.toast.error(getApiErrorToast('Error creating contract.', error));
+    });
+};
+
+// TODO RENAME STATE FORM
+export const updateContract = (state: ContractForm, actions: Actions) => {
+  actions
+    .contract
+    .update(state)
+    .then(() => {
+      // TODO Add more description to the toast
+      actions.toast.success(getToastMessage(`Contract successfully updated.`));
+      actions.contract.fetchAll();
+    })
+    .catch((error: Error) => {
+      actions.toast.error(getApiErrorToast('Error creating contract.', error));
+    });
+};
+
 // TODO RENAME STATE FORM
 export const deleteContract = (state: ContractForm, key: number, actions: Actions) => {
   // TODO VALIDATE if id is available
@@ -96,39 +129,6 @@ export const deleteContract = (state: ContractForm, key: number, actions: Action
       actions.contract.fetchAll();
     })
     .catch((error: Error) => {
-      actions.toast.error(getApiErrorToast('Error deleting contract', error));
-    });
-};
-
-export const createContract = (state: ContractForm, index: number, actions: Actions) => {
-  // TODO VALIDATE
-  actions
-    .contract
-    .create(state)
-    .then((contract: ContractModel) => {
-      actions.toast.success(getToastMessage(`Contract successfully created`));
-      actions.contract.fetchAll();
-      actions.form.contract.patch({
-        index,
-        values: contract,
-      });
-    })
-    .catch((error: Error) => {
-      actions.toast.error(getApiErrorToast('Error creating contract', error));
-    });
-};
-
-// TODO RENAME STATE FORM
-export const updateContract = (state: ContractForm, actions: Actions) => {
-  actions
-    .contract
-    .update(state)
-    .then(() => {
-      // TODO Add more description to the toast
-      actions.toast.success(getToastMessage(`Contract successfully updated`));
-      actions.contract.fetchAll();
-    })
-    .catch((error: Error) => {
-      actions.toast.error(getApiErrorToast('Error creating contract', error));
+      actions.toast.error(getApiErrorToast('Error deleting contract.', error));
     });
 };
