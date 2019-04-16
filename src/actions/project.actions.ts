@@ -88,7 +88,7 @@ export const createProject = (state: ProjectFormState, actions: Actions) => {
     .project
     .create(state)
     .then((project: ProjectModel) => {
-      actions.toast.success(getToastMessage(`Successfully created project '${project.name}'.`));
+      actions.toast.success(getToastMessage(`Successfully created project '${project.name}'`));
 
       actions.form.project.reset();
 
@@ -96,7 +96,7 @@ export const createProject = (state: ProjectFormState, actions: Actions) => {
       actions.project.fetchAll();
     })
     .catch((error: Error) => {
-      actions.toast.error(getApiErrorToast('Error creating project.', error));
+      actions.toast.error(getApiErrorToast('Error creating project', error));
     });
 };
 
@@ -105,7 +105,7 @@ export const updateProject = (state: ProjectFormState, actions: Actions): void =
     .project
     .update(state)
     .then((project: ProjectModel) => {
-      actions.toast.success(getToastMessage(`Successfully updated project '${project.name}'.`));
+      actions.toast.success(getToastMessage(`Successfully updated project '${project.name}'`));
 
       actions.form.project.reset();
 
@@ -113,7 +113,7 @@ export const updateProject = (state: ProjectFormState, actions: Actions): void =
       actions.project.fetchAll();
     })
     .catch((error: Error) => {
-      actions.toast.error(getApiErrorToast('Error updateing project.', error));
+      actions.toast.error(getApiErrorToast('Error updateing project', error));
     });
 };
 
@@ -121,9 +121,9 @@ export const deleteProject = (project: ProjectModel, actions: Actions): void => 
   actions.project
     .delete(project.id)
     .then(() => {
-      actions.toast.success(getToastMessage(`Project '${project.name}' successfully deleted.`));
+      actions.toast.success(getToastMessage(`Project '${project.name}' successfully deleted`));
     })
     .catch((error: Error) => {
-      actions.toast.error(getApiErrorToast(`Error deleting project: '${project.name}'.`, error));
+      actions.toast.error(getApiErrorToast(`Error deleting project: '${project.name}'`, error));
     });
 };

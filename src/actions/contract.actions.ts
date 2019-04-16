@@ -88,7 +88,7 @@ export const createContract = (state: ContractForm, index: number, actions: Acti
     .contract
     .create(state)
     .then((contract: ContractModel) => {
-      actions.toast.success(getToastMessage(`Contract successfully created.`));
+      actions.toast.success(getToastMessage(`Contract successfully created`));
       actions.contract.fetchAll();
       actions.form.contract.patch({
         index,
@@ -96,7 +96,7 @@ export const createContract = (state: ContractForm, index: number, actions: Acti
       });
     })
     .catch((error: Error) => {
-      actions.toast.error(getApiErrorToast('Error creating contract.', error));
+      actions.toast.error(getApiErrorToast('Error creating contract', error));
     });
 };
 
@@ -107,11 +107,11 @@ export const updateContract = (state: ContractForm, actions: Actions) => {
     .update(state)
     .then(() => {
       // TODO Add more description to the toast
-      actions.toast.success(getToastMessage(`Contract successfully updated.`));
+      actions.toast.success(getToastMessage(`Contract successfully updated`));
       actions.contract.fetchAll();
     })
     .catch((error: Error) => {
-      actions.toast.error(getApiErrorToast('Error creating contract.', error));
+      actions.toast.error(getApiErrorToast('Error creating contract', error));
     });
 };
 
@@ -125,10 +125,10 @@ export const deleteContract = (state: ContractForm, key: number, actions: Action
       // TODO add more description to the message
       // TODO move remove contract row?
       removeContractForm(key, actions);
-      actions.toast.success(getToastMessage('Contract successfully deleted.'));
+      actions.toast.success(getToastMessage('Contract successfully deleted'));
       actions.contract.fetchAll();
     })
     .catch((error: Error) => {
-      actions.toast.error(getApiErrorToast('Error deleting contract.', error));
+      actions.toast.error(getApiErrorToast('Error deleting contract', error));
     });
 };

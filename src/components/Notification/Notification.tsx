@@ -17,9 +17,7 @@ const CloseButton: Component<CloseButtonProps> = ({ onClose }) => {
   const onClick = () => onClose ? onClose() : () => {};
 
   return (
-    <button type="button" onclick={() => onClick()} className="delete">
-      <i className="fas fa-times"/>
-    </button>
+    <button type="button" onclick={() => onClick()} className="delete" />
   );
 };
 

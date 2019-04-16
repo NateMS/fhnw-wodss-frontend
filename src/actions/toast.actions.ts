@@ -90,6 +90,6 @@ export const toastActions: ActionsType<ToastState, ToastActions> = {
   },
 
   hide: (id?: number) => ({ list }) => (
-    { list: [...list.filter(t => t.id !== id)] }
+    { list: list.filter(t => t.id !== id) }
     ),
 };

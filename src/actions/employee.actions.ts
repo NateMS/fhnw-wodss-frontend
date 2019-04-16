@@ -89,7 +89,7 @@ export const createEmployee = (state: EmployeeFormState, actions: Actions): void
     .employee
     .create(state)
     .then((employee: EmployeeModel) => {
-      actions.toast.success(getToastMessage(`Successfully created employee '${employee.fullName}'.`));
+      actions.toast.success(getToastMessage(`Successfully created employee '${employee.fullName}'`));
       actions.form.employee.setSaving(false);
 
       actions.form.employee.patch({
@@ -100,7 +100,7 @@ export const createEmployee = (state: EmployeeFormState, actions: Actions): void
       actions.employee.fetchAll();
     })
     .catch((error: Error) => {
-      actions.toast.error(getApiErrorToast('Error creating employee.', error));
+      actions.toast.error(getApiErrorToast('Error creating employee', error));
       actions.form.employee.setSaving(false);
     });
 };
@@ -112,7 +112,7 @@ export const updateEmployee = (state: EmployeeFormState, actions: Actions) => {
     .employee
     .update(state)
     .then((employee: EmployeeModel) => {
-      actions.toast.success(getToastMessage(`Successfully updated employee '${employee.fullName}'.`));
+      actions.toast.success(getToastMessage(`Successfully updated employee '${employee.fullName}'`));
       actions.form.employee.setSaving(false);
 
       // Refresh underlying view
@@ -120,7 +120,7 @@ export const updateEmployee = (state: EmployeeFormState, actions: Actions) => {
       actions.form.employee.reset();
     })
     .catch((error: Error) => {
-      actions.toast.error(getApiErrorToast('Error updating employee.', error));
+      actions.toast.error(getApiErrorToast('Error updating employee', error));
       actions.form.employee.setSaving(false);
     });
 };
@@ -130,9 +130,9 @@ export const deleteEmployee = (employee: EmployeeModel, actions: Actions) => {
     .employee
     .delete(employee.id)
     .then(() => {
-      actions.toast.success(getToastMessage(`Employee '${employee.fullName}' successfully deleted.`));
+      actions.toast.success(getToastMessage(`Employee '${employee.fullName}' successfully deleted`));
     })
     .catch((error: Error) => {
-      actions.toast.error(getApiErrorToast(`Error deleting employee '${employee.fullName}'.`, error));
+      actions.toast.error(getApiErrorToast(`Error deleting employee '${employee.fullName}'`, error));
     });
 };
