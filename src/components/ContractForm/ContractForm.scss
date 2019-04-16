@@ -1,3 +1,5 @@
+$form-label-offset: 0.5rem;
+
 .contract-form {
   display: flex;
   align-content: center;
@@ -8,10 +10,23 @@
   height: 90px;
 }
 
+.contract-form__label {
+  margin-top: $form-label-offset;
+}
+
 .contract-form__column {
+  display: flex;
+  align-items: center;
+  height: 90px;
   padding: 0 0.25rem;
+
 }
 
 .contract-form__actions {
   min-width: 150px;
+
+  .button {
+    margin-top: $form-label-offset;
+    margin-right: 0.5rem;
+  }
 }

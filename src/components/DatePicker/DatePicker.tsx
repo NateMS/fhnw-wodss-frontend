@@ -11,6 +11,7 @@ interface Props extends FormControlProps<Moment> {
 
 const createFlatPickrInstance = (element: any, props: Props): void => {
   const { min, max, name, onInputChange } = props;
+
   flatpickr(element, {
     minDate: min ? min.toDate() : undefined,
     maxDate: max ? max.toDate() : undefined,
@@ -29,10 +30,11 @@ const updateFlatPickrInstance = (element: any, props: Props): void => {
     // Workaround, because setting config value triggers onUpdateValue
     // which leads to an endless loop:
     // element._flatpickr.set({
-      //   minDate: props.min ? props.min : undefined,
-      // });
-    destroyFlatPickrInstance(element);
-    createFlatPickrInstance(element, props);
+    //     minDate: props.min ? props.min.toDate() : undefined,
+    //     maxDate: props.max ? props.max.toDate() : undefined,
+    //   });
+    // destroyFlatPickrInstance(element);
+    // createFlatPickrInstance(element, props);
   }
 };
 
@@ -49,11 +51,7 @@ export const DatePicker: Component<Props> = (props) => {
   const formattedDate = props.value ? props.value.format(DATE_FORMAT_STRING) : undefined;
 
   return (
-    <div
-      className="control has-icons-left"
-      oncreate={(element: any) => createFlatPickrInstance(element, props)}
-      ondestroy={(element: any) => destroyFlatPickrInstance(element)}
-    >
+    <div className="control has-icons-left">
       <input
         className={inputClassName}
         name={props.name}
@@ -63,6 +61,8 @@ export const DatePicker: Component<Props> = (props) => {
         min={props.min || undefined}
         max={props.max || undefined}
         readonly={true}
+        oncreate={(element: any) => createFlatPickrInstance(element, props)}
+        ondestroy={(element: any) => destroyFlatPickrInstance(element)}
       />
       <span className="icon is-left">
         <i className="fas fa-calendar-alt"/>
