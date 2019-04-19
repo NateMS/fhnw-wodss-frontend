@@ -1,12 +1,10 @@
 import { apiService, ApiService } from './ApiService';
 import { Employee } from '../api/dto/employee';
 import { EmployeeModel } from '../api/dto/employee.model';
-import { EmployeeBaseModel } from '../api/dto/employee.base.model';
 import { EmployeeRequestModel } from '../api/dto/employee.request.model';
 import { Role } from '../api/role';
 import { Contract } from '../api/dto/contract';
 import { ContractModel } from '../api/dto/contract.model';
-import { ContractBaseModel } from '../api/dto/contract.base.model';
 import { ContractRequestModel } from '../api/dto/contract.request.model';
 import { ServiceError } from './ServiceError';
 import { ResponseStatusCode } from '../api/response-status-code.enum';
@@ -16,13 +14,13 @@ class EmployeeService {
 
   private constructor(private api: ApiService) {}
 
-  public create(employee: EmployeeBaseModel, password: string, role: Role): Promise<EmployeeModel> {
+  public create(employee: EmployeeRequestModel, password: string, role: Role): Promise<EmployeeModel> {
     const params = {
       password,
       role,
     };
 
-    return this.api.post<Employee>('/api/employee', new EmployeeRequestModel(employee), params)
+    return this.api.post<Employee>('/api/employee', employee, params)
       .then((response: Employee) => new EmployeeModel(response))
       .catch((error) => {
         ApiService.checkDefaultResponseStatus(error);
@@ -58,8 +56,8 @@ class EmployeeService {
       .then((response: Employee) => new EmployeeModel(response));
   }
 
-  public update(employee: EmployeeBaseModel, id: string): Promise<EmployeeModel> {
-    return this.api.put<Employee>(`/api/employee/${id}`, new EmployeeRequestModel(employee))
+  public update(employee: EmployeeRequestModel, id: string): Promise<EmployeeModel> {
+    return this.api.put<Employee>(`/api/employee/${id}`, employee)
       .then((response: Employee) => new EmployeeModel(response))
       .catch((error) => {
         ApiService.checkDefaultResponseStatus(error);
@@ -98,8 +96,8 @@ class EmployeeService {
       });
   }
 
-  public createContract(contract: ContractBaseModel): Promise<ContractModel> {
-    return this.api.post<Contract>('/api/contract', new ContractRequestModel(contract))
+  public createContract(contract: ContractRequestModel): Promise<ContractModel> {
+    return this.api.post<Contract>('/api/contract', contract)
       .then((response: Contract) => new ContractModel(response))
       .catch((error) => {
         ApiService.checkDefaultResponseStatus(error);
@@ -120,8 +118,8 @@ class EmployeeService {
       });
   }
 
-  public updateContract(contract: ContractBaseModel, id: string): Promise<ContractModel> {
-    return this.api.put<Contract>(`/api/contract/${id}`, new ContractRequestModel(contract))
+  public updateContract(contract: ContractRequestModel, id: string): Promise<ContractModel> {
+    return this.api.put<Contract>(`/api/contract/${id}`, contract)
       .then((response: Contract) => new ContractModel(response))
       .catch((error) => {
         ApiService.checkDefaultResponseStatus(error);

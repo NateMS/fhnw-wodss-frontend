@@ -2,18 +2,20 @@ import { ProjectState } from '../state';
 import { ActionResult, ActionsType } from 'hyperapp';
 import { projectService } from '../services/ProjectService';
 import { ProjectModel } from '../api/dto/project.model';
-import { ProjectBaseModel } from '../api/dto/project.base.model';
-import { ProjectFormState } from '../state/form/project-form.state';
-import { Actions } from './index';
-import { getApiErrorToast, getToastMessage } from '../utils';
+import { ProjectRequestModel } from '../api/dto/project.request.model';
 
 export interface ProjectActions {
   setLoading: (isLoading: boolean) => (state: ProjectState) => ActionResult<ProjectState>;
   fetchAll: () => (state: ProjectState, actions: ProjectActions) => Promise<ProjectModel[]>;
   setList: (projects: ProjectModel[]) => (state: ProjectState) => ActionResult<ProjectState>;
-  create: (form: ProjectFormState) => () => Promise<ProjectModel>;
-  update: (form: ProjectFormState) => () => Promise<ProjectModel>;
+  create: (project: ProjectRequestModel) => () => Promise<ProjectModel>;
+  update: (update: ProjectUpdateModel) => () => Promise<ProjectModel>;
   delete: (id: string) => () => Promise<void>;
+}
+
+interface ProjectUpdateModel {
+  project: ProjectRequestModel,
+  id: string,
 }
 
 export const projectActions: ActionsType<ProjectState, ProjectActions> = {
@@ -40,18 +42,7 @@ export const projectActions: ActionsType<ProjectState, ProjectActions> = {
       });
   },
 
-  create: (form: ProjectFormState) => () => {
-    const { name, ftePercentage, startDate, endDate, projectManagerId } = form.controls;
-    // @TODO VALIDATION
-
-    const project: ProjectBaseModel = {
-      name: name.value!,
-      ftePercentage: ftePercentage.value!,
-      startDate: startDate.value!,
-      endDate: endDate.value!,
-      projectManagerId: projectManagerId.value!,
-    };
-
+  create: (project: ProjectRequestModel) => () => {
     return projectService
       .create(project)
       .then((project: ProjectModel) => {
@@ -59,20 +50,11 @@ export const projectActions: ActionsType<ProjectState, ProjectActions> = {
       });
   },
 
-  update: (form: ProjectFormState) => () => {
-    const { id, name, ftePercentage, startDate, endDate, projectManagerId } = form.controls;
-    // @TODO VALIDATION
-
-    const project: ProjectBaseModel = {
-      name: name.value!,
-      ftePercentage: ftePercentage.value!,
-      startDate: startDate.value!,
-      endDate: endDate.value!,
-      projectManagerId: projectManagerId.value!,
-    };
+  update: (update: ProjectUpdateModel) => () => {
+    const { project, id } = update;
 
     return projectService
-      .update(project, id.value!)
+      .update(project, id)
       .then((project: ProjectModel) => {
         return project;
       });
@@ -81,49 +63,4 @@ export const projectActions: ActionsType<ProjectState, ProjectActions> = {
   delete: (id: string) => () => {
     return projectService.delete(id);
   },
-};
-
-export const createProject = (state: ProjectFormState, actions: Actions) => {
-  actions
-    .project
-    .create(state)
-    .then((project: ProjectModel) => {
-      actions.toast.success(getToastMessage(`Successfully created project '${project.name}'`));
-
-      actions.form.project.reset();
-
-      // Refresh underlying view
-      actions.project.fetchAll();
-    })
-    .catch((error: Error) => {
-      actions.toast.error(getApiErrorToast('Error creating project', error));
-    });
-};
-
-export const updateProject = (state: ProjectFormState, actions: Actions): void => {
-  actions
-    .project
-    .update(state)
-    .then((project: ProjectModel) => {
-      actions.toast.success(getToastMessage(`Successfully updated project '${project.name}'`));
-
-      actions.form.project.reset();
-
-      // Refresh underlying view
-      actions.project.fetchAll();
-    })
-    .catch((error: Error) => {
-      actions.toast.error(getApiErrorToast('Error updateing project', error));
-    });
-};
-
-export const deleteProject = (project: ProjectModel, actions: Actions): void => {
-  actions.project
-    .delete(project.id)
-    .then(() => {
-      actions.toast.success(getToastMessage(`Project '${project.name}' successfully deleted`));
-    })
-    .catch((error: Error) => {
-      actions.toast.error(getApiErrorToast(`Error deleting project: '${project.name}'`, error));
-    });
 };

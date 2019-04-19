@@ -3,7 +3,7 @@ import { Actions } from '../../actions';
 import ToolTip from '../ToolTip/ToolTip';
 import { EmployeeModel } from '../../api/dto/employee.model';
 import { ContractModel } from '../../api/dto/contract.model';
-import { deleteEmployee } from '../../actions/employee.actions';
+import { deleteEmployee } from '../../actions/form/employee-form.actions';
 
 interface Props {
   employee: EmployeeModel;

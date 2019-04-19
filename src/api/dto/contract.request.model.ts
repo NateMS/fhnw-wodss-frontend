@@ -13,25 +13,25 @@ export class ContractRequestModel implements Contract {
     if (contract.startDate != null) {
       this.startDate = contract.startDate.format(DATE_FORMAT_STRING);
     } else {
-      throw new Error(`The field 'startDate' is missing.`);
+      throw new Error(`'Start date' is missing`);
     }
 
     if (contract.endDate != null) {
       this.endDate = contract.endDate.format(DATE_FORMAT_STRING);
     } else {
-      throw new Error(`The field 'endDate' is missing.`);
+      throw new Error(`'End date' is missing`);
     }
 
     if (contract.pensumPercentage != null) {
       this.pensumPercentage = +contract.pensumPercentage;
     } else {
-      throw new Error(`The field 'pensumPercentage' is missing.`);
+      throw new Error(`'Pensum' is missing`);
     }
 
     if (contract.employeeId != null) {
       this.employeeId = contract.employeeId;
     } else {
-      throw new Error(`The field 'employeeId' is missing.`);
+      throw new Error(`'Employee' is missing`);
     }
   }
 }

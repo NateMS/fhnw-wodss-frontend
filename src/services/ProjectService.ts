@@ -11,8 +11,8 @@ class ProjectService {
 
   private constructor(private api: ApiService) {}
 
-  public create(project: ProjectBaseModel): Promise<ProjectModel> {
-    return this.api.post<Project>('/api/project', new ProjectRequestModel(project))
+  public create(project: ProjectRequestModel): Promise<ProjectModel> {
+    return this.api.post<Project>('/api/project', project)
       .then(e => new ProjectModel(e))
       .catch((error) => {
         ApiService.checkDefaultResponseStatus(error);
@@ -67,8 +67,8 @@ class ProjectService {
       });
   }
 
-  public update(project: ProjectBaseModel, id: string): Promise<ProjectModel> {
-    return this.api.put<Project>(`/api/project/${id}`, new ProjectRequestModel(project))
+  public update(project: ProjectRequestModel, id: string): Promise<ProjectModel> {
+    return this.api.put<Project>(`/api/project/${id}`, project)
      .then(e => new ProjectModel(e))
      .catch((error) => {
        ApiService.checkDefaultResponseStatus(error);
