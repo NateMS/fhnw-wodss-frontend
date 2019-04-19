@@ -15,9 +15,7 @@ class ProjectService {
     return this.api.post<Project>('/api/project', new ProjectRequestModel(project))
       .then(e => new ProjectModel(e))
       .catch((error) => {
-        if (error.status === ResponseStatusCode.Unauthorized) {
-          throw new ServiceError('Unauthenticated or invalid token');
-        }
+        ApiService.checkDefaultResponseStatus(error);
 
         if (error.status === ResponseStatusCode.Forbidden) {
           throw new ServiceError('Not allowed to create project');
@@ -25,14 +23,6 @@ class ProjectService {
 
         if (error.status === ResponseStatusCode.PreconditionFailed) {
           throw new ServiceError('Precondition for creating project failed');
-        }
-
-        if (error.status === ResponseStatusCode.InternalServerError) {
-          throw new ServiceError('Internal server error');
-        }
-
-        if (error.status === ResponseStatusCode.NetworkError) {
-          throw new ServiceError('Error contacting server');
         }
 
         throw error;
@@ -49,20 +39,10 @@ class ProjectService {
     return this.api.get<Project[]>('/api/project', params)
       .then((list: Project[]) => list.map(e => new ProjectModel(e)))
       .catch((error) => {
-        if (error.status === ResponseStatusCode.Unauthorized) {
-          throw new ServiceError('Unauthenticated or invalid token');
-        }
+        ApiService.checkDefaultResponseStatus(error);
 
         if (error.status === ResponseStatusCode.NotFound) {
           throw new ServiceError('Project Manager not found');
-        }
-
-        if (error.status === ResponseStatusCode.InternalServerError) {
-          throw new ServiceError('Internal server error');
-        }
-
-        if (error.status === ResponseStatusCode.NetworkError) {
-          throw new ServiceError('Error contacting server');
         }
 
         throw error;
@@ -73,9 +53,7 @@ class ProjectService {
     return this.api.get<Project>(`/api/project/${id}`)
       .then(e => new ProjectModel(e))
       .catch((error) => {
-        if (error.status === ResponseStatusCode.Unauthorized) {
-          throw new ServiceError('Unauthenticated or invalid token');
-        }
+        ApiService.checkDefaultResponseStatus(error);
 
         if (error.status === ResponseStatusCode.Forbidden) {
           throw new ServiceError('Not allowed to view project');
@@ -83,14 +61,6 @@ class ProjectService {
 
         if (error.status === ResponseStatusCode.NotFound) {
           throw new ServiceError('Project not found');
-        }
-
-        if (error.status === ResponseStatusCode.InternalServerError) {
-          throw new ServiceError('Internal server error');
-        }
-
-        if (error.status === ResponseStatusCode.NetworkError) {
-          throw new ServiceError('Error contacting server');
         }
 
         throw error;
@@ -101,9 +71,7 @@ class ProjectService {
     return this.api.put<Project>(`/api/project/${id}`, new ProjectRequestModel(project))
      .then(e => new ProjectModel(e))
      .catch((error) => {
-       if (error.status === ResponseStatusCode.Unauthorized) {
-         throw new ServiceError('Unauthenticated or invalid token');
-       }
+       ApiService.checkDefaultResponseStatus(error);
 
        if (error.status === ResponseStatusCode.Forbidden) {
          throw new ServiceError('Not allowed to update project');
@@ -117,14 +85,6 @@ class ProjectService {
          throw new ServiceError('Precondition for updateing project failed');
        }
 
-       if (error.status === ResponseStatusCode.InternalServerError) {
-         throw new ServiceError('Internal server error');
-       }
-
-       if (error.status === ResponseStatusCode.NetworkError) {
-         throw new ServiceError('Error contacting server');
-       }
-
        throw error;
      });
   }
@@ -133,9 +93,7 @@ class ProjectService {
     return this.api.delete<null>(`/api/project/${id}`)
       .then(() => {})
       .catch((error) => {
-        if (error.status === ResponseStatusCode.Unauthorized) {
-          throw new ServiceError('Unauthenticated or invalid token');
-        }
+        ApiService.checkDefaultResponseStatus(error);
 
         if (error.status === ResponseStatusCode.Forbidden) {
           throw new ServiceError('Not allowed to delete project');
@@ -143,14 +101,6 @@ class ProjectService {
 
         if (error.status === ResponseStatusCode.NotFound) {
           throw new ServiceError('Project not found');
-        }
-
-        if (error.status === ResponseStatusCode.InternalServerError) {
-          throw new ServiceError('Internal server error');
-        }
-
-        if (error.status === ResponseStatusCode.NetworkError) {
-          throw new ServiceError('Error contacting server');
         }
 
         throw error;

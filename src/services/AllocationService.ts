@@ -15,9 +15,7 @@ class AllocationService {
     return this.api.post<Allocation>('/api/allocation', new AllocationRequestModel(allocation))
       .then(e => new AllocationModel(e))
       .catch((error) => {
-        if (error.status === ResponseStatusCode.Unauthorized) {
-          throw new ServiceError('Unauthenticated or invalid token');
-        }
+        ApiService.checkDefaultResponseStatus(error);
 
         if (error.status === ResponseStatusCode.Forbidden) {
           throw new ServiceError('Not allowed to create allocation');
@@ -29,14 +27,6 @@ class AllocationService {
 
         if (error.status === ResponseStatusCode.PreconditionFailed) {
           throw new ServiceError('Precondition for creating allocation failed');
-        }
-
-        if (error.status === ResponseStatusCode.InternalServerError) {
-          throw new ServiceError('Internal server error');
-        }
-
-        if (error.status === ResponseStatusCode.NetworkError) {
-          throw new ServiceError('Error contacting server');
         }
 
         throw error;
@@ -54,9 +44,7 @@ class AllocationService {
     return this.api.get<Allocation[]>('/api/allocation', params)
       .then((list: Allocation[]) => list.map(e => new AllocationModel(e)))
       .catch((error) => {
-        if (error.status === ResponseStatusCode.Unauthorized) {
-          throw new ServiceError('Unauthenticated or invalid token');
-        }
+        ApiService.checkDefaultResponseStatus(error);
 
         if (error.status === ResponseStatusCode.Forbidden) {
           throw new ServiceError('Not allowed to view allocation');
@@ -64,14 +52,6 @@ class AllocationService {
 
         if (error.status === ResponseStatusCode.NotFound) {
           throw new ServiceError('Employee or Project not found');
-        }
-
-        if (error.status === ResponseStatusCode.InternalServerError) {
-          throw new ServiceError('Internal server error');
-        }
-
-        if (error.status === ResponseStatusCode.NetworkError) {
-          throw new ServiceError('Error contacting server');
         }
 
         throw error;
@@ -82,9 +62,7 @@ class AllocationService {
     return this.api.get<Allocation>(`/api/allocation/${id}`)
       .then(e => new AllocationModel(e))
       .catch((error) => {
-        if (error.status === ResponseStatusCode.Unauthorized) {
-          throw new ServiceError('Unauthenticated or invalid token');
-        }
+        ApiService.checkDefaultResponseStatus(error);
 
         if (error.status === ResponseStatusCode.Forbidden) {
           throw new ServiceError('Not allowed to view allocation');
@@ -92,14 +70,6 @@ class AllocationService {
 
         if (error.status === ResponseStatusCode.NotFound) {
           throw new ServiceError('Allocation not found');
-        }
-
-        if (error.status === ResponseStatusCode.InternalServerError) {
-          throw new ServiceError('Internal server error');
-        }
-
-        if (error.status === ResponseStatusCode.NetworkError) {
-          throw new ServiceError('Error contacting server');
         }
 
         throw error;
@@ -110,9 +80,7 @@ class AllocationService {
     return this.api.put<Allocation>(`/api/allocation/${id}`, new AllocationRequestModel(allocation))
      .then(e => new AllocationModel(e))
      .catch((error) => {
-       if (error.status === ResponseStatusCode.Unauthorized) {
-         throw new ServiceError('Unauthenticated or invalid token');
-       }
+      ApiService.checkDefaultResponseStatus(error);
 
        if (error.status === ResponseStatusCode.Forbidden) {
          throw new ServiceError('Not allowed to update allocation');
@@ -126,14 +94,6 @@ class AllocationService {
          throw new ServiceError('Precondition for updateing allocation failed');
        }
 
-       if (error.status === ResponseStatusCode.InternalServerError) {
-         throw new ServiceError('Internal server error');
-       }
-
-       if (error.status === ResponseStatusCode.NetworkError) {
-         throw new ServiceError('Error contacting server');
-       }
-
        throw error;
      });
   }
@@ -142,9 +102,7 @@ class AllocationService {
     return this.api.delete<Allocation>(`/api/allocation/${id}`)
       .then(() => {})
       .catch((error) => {
-        if (error.status === ResponseStatusCode.Unauthorized) {
-          throw new ServiceError('Unauthenticated or invalid token');
-        }
+        ApiService.checkDefaultResponseStatus(error);
 
         if (error.status === ResponseStatusCode.Forbidden) {
           throw new ServiceError('Not allowed to delete allocation');
@@ -152,14 +110,6 @@ class AllocationService {
 
         if (error.status === ResponseStatusCode.NotFound) {
           throw new ServiceError('Allocation not found');
-        }
-
-        if (error.status === ResponseStatusCode.InternalServerError) {
-          throw new ServiceError('Internal server error');
-        }
-
-        if (error.status === ResponseStatusCode.NetworkError) {
-          throw new ServiceError('Error contacting server');
         }
 
         throw error;

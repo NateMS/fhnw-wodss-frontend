@@ -25,9 +25,7 @@ class EmployeeService {
     return this.api.post<Employee>('/api/employee', new EmployeeRequestModel(employee), params)
       .then((response: Employee) => new EmployeeModel(response))
       .catch((error) => {
-        if (error.status === ResponseStatusCode.Unauthorized) {
-          throw new ServiceError('Unauthenticated or invalid token');
-        }
+        ApiService.checkDefaultResponseStatus(error);
 
         if (error.status === ResponseStatusCode.Forbidden) {
           throw new ServiceError('Not allowed to create employee');
@@ -35,14 +33,6 @@ class EmployeeService {
 
         if (error.status === ResponseStatusCode.PreconditionFailed) {
           throw new ServiceError('Precondition for creating employee failed');
-        }
-
-        if (error.status === ResponseStatusCode.InternalServerError) {
-          throw new ServiceError('Internal server error');
-        }
-
-        if (error.status === ResponseStatusCode.NetworkError) {
-          throw new ServiceError('Error contacting server');
         }
 
         throw error;
@@ -57,17 +47,7 @@ class EmployeeService {
     return this.api.get<Employee[]>('/api/employee', params)
       .then((list: Employee[]) => list.map(e => new EmployeeModel(e)))
       .catch((error) => {
-        if (error.status === ResponseStatusCode.Unauthorized) {
-          throw new ServiceError('Unauthenticated or invalid token');
-        }
-
-        if (error.status === ResponseStatusCode.InternalServerError) {
-          throw new ServiceError('Internal server error');
-        }
-
-        if (error.status === ResponseStatusCode.NetworkError) {
-          throw new ServiceError('Error contacting server');
-        }
+        ApiService.checkDefaultResponseStatus(error);
 
         throw error;
       });
@@ -82,9 +62,7 @@ class EmployeeService {
     return this.api.put<Employee>(`/api/employee/${id}`, new EmployeeRequestModel(employee))
       .then((response: Employee) => new EmployeeModel(response))
       .catch((error) => {
-        if (error.status === ResponseStatusCode.Unauthorized) {
-          throw new ServiceError('Unauthenticated or invalid token');
-        }
+        ApiService.checkDefaultResponseStatus(error);
 
         if (error.status === ResponseStatusCode.Forbidden) {
           throw new ServiceError('Not allowed to update employees');
@@ -98,14 +76,6 @@ class EmployeeService {
           throw new ServiceError('Precondition for updateing employee failed');
         }
 
-        if (error.status === ResponseStatusCode.InternalServerError) {
-          throw new ServiceError('Internal server error');
-        }
-
-        if (error.status === ResponseStatusCode.NetworkError) {
-          throw new ServiceError('Error contacting server');
-        }
-
         throw error;
       });
   }
@@ -114,9 +84,7 @@ class EmployeeService {
     return this.api.delete<void>(`/api/employee/${id}`)
       .then(() => {})
       .catch((error) => {
-        if (error.status === ResponseStatusCode.Unauthorized) {
-          throw new ServiceError('Unauthenticated or invalid token');
-        }
+        ApiService.checkDefaultResponseStatus(error);
 
         if (error.status === ResponseStatusCode.Forbidden) {
           throw new ServiceError('Not allowed to delete employees');
@@ -124,14 +92,6 @@ class EmployeeService {
 
         if (error.status === ResponseStatusCode.NotFound) {
           throw new ServiceError('Employee not found');
-        }
-
-        if (error.status === ResponseStatusCode.InternalServerError) {
-          throw new ServiceError('Internal server error');
-        }
-
-        if (error.status === ResponseStatusCode.NetworkError) {
-          throw new ServiceError('Error contacting server');
         }
 
         throw error;
@@ -142,9 +102,7 @@ class EmployeeService {
     return this.api.post<Contract>('/api/contract', new ContractRequestModel(contract))
       .then((response: Contract) => new ContractModel(response))
       .catch((error) => {
-        if (error.status === ResponseStatusCode.Unauthorized) {
-          throw new ServiceError('Unauthenticated or invalid token');
-        }
+        ApiService.checkDefaultResponseStatus(error);
 
         if (error.status === ResponseStatusCode.Forbidden) {
           throw new ServiceError('Not allowed to create contracts');
@@ -158,14 +116,6 @@ class EmployeeService {
           throw new ServiceError('Precondition for creating contract failed');
         }
 
-        if (error.status === ResponseStatusCode.InternalServerError) {
-          throw new ServiceError('Internal server error');
-        }
-
-        if (error.status === ResponseStatusCode.NetworkError) {
-          throw new ServiceError('Error contacting server');
-        }
-
         throw error;
       });
   }
@@ -174,9 +124,7 @@ class EmployeeService {
     return this.api.put<Contract>(`/api/contract/${id}`, new ContractRequestModel(contract))
       .then((response: Contract) => new ContractModel(response))
       .catch((error) => {
-        if (error.status === ResponseStatusCode.Unauthorized) {
-          throw new ServiceError('Unauthenticated or invalid token');
-        }
+        ApiService.checkDefaultResponseStatus(error);
 
         if (error.status === ResponseStatusCode.Forbidden) {
           throw new ServiceError('Not allowed to update contracts');
@@ -190,14 +138,6 @@ class EmployeeService {
           throw new ServiceError('Precondition for updateing contract failed');
         }
 
-        if (error.status === ResponseStatusCode.InternalServerError) {
-          throw new ServiceError('Internal server error');
-        }
-
-        if (error.status === ResponseStatusCode.NetworkError) {
-          throw new ServiceError('Error contacting server');
-        }
-
         throw error;
       });
   }
@@ -206,9 +146,7 @@ class EmployeeService {
     return this.api.delete<void>(`/api/contract/${id}`)
       .then(() => {})
       .catch((error) => {
-        if (error.status === ResponseStatusCode.Unauthorized) {
-          throw new ServiceError('Unauthenticated or invalid token');
-        }
+        ApiService.checkDefaultResponseStatus(error);
 
         if (error.status === ResponseStatusCode.Forbidden) {
           throw new ServiceError('Not allowed to delete contracts');
@@ -216,14 +154,6 @@ class EmployeeService {
 
         if (error.status === ResponseStatusCode.NotFound) {
           throw new ServiceError('Contract not found');
-        }
-
-        if (error.status === ResponseStatusCode.InternalServerError) {
-          throw new ServiceError('Internal server error');
-        }
-
-        if (error.status === ResponseStatusCode.NetworkError) {
-          throw new ServiceError('Error contacting server');
         }
 
         throw error;
@@ -244,9 +174,7 @@ class EmployeeService {
     return this.api.get<ContractModel>(`/api/contract/${id}`)
       .then(e => new ContractModel(e))
       .catch((error) => {
-        if (error.status === ResponseStatusCode.Unauthorized) {
-          throw new ServiceError('Unauthenticated or invalid token');
-        }
+        ApiService.checkDefaultResponseStatus(error);
 
         if (error.status === ResponseStatusCode.Forbidden) {
           throw new ServiceError('Not allowed to view contract');
@@ -254,14 +182,6 @@ class EmployeeService {
 
         if (error.status === ResponseStatusCode.NotFound) {
           throw new ServiceError('Contract not found');
-        }
-
-        if (error.status === ResponseStatusCode.InternalServerError) {
-          throw new ServiceError('Internal server error');
-        }
-
-        if (error.status === ResponseStatusCode.NetworkError) {
-          throw new ServiceError('Error contacting server');
         }
 
         throw error;

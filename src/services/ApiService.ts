@@ -1,6 +1,7 @@
 import { ApiError } from '../api/ApiError';
 import { ResponseStatusCode } from '../api/response-status-code.enum';
 import { userService } from './UserService';
+import { ServiceError } from './ServiceError';
 
 enum RequestMethods {
   GET = 'GET',
@@ -120,6 +121,20 @@ export class ApiService {
     }
 
     return ApiService.instance;
+  }
+
+  public static checkDefaultResponseStatus(error: ApiError): void {
+    if (error.status === ResponseStatusCode.Unauthorized) {
+      throw new ServiceError('Unauthenticated or invalid token');
+    }
+
+    if (error.status === ResponseStatusCode.InternalServerError) {
+      throw new ServiceError('Internal server error');
+    }
+
+    if (error.status === ResponseStatusCode.NetworkError) {
+      throw new ServiceError('Error contacting server');
+    }
   }
 }
 
