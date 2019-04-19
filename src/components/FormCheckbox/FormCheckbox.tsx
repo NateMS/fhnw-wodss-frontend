@@ -9,7 +9,7 @@ export const FormCheckbox: Component<Props> = (props) => {
   const checkboxClassName = props.errors != null ? 'is-checkradio has-background-color is-danger' : 'is-checkradio has-background-color';
 
   return (
-    <div className="control">
+    <div className="control checkbox-control">
       <input
           type="checkbox"
           className={checkboxClassName}
@@ -20,7 +20,7 @@ export const FormCheckbox: Component<Props> = (props) => {
           value={props.value}
           onchange={() => props.onInputChange({ name: props.name, value: !props.value })}
       />
-      <label for={props.name}>
+      <label for={props.name} className="checkbox-label">
          {props.labelText}
       </label>
     </div>

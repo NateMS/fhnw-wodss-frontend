@@ -3,6 +3,17 @@
   padding-left: 0.25rem;
 }
 
+.checkbox-control {
+  display: flex;
+  align-items: center;
+  height: 36px;
+
+  // Necessary for higher specificity
+  label.checkbox-label {
+    margin-left: 0;
+  }
+}
+
 .flatpickr-day {
   &.selected {
     background-color: $primary;

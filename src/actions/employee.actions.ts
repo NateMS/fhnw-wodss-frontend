@@ -52,21 +52,13 @@ export const employeeActions: ActionsType<EmployeeState, EmployeeActions> = {
   create: (create: EmployeeCreateModel) => () => {
     const { employee, password, role } = create;
 
-    return employeeService
-      .create(employee, password, role)
-      .then((employee: EmployeeModel) => {
-        return employee;
-      });
+    return employeeService.create(employee, password, role);
   },
 
   update: (update: EmployeeUpdateModel) => () => {
     const { employee, id } = update;
 
-    return employeeService
-      .update(employee, id)
-      .then((employee: EmployeeModel) => {
-        return employee;
-      });
+    return employeeService.update(employee, id);
   },
 
   delete: (id: string) => () => {

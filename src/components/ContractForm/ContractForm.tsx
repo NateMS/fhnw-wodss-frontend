@@ -15,6 +15,7 @@ import Button from '../Button/Button';
 import DatePicker from '../DatePicker/DatePicker';
 import FormHint from '../FormHint/FormHint';
 import { CONTRACT_PENSUM_VALUE_MIN, CONTRACT_PENSUM_VALUE_MAX } from '../../constants';
+import ToolTip from '../ToolTip/ToolTip';
 
 interface Props {
   state: State;
@@ -30,7 +31,9 @@ export const ContractForm: Component<Props> = ({ state, actions, key }) => {
 
   return (
     <div className="contract-form">
-      <div className="contract-form__column">Contract #{key + 1}</div>
+      <div className="contract-form__column">
+        <span className="contract-form__label">Contract #{key + 1}</span>
+      </div>
       <div className="contract-form__column">
         <FormField labelText="From" required={true}>
           <DatePicker
@@ -71,17 +74,26 @@ export const ContractForm: Component<Props> = ({ state, actions, key }) => {
         </FormField>
       </div>
       <div className="contract-form__column contract-form__actions">
-        <div className="buttons">
-          <Button
-            label={isEditMode ? 'Edit' : 'Create'}
-            theme="secondary"
-            onClick={() => isEditMode ? updateContract(state, actions) : createContract(state, key, actions)}
-          />
-          <Button
-            label="Delete"
-            onClick={() => isEditMode ? deleteContract(state, key, actions) : removeContractForm(key, actions)}
-          />
-        </div>
+        <ToolTip content="Save" placement="bottom">
+          <button
+            className="button is-secondary"
+            onclick={() => isEditMode ? updateContract(state, actions) : createContract(state, key, actions)}
+          >
+            <span className="icon">
+              <i className="fas fa-edit"/>
+            </span>
+          </button>
+        </ToolTip>
+        <ToolTip content="Delete" placement="bottom">
+          <button
+            className="button"
+            onclick={() => () => isEditMode ? deleteContract(state, key, actions) : removeContractForm(key, actions)}
+          >
+            <span className="icon">
+              <i className="fas fa-trash"/>
+            </span>
+          </button>
+        </ToolTip>
       </div>
     </div>
   );
