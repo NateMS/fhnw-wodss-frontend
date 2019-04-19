@@ -6,6 +6,8 @@
  */
 import { ToastMessage } from './actions/toast.actions';
 import { Role } from './api/role';
+import { Moment } from 'moment';
+import { DATE_FORMAT_STRING } from './constants';
 
 export function hasProp(object: {}, property: string): boolean {
   if (object == null) {
@@ -57,3 +59,23 @@ export const hasProjectManagerRole = hasRole(Role.PROJECTMANAGER);
  * User is either administrator or project manager.
  */
 export const hasPrivilegedRole = hasRole(Role.ADMINISTRATOR, Role.PROJECTMANAGER);
+
+/**
+ * Formats the received dates the following way: end date - start date
+ * @param from
+ * @param to
+ */
+export const formatDateRange = (from: Moment, to: Moment): string => {
+  return `${from.format(DATE_FORMAT_STRING)} - ${to.format(DATE_FORMAT_STRING)}`;
+};
+
+/**
+ * Returns the number of days from a date range.
+ *
+ * @param from
+ * @param to
+ * @param includeEod - if set to true, considers the end date as a full day (+1)
+ */
+export const getDaysOfDateRange = (from: Moment, to: Moment, includeEod: boolean = false): number => {
+  return to.diff(from, 'days') + (includeEod ? 1 : 0);
+};

@@ -52,11 +52,7 @@ export const employeeActions: ActionsType<EmployeeState, EmployeeActions> = {
       active: active.value!,
     };
 
-    return employeeService
-      .create(employee, password!.value!, (role!.value as Role))
-      .then((employee: EmployeeModel) => {
-        return employee;
-      });
+    return employeeService.create(employee, password!.value!, (role!.value as Role));
   },
 
   update: (form: EmployeeFormState) => () => {
@@ -70,11 +66,7 @@ export const employeeActions: ActionsType<EmployeeState, EmployeeActions> = {
       active: active.value!,
     };
 
-    return employeeService
-      .update(employee, id.value!)
-      .then((employee: EmployeeModel) => {
-        return employee;
-      });
+    return employeeService.update(employee, id.value!);
   },
 
   delete: (id: string) => () => {

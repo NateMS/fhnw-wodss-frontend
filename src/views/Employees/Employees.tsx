@@ -50,10 +50,7 @@ export const Employees: Component<ViewProps> = ({ state, actions }) => {
         {isLoading && <Spinner isLoading={true} />}
         {!isLoading && <EmployeeList state={state} actions={actions} />}
       </div>
-      <EmployeeModalForm
-        state={state}
-        actions={actions}
-      />
+      {state.form.employee.isOpen && <EmployeeModalForm state={state} actions={actions} />}
     </div>
   );
 };
