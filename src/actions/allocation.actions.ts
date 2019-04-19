@@ -113,3 +113,22 @@ export const updateAllocation = (state: AllocationFormState, actions: Actions): 
       actions.form.allocation.setSaving(false);
     });
 };
+
+export const removeAllocation = (id: string, actions: Actions): void => {
+  actions.form.allocation.setSaving(true);
+
+  actions
+    .allocation
+    .delete(id)
+    .then(() => {
+      actions.toast.success(getToastMessage(`Successfully deleted allocation`));
+      actions.form.allocation.reset();
+
+      // Refresh underlying view
+      actions.allocation.fetchAll();
+    })
+    .catch((error: Error) => {
+      actions.toast.error(getApiErrorToast('Error deleting allocation', error));
+      actions.form.allocation.setSaving(false);
+    });
+};

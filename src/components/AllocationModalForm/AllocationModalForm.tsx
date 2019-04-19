@@ -13,8 +13,7 @@ export const close = (actions: Actions): void => {
 };
 
 const AllocationModalForm: Component<AllocationFormProps> = ({ state, actions }) => {
-  const { isOpen, controls } = state.form.allocation;
-  const isEditMode = controls.id.value != null;
+  const { isOpen } = state.form.allocation;
   let stateClassName = 'modal';
 
   if (isOpen) {
@@ -24,7 +23,7 @@ const AllocationModalForm: Component<AllocationFormProps> = ({ state, actions })
   return (
     <div className={stateClassName}>
       <div className="modal-background" />
-      {!isEditMode && <AllocationManageForm state={state} actions={actions} />}
+      <AllocationManageForm state={state} actions={actions} />}
     </div>
   );
 };

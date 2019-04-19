@@ -20,8 +20,11 @@ export class ProjectModel extends ProjectBaseModel {
     return allocations.filter(a => a.projectId === this.id);
   }
 
-  public getTotalAllocatedPercentage(allocations: AllocationModel[]): number {
-    const projectAllocations = this.getAllocations(allocations);
+  public getTotalAllocatedPercentage(allocations: AllocationModel[], ...ignoreAllocations: AllocationModel[]): number {
+    const projectAllocations = this.getAllocations(allocations)
+      .filter((allocation) => {
+        return !ignoreAllocations.find(ignoredAllocation => allocation.id === ignoredAllocation.id);
+      });
 
     return projectAllocations.reduce(
       (prev, allocation) => {

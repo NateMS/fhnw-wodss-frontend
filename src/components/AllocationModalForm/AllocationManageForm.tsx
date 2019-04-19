@@ -13,34 +13,57 @@ import DatePicker from '../DatePicker/DatePicker';
 import { formatDateRange, getDaysOfDateRange } from '../../utils';
 import FormHint from '../FormHint/FormHint';
 import { AllocationFormState } from '../../state/form/allocation-form.state';
-import { createAllocation } from '../../actions/allocation.actions';
+import { createAllocation, removeAllocation, updateAllocation } from '../../actions/allocation.actions';
+import { AllocationModel } from '../../api/dto/allocation.model';
 
 interface Props {
   state: State;
   actions: Actions;
 }
 
-const onSubmit = (event: Event, state: AllocationFormState, actions: Actions) => {
+const remove = (state: AllocationFormState, actions: Actions) => {
+  const { id } = state.controls;
+
+  removeAllocation(id.value!, actions);
+};
+
+const onSubmit = (event: Event, isEditMode: boolean, state: AllocationFormState, actions: Actions) => {
   event.preventDefault();
   event.stopPropagation();
 
-  createAllocation(state, actions);
+  if (!isEditMode) {
+    createAllocation(state, actions);
+  } else {
+    updateAllocation(state, actions);
+  }
 };
 
 export const AllocationManageForm: Component<Props> = ({ state, actions }) => {
   const formState = state.form.allocation;
-  const { contractId, projectId, employeeId, startDate, endDate, pensumPercentage } = formState.controls;
+  const { id, contractId, projectId, employeeId, startDate, endDate, pensumPercentage } = formState.controls;
   const { allocation: formActions } = actions.form;
+
+  const isEditMode = id.value != null;
+
   const projects = state.project.list;
   const employees = state.employee.list;
   const contracts = state.contract.list;
   const allocations = state.allocation.list;
 
   let userContracts: ContractModel[] = [];
+  let selectedAllocation: AllocationModel | undefined;
   let selectedContract: ContractModel | undefined;
   let selectedProject: ProjectModel | undefined;
   let plannedPercentage: number = 0;
   let totalAllocatedPercentage: number = 0;
+
+  if (id.value != null) {
+    selectedAllocation = allocations.find(a => a.id === id.value);
+
+    if (selectedAllocation == null) {
+      throw new Error('Expected allocation model to exist');
+    }
+  }
 
   if (employeeId.value != null) {
     userContracts = contracts.filter(c => c.employeeId === employeeId.value);
@@ -57,7 +80,12 @@ export const AllocationManageForm: Component<Props> = ({ state, actions }) => {
       throw new Error(`A project model should exist for ${projectId.value}`);
     }
 
-    totalAllocatedPercentage = selectedProject.getTotalAllocatedPercentage(allocations);
+    if (isEditMode) {
+      // Removes the edited allocation from the total
+      totalAllocatedPercentage = selectedProject.getTotalAllocatedPercentage(allocations, selectedAllocation!);
+    } else {
+      totalAllocatedPercentage = selectedProject.getTotalAllocatedPercentage(allocations);
+    }
   }
 
   const isDateRangeDefined = (startDate.value != null && endDate.value != null);
@@ -67,10 +95,10 @@ export const AllocationManageForm: Component<Props> = ({ state, actions }) => {
   }
 
   return (
-    <form onsubmit={(event: Event) => onSubmit(event, formState, actions)}>
+    <form onsubmit={(event: Event) => onSubmit(event, isEditMode, formState, actions)}>
       <div className="modal-card">
         <header className="modal-card-head">
-          <p className="modal-card-title">Create Allocation</p>
+          <p className="modal-card-title">{!isEditMode ? 'Create' : 'Manage'} Allocation</p>
           <button
             className="button"
             type="button"
@@ -105,8 +133,7 @@ export const AllocationManageForm: Component<Props> = ({ state, actions }) => {
             <div className="column is-one-third">
               {selectedProject != null && (
                 <span>
-                  {totalAllocatedPercentage} /
-                  {selectedProject!.totalPercentage}%
+                  {totalAllocatedPercentage} / {selectedProject!.totalPercentage}%
                 </span>
               )}
             </div>
@@ -199,6 +226,12 @@ export const AllocationManageForm: Component<Props> = ({ state, actions }) => {
           </div>
         </section>
         <footer className="modal-card-foot">
+          <Button
+            label="Delete"
+            onClick={() => remove(formState, actions)}
+            isLoading={formState.isSaving}
+            disabled={formState.isSaving}
+          />
           <Button
             label="Cancel"
             onClick={() => close(actions)}
