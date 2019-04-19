@@ -80,7 +80,7 @@ class AllocationService {
     return this.api.put<Allocation>(`/api/allocation/${id}`, new AllocationRequestModel(allocation))
      .then(e => new AllocationModel(e))
      .catch((error) => {
-      ApiService.checkDefaultResponseStatus(error);
+       ApiService.checkDefaultResponseStatus(error);
 
        if (error.status === ResponseStatusCode.Forbidden) {
          throw new ServiceError('Not allowed to update allocation');
