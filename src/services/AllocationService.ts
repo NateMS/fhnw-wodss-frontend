@@ -11,8 +11,8 @@ class AllocationService {
 
   private constructor(private api: ApiService) {}
 
-  public create(allocation: AllocationBaseModel): Promise<AllocationModel> {
-    return this.api.post<Allocation>('/api/allocation', new AllocationRequestModel(allocation))
+  public create(allocation: AllocationRequestModel): Promise<AllocationModel> {
+    return this.api.post<Allocation>('/api/allocation', allocation)
       .then(e => new AllocationModel(e))
       .catch((error) => {
         ApiService.checkDefaultResponseStatus(error);
@@ -76,8 +76,8 @@ class AllocationService {
       });
   }
 
-  public update(allocation: AllocationBaseModel, id: string): Promise<AllocationModel> {
-    return this.api.put<Allocation>(`/api/allocation/${id}`, new AllocationRequestModel(allocation))
+  public update(allocation: AllocationRequestModel, id: string): Promise<AllocationModel> {
+    return this.api.put<Allocation>(`/api/allocation/${id}`, allocation)
      .then(e => new AllocationModel(e))
      .catch((error) => {
        ApiService.checkDefaultResponseStatus(error);

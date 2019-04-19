@@ -14,8 +14,8 @@ export interface ContractActions {
 }
 
 interface ContractUpdateModel {
-  contract: ContractRequestModel,
-  id: string,
+  contract: ContractRequestModel;
+  id: string;
 }
 
 export const contractActions: ActionsType<ContractState, ContractActions> = {

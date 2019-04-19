@@ -14,8 +14,8 @@ export interface ProjectActions {
 }
 
 interface ProjectUpdateModel {
-  project: ProjectRequestModel,
-  id: string,
+  project: ProjectRequestModel;
+  id: string;
 }
 
 export const projectActions: ActionsType<ProjectState, ProjectActions> = {

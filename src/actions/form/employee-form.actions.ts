@@ -64,6 +64,7 @@ export const createEmployee = (state: EmployeeFormState, actions: Actions): void
 export const updateEmployee = (state: EmployeeFormState, actions: Actions) => {
   const { id, emailAddress, firstName, lastName, active } = state.controls;
   actions.form.employee.setSaving(true);
+
   try {
     const request = new EmployeeRequestModel({
       emailAddress: emailAddress.value!,
@@ -78,7 +79,7 @@ export const updateEmployee = (state: EmployeeFormState, actions: Actions) => {
 
     actions
       .employee
-      .update({employee: request, id: id.value})
+      .update({ employee: request, id: id.value })
       .then((employee: EmployeeModel) => {
         actions.toast.success(getToastMessage(`Successfully updated employee '${employee.fullName}'`));
         actions.form.employee.setSaving(false);
@@ -92,7 +93,7 @@ export const updateEmployee = (state: EmployeeFormState, actions: Actions) => {
         actions.form.employee.setSaving(false);
       });
   } catch (error) {
-    actions.toast.error(getApiErrorToast('Error creating employee', error));
+    actions.toast.error(getApiErrorToast('Error updating employee', error));
     actions.form.employee.setSaving(false);
   }
 };

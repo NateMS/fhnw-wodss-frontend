@@ -15,14 +15,14 @@ export interface EmployeeActions {
 }
 
 interface EmployeeCreateModel {
-  employee: EmployeeRequestModel,
-  password: string,
-  role: Role,
+  employee: EmployeeRequestModel;
+  password: string;
+  role: Role;
 }
 
 interface EmployeeUpdateModel {
-  employee: EmployeeRequestModel,
-  id: string,
+  employee: EmployeeRequestModel;
+  id: string;
 }
 
 export const employeeActions: ActionsType<EmployeeState, EmployeeActions> = {

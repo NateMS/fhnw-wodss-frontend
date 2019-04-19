@@ -63,32 +63,36 @@ export const createProject = (state: ProjectFormState, actions: Actions) => {
 export const updateProject = (state: ProjectFormState, actions: Actions): void => {
   const { id, name, ftePercentage, startDate, endDate, projectManagerId } = state.controls;
 
-  const request = new ProjectRequestModel({
-    name: name.value!,
-    ftePercentage: ftePercentage.value!,
-    startDate: startDate.value!,
-    endDate: endDate.value!,
-    projectManagerId: projectManagerId.value!,
-  });
-
-  if (id.value == null) {
-    throw Error(`'ID' is missing`);
-  }
-
-  actions
-    .project
-    .update({project: request, id: id.value})
-    .then((project: ProjectModel) => {
-      actions.toast.success(getToastMessage(`Successfully updated project '${project.name}'`));
-
-      actions.form.project.reset();
-
-      // Refresh underlying view
-      actions.project.fetchAll();
-    })
-    .catch((error: Error) => {
-      actions.toast.error(getApiErrorToast('Error updateing project', error));
+  try {
+    const request = new ProjectRequestModel({
+      name: name.value!,
+      ftePercentage: ftePercentage.value!,
+      startDate: startDate.value!,
+      endDate: endDate.value!,
+      projectManagerId: projectManagerId.value!,
     });
+
+    if (id.value == null) {
+      throw Error(`'ID' is missing`);
+    }
+
+    actions
+      .project
+      .update({ project: request, id: id.value })
+      .then((project: ProjectModel) => {
+        actions.toast.success(getToastMessage(`Successfully updated project '${project.name}'`));
+
+        actions.form.project.reset();
+
+        // Refresh underlying view
+        actions.project.fetchAll();
+      })
+      .catch((error: Error) => {
+        actions.toast.error(getApiErrorToast('Error updateing project', error));
+      });
+  } catch (error) {
+    actions.toast.error(getApiErrorToast('Error updateing project', error));
+  }
 };
 
 export const deleteProject = (project: ProjectModel, actions: Actions): void => {

@@ -146,7 +146,7 @@ export const createContract = (state: ContractForm, index: number, actions: Acti
 // TODO RENAME STATE FORM
 export const updateContract = (state: ContractForm, actions: Actions) => {
   const { id, startDate, endDate, pensumPercentage, employeeId } = state.controls;
-  try{
+  try {
     const request = new ContractRequestModel({
       startDate: startDate.value!,
       endDate: endDate.value!,
@@ -167,10 +167,10 @@ export const updateContract = (state: ContractForm, actions: Actions) => {
         actions.contract.fetchAll();
       })
       .catch((error: Error) => {
-        actions.toast.error(getApiErrorToast('Error creating contract', error));
+        actions.toast.error(getApiErrorToast('Error updateing contract', error));
       });
   } catch (error) {
-    actions.toast.error(getApiErrorToast('Error creating contract', error));
+    actions.toast.error(getApiErrorToast('Error updateing contract', error));
   }
 };
 
