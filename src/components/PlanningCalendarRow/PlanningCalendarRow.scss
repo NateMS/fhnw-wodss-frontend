@@ -1,0 +1,37 @@
+@import "../../styles/base/variables";
+
+.planning-row {
+  display: flex;
+}
+
+.planning-row--days {
+  .planning-col {
+    border-width: 1px;
+    border-style: solid;
+    border-left: 0;
+
+    &:first-child {
+      border-left: 1px solid;
+    }
+  }
+}
+
+.planning-col {
+  position: relative;
+  flex-basis: 3.33%;
+  padding: 0.25em;
+  text-align: center;
+}
+
+@for $i from 1 through 30 {
+  .planning-col:nth-child(#{$i}) {
+    z-index: #{$i};
+  }
+}
+
+.planning-col__week-day,
+.planning-col__day {
+  display: inline-block;
+  width: 100%;
+  font-size: 0.75rem;
+}

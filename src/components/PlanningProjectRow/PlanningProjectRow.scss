@@ -1,0 +1,23 @@
+@import "../../styles/base/variables";
+
+.planning-project-row {
+  display: flex;
+  height: 2rem;
+  margin: 0 0 0.25rem;
+}
+
+.planning-col__project {
+  position: absolute;
+  top: 0;
+  left: 0;
+  text-align: left;
+}
+
+.planning-col--filled {
+  background-color: grey;
+  border-color: grey;
+
+  .planning-col__project {
+    background-color: grey
+  }
+}

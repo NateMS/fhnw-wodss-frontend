@@ -8,6 +8,7 @@ import { ToastMessage } from './actions/toast.actions';
 import { Role } from './api/role';
 import { Moment } from 'moment';
 import { DATE_FORMAT_STRING } from './constants';
+import moment from 'moment';
 
 export function hasProp(object: {}, property: string): boolean {
   if (object == null) {
@@ -78,4 +79,15 @@ export const formatDateRange = (from: Moment, to: Moment): string => {
  */
 export const getDaysOfDateRange = (from: Moment, to: Moment, includeEod: boolean = false): number => {
   return to.diff(from, 'days') + (includeEod ? 1 : 0);
+};
+
+export const isBetweenDates = (start: Moment, endDate: Moment, date: Moment): boolean => {
+  return date.isSameOrAfter(start) && date.isSameOrBefore(endDate);
+};
+
+export const createDateList = (start: Moment, numberOfDays: number): Moment[] => {
+  return Array.from(
+    Array(numberOfDays),
+    (_, index) => moment(start).add(index, 'days'),
+  );
 };
