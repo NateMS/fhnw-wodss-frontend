@@ -43,7 +43,7 @@ const AuthenticationForm: Component<Props> = ({ state, actions }) => {
   const { authentication: formActions } = actions.form;
 
   return (
-    <form onsubmit={(event: Event) => submit(event, state, actions)}>
+    <form className="form login" onsubmit={(event: Event) => submit(event, state, actions)}>
       <h1 className="title">Project Management Login</h1>
       <div className="field">
         <div className="control">
