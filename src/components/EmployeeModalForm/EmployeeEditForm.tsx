@@ -10,7 +10,7 @@ import { Actions } from '../../actions';
 import { close } from './EmployeeModalForm';
 import ContractForm from '../ContractForm/ContractForm';
 import { State } from '../../state';
-import { updateEmployee } from '../../actions/employee.actions';
+import { updateEmployee } from '../../actions/form/employee-form.actions';
 import FormHint from '../FormHint/FormHint';
 import { INPUT_LENGTH_SHORT_MAX, INPUT_LENGTH_LONG_MAX } from '../../constants';
 

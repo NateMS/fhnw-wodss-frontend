@@ -8,7 +8,7 @@ import Button from '../Button/Button';
 import { ProjectFormProps, close } from './ProjectModalForm';
 import { EmployeeSelect } from '../EmployeeSelect/EmployeeSelect';
 import { employeeService } from '../../services/EmployeeService';
-import { createProject, updateProject } from '../../actions/project.actions';
+import { createProject, updateProject } from '../../actions/form/project-form.actions';
 import DatePicker from '../DatePicker/DatePicker';
 import FormHint from '../FormHint/FormHint';
 import { INPUT_LENGTH_SHORT_MAX, PROJECT_FTE_VALUE_MAX, PROJECT_FTE_VALUE_MIN } from '../../constants';

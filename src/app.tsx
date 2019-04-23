@@ -28,7 +28,7 @@ export const view: View<State, Actions> = (state, actions) =>  {
       <Route path="/profile" render={() => protect(Profile)({ state, actions })} />
       <Route path="/logout" render={() => protect(Logout)({ state, actions })} />
       <Route path="/" render={() => Login({ state, actions })} />
-      <ToastList state={state.toast} />
+      <ToastList state={state.toast} actions={actions.toast} />
     </main>
   );
 };

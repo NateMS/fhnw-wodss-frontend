@@ -14,19 +14,19 @@ export class EmployeeRequestModel implements Employee {
     if (employee.firstName != null) {
       this.firstName = employee.firstName;
     } else {
-      throw new Error(`The field 'firstName' is missing.`);
+      throw new Error(`'First name' is missing`);
     }
 
     if (employee.lastName != null) {
       this.lastName = employee.lastName;
     } else {
-      throw new Error(`The field 'lastName' is missing.`);
+      throw new Error(`'Last name' is missing`);
     }
 
     if (employee.emailAddress != null) {
       this.emailAddress = employee.emailAddress;
     } else {
-      throw new Error(`The field 'emailAddress' is missing.`);
+      throw new Error(`'Email address' is missing`);
     }
   }
 }

@@ -9,7 +9,7 @@ import { FormSelect } from '../FormSelect/FormSelect';
 import Button from '../Button/Button';
 import { close } from './EmployeeModalForm';
 import { State } from '../../state';
-import { createEmployee } from '../../actions/employee.actions';
+import { createEmployee } from '../../actions/form/employee-form.actions';
 import FormHint from '../FormHint/FormHint';
 import { INPUT_LENGTH_SHORT_MAX, INPUT_LENGTH_LONG_MAX } from '../../constants';
 

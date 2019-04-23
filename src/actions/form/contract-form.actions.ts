@@ -9,6 +9,9 @@ import { FormControl } from '../../state/form/types';
 import { patch, updateValue } from './index';
 import { Contract } from '../../api/dto/contract';
 import { Actions } from '../index';
+import { ContractRequestModel } from '../../api/dto/contract.request.model';
+import { ContractModel } from '../../api/dto/contract.model';
+import { getToastMessage, getApiErrorToast } from '../../utils';
 
 interface ListUpdateValue<T> {
   index: number;
@@ -109,4 +112,82 @@ export const updateContractFormValue = (index: number, actions: ContractFormActi
 
 export const removeContractForm = (key: number, actions: Actions) => {
   actions.form.contract.remove(key);
+};
+
+export const createContract = (state: ContractForm, index: number, actions: Actions) => {
+  const { startDate, endDate, pensumPercentage, employeeId } = state.controls;
+  try {
+    const request = new ContractRequestModel({
+      startDate: startDate.value!,
+      endDate: endDate.value!,
+      pensumPercentage: pensumPercentage.value!,
+      employeeId: employeeId.value!,
+    });
+
+    actions
+      .contract
+      .create(request)
+      .then((contract: ContractModel) => {
+        actions.toast.success(getToastMessage(`Contract successfully created`));
+        actions.contract.fetchAll();
+        actions.form.contract.patch({
+          index,
+          values: contract,
+        });
+      })
+      .catch((error: Error) => {
+        actions.toast.error(getApiErrorToast('Error creating contract', error));
+      });
+  } catch (error) {
+    actions.toast.error(getApiErrorToast('Error creating contract', error));
+  }
+};
+
+// TODO RENAME STATE FORM
+export const updateContract = (state: ContractForm, actions: Actions) => {
+  const { id, startDate, endDate, pensumPercentage, employeeId } = state.controls;
+  try {
+    const request = new ContractRequestModel({
+      startDate: startDate.value!,
+      endDate: endDate.value!,
+      pensumPercentage: pensumPercentage.value!,
+      employeeId: employeeId.value!,
+    });
+
+    if (id.value == null) {
+      throw Error(`'ID' is missing`);
+    }
+
+    actions
+      .contract
+      .update({ contract: request, id: id.value })
+      .then(() => {
+        // TODO Add more description to the toast
+        actions.toast.success(getToastMessage(`Contract successfully updated`));
+        actions.contract.fetchAll();
+      })
+      .catch((error: Error) => {
+        actions.toast.error(getApiErrorToast('Error updateing contract', error));
+      });
+  } catch (error) {
+    actions.toast.error(getApiErrorToast('Error updateing contract', error));
+  }
+};
+
+// TODO RENAME STATE FORM
+export const deleteContract = (state: ContractForm, key: number, actions: Actions) => {
+  // TODO VALIDATE if id is available
+  actions
+    .contract
+    .delete(state.controls.id.value!)
+    .then(() => {
+      // TODO add more description to the message
+      // TODO move remove contract row?
+      removeContractForm(key, actions);
+      actions.toast.success(getToastMessage('Contract successfully deleted'));
+      actions.contract.fetchAll();
+    })
+    .catch((error: Error) => {
+      actions.toast.error(getApiErrorToast('Error deleting contract', error));
+    });
 };
