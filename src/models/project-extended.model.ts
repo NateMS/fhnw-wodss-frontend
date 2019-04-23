@@ -13,19 +13,19 @@ export class ProjectExtendedModel extends ProjectModel {
     this.allocations = allocations;
   }
 
-  public isAllocationBetween(date: Moment): boolean {
+  public getAllocationByDate(date: Moment): AllocationExtendedModel | undefined {
     let i = 0;
     const numberOfAllocations = this.allocations.length;
 
     while (i < numberOfAllocations) {
       const { startDate, endDate } = this.allocations[i];
       if (isBetweenDates(startDate, endDate, date)) {
-        return true;
+        return this.allocations[i];
       }
 
       i = i + 1;
     }
 
-    return false;
+    return;
   }
 }

@@ -3,7 +3,7 @@ import { Moment } from 'moment';
 import './PlanningEmployeeRow.scss';
 import { AllocationModel } from '../../api/dto/allocation.model';
 import { AvatarItem } from '../Avatar/Avatar';
-import { PlanningProjectRow, ProjectPlanningRow } from '../PlanningProjectRow/PlanningProjectRow';
+import { PlanningProjectRow } from '../PlanningProjectRow/PlanningProjectRow';
 import { EmployeeExtendedModel } from '../../models/employee-extended.model';
 
 interface Props {
@@ -14,11 +14,8 @@ interface Props {
 }
 
 export const PlanningEmployeeRow: Component<Props> = (props) => {
-  const { startDate, numberOfDays, employee } = props;
+  const { startDate, numberOfDays, employee, onAllocationClick } = props;
   const { projects } = employee;
-
-  // const projectStartDate = project.startDate;
-  // const projectEndDate = project.endDate;
 
   // TODO CREATE DUMMY ROW IF NO PROJECTS ARE AVAILABLE
 
@@ -34,6 +31,7 @@ export const PlanningEmployeeRow: Component<Props> = (props) => {
               startDate={startDate}
               numberOfDays={numberOfDays}
               project={project}
+              onClick={(_, allocation) => onAllocationClick(allocation)}
             />
           ))}
         </div>
@@ -41,5 +39,3 @@ export const PlanningEmployeeRow: Component<Props> = (props) => {
     </div>
   );
 };
-
-// {/*<div className={`planning-col ${isBetweenDates(projectStartDate, projectEndDate, day) ? 'planning-col--filled' : ''}`}></div>*/}

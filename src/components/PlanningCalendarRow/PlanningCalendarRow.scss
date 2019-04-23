@@ -25,7 +25,7 @@
 
 @for $i from 1 through 30 {
   .planning-col:nth-child(#{$i}) {
-    z-index: #{$i};
+    z-index: #{30 - $i};
   }
 }
 

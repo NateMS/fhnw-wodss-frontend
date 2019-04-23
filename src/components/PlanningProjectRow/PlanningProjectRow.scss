@@ -2,7 +2,7 @@
 
 .planning-project-row {
   display: flex;
-  height: 2rem;
+  height: $planning-cell-size;
   margin: 0 0 0.25rem;
 }
 
@@ -10,14 +10,20 @@
   position: absolute;
   top: 0;
   left: 0;
+  height: calc(#{$planning-cell-size} - #{$planning-cell-border-width * 2});
+  padding-left: 0.25em;
+  line-height: calc(#{$planning-cell-size} - #{$planning-cell-border-width * 2});
   text-align: left;
 }
 
 .planning-col--filled {
   background-color: grey;
   border-color: grey;
+  color: $white;
+  cursor: pointer;
 
   .planning-col__project {
+    width: 200px;
     background-color: grey
   }
 }
