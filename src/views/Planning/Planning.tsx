@@ -49,8 +49,6 @@ export const Planning: Component<ViewProps> = ({ state, actions }) => {
   const allocations = state.allocation.list;
   const projects = state.project.list;
 
-  const employeesProjectMap: Map<string, Set<ProjectModel>> = new Map();
-
   const projectMap: Map<string, ProjectModel> = ProjectModel.createMap(projects);
   const contractAllocationMap: Map<string, Set<AllocationModel>> = AllocationModel.createMapByContractId(allocations);
   const extendedEmployees: EmployeeExtendedModel[] = [];

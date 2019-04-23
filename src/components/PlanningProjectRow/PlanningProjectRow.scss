@@ -17,13 +17,10 @@
 }
 
 .planning-col--filled {
-  background-color: grey;
-  border-color: grey;
   color: $white;
   cursor: pointer;
 
   .planning-col__project {
     width: 200px;
-    background-color: grey
   }
 }
