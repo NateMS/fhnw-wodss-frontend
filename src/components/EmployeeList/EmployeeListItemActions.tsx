@@ -3,7 +3,7 @@ import { Actions } from '../../actions';
 import ToolTip from '../ToolTip/ToolTip';
 import { EmployeeModel } from '../../api/dto/employee.model';
 import { ContractModel } from '../../api/dto/contract.model';
-import { getApiErrorToast, getToastMessage } from '../../utils';
+import { deleteEmployee } from '../../actions/form/employee-form.actions';
 
 interface Props {
   employee: EmployeeModel;
@@ -27,14 +27,7 @@ const openEditForm = (event: Event, employee: EmployeeModel, contracts: Contract
 const onDeleteClick = (event: Event, employee: EmployeeModel, actions: Actions): void => {
   event.preventDefault();
 
-  actions.employee
-    .delete(employee.id)
-    .then(() => {
-      actions.toast.success(getToastMessage(`Employee '${employee.fullName}' successfully deleted.`));
-    })
-    .catch((error: Error) => {
-      actions.toast.error(getApiErrorToast('Error deleting employee', error));
-    });
+  deleteEmployee(employee, actions);
 };
 
 export const EmployeeListItemActions: Component<Props> = (props) => {

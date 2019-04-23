@@ -13,7 +13,7 @@ import DatePicker from '../DatePicker/DatePicker';
 import { formatDateRange, getDaysOfDateRange } from '../../utils';
 import FormHint from '../FormHint/FormHint';
 import { AllocationFormState } from '../../state/form/allocation-form.state';
-import { createAllocation, removeAllocation, updateAllocation } from '../../actions/allocation.actions';
+import { removeAllocation, createAllocation, updateAllocation } from '../../actions/form/allocation-form.actions';
 import { AllocationModel } from '../../api/dto/allocation.model';
 
 interface Props {
@@ -123,8 +123,11 @@ export const AllocationManageForm: Component<Props> = ({ state, actions }) => {
                   valueMapper={(project: ProjectModel) => project.id}
                   labeler={(project: ProjectModel) => project.name}
                   comparer={(project: ProjectModel, selectedId: string) => project.id === selectedId}
+                  errors={projectId.errors}
                 />
-                {selectedProject != null && (
+                {selectedProject == null && projectId.errors != null && projectId.errors.required &&
+                  <FormHint theme="danger" label="Project is required" />}
+                {selectedProject != null && projectId.errors == null && (
                   <FormHint label={formatDateRange(selectedProject.startDate, selectedProject.endDate)}/>
                 )}
               </FormField>
@@ -146,8 +149,11 @@ export const AllocationManageForm: Component<Props> = ({ state, actions }) => {
                   value={employeeId.value}
                   placeholder="Please select"
                   items={employees}
+                  errors={employeeId.errors}
                   onInputChange={formActions.updateValue}
                 />
+                {employeeId.errors != null && employeeId.errors.required &&
+                  <FormHint theme="danger" label="Employee is required" />}
               </FormField>
             </div>
             <div className="column is-one-third">
@@ -161,8 +167,11 @@ export const AllocationManageForm: Component<Props> = ({ state, actions }) => {
                     valueMapper={(contract: ContractModel) => contract.id}
                     labeler={(contract: ContractModel) => formatDateRange(contract.startDate, contract.endDate)}
                     comparer={(contract: ContractModel, selectedId: string) => contract.id === selectedId}
+                    errors={contractId.errors}
                   />
-                  {selectedContract != null && (
+                  {selectedContract == null && projectId.errors != null && projectId.errors.required &&
+                  <FormHint theme="danger" label="Contract is required" />}
+                  {selectedContract != null && projectId.errors == null && (
                     <FormHint label={`Pensum: ${selectedContract.pensumPercentage}%`}/>
                   )}
                 </FormField>
@@ -195,8 +204,11 @@ export const AllocationManageForm: Component<Props> = ({ state, actions }) => {
                   name={startDate.name}
                   value={startDate.value}
                   max={endDate.value}
+                  errors={startDate.errors}
                   onInputChange={formActions.updateValue}
                 />
+                {startDate.errors != null && startDate.errors.negativeDuration &&
+                  <FormHint theme="danger" label="Allocation has negative duration" />}
               </FormField>
             </div>
             <div className="column is-one-third">
@@ -205,8 +217,11 @@ export const AllocationManageForm: Component<Props> = ({ state, actions }) => {
                   name={endDate.name}
                   value={endDate.value}
                   min={startDate.value}
+                  errors={endDate.errors}
                   onInputChange={formActions.updateValue}
                 />
+                {endDate.errors != null && endDate.errors.negativeDuration &&
+                  <FormHint theme="danger" label="Allocation has negative duration" />}
               </FormField>
             </div>
             <div className="column is-one-third">

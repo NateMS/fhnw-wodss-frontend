@@ -1,7 +1,6 @@
 import { ProjectModel } from '../../api/dto/project.model';
 import { Actions } from '../../actions';
-import { showProjectEditForm } from '../../actions/form/project-form.actions';
-import { deleteProject } from '../../actions/project.actions';
+import { showProjectEditForm, deleteProject } from '../../actions/form/project-form.actions';
 import { Component, h } from 'hyperapp';
 import ToolTip from '../ToolTip/ToolTip';
 

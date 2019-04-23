@@ -15,6 +15,7 @@ export interface ToastMessage {
 }
 
 export interface Toast extends ToastMessage {
+  id: number;
   type: ToastLevel;
 }
 
@@ -48,40 +49,47 @@ export interface ToastActions {
 const addToast:
   (toast: Toast, state: ToastState, actions: ToastActions) => ToastState =
   (toast, state, actions) => {
-    setTimeout(
-      () => {
-        actions.hide();
-      },
-      TOAST_DURATION,
-    );
+    if (toast.type !== ToastLevel.Error) {
+      setTimeout(
+        () => {
+          actions.hide(toast.id);
+        },
+        TOAST_DURATION,
+      );
+    }
 
     return {
       list: [toast, ...state.list],
     };
   };
 
+const createToast = (message: string, title: string, type: ToastLevel): Toast => {
+  const id = +new Date();
+  return { id, message, title, type };
+};
+
 export const toastActions: ActionsType<ToastState, ToastActions> = {
   info: ({ message, title }) => (state, actions) => {
-    const toast = { message, title, type: ToastLevel.Info };
+    const toast = createToast(message, title, ToastLevel.Info);
     return addToast(toast, state, actions);
   },
 
   success: ({ message, title }) => (state, actions) => {
-    const toast = { message, title, type: ToastLevel.Success };
+    const toast = createToast(message, title, ToastLevel.Success);
     return addToast(toast, state, actions);
   },
 
   warning: ({ message, title }) => (state, actions) => {
-    const toast = { message, title, type: ToastLevel.Warn };
+    const toast = createToast(message, title, ToastLevel.Warn);
     return addToast(toast, state, actions);
   },
 
   error: ({ message, title }) => (state, actions) => {
-    const toast = { message, title, type: ToastLevel.Error };
+    const toast = createToast(message, title, ToastLevel.Error);
     return addToast(toast, state, actions);
   },
 
-  hide: () => ({ list }) => ({
-    list: [...list.slice(0, -1)],
-  }),
+  hide: (id?: number) => ({ list }) => (
+    { list: list.filter(t => t.id !== id) }
+    ),
 };

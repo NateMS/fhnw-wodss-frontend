@@ -25,9 +25,7 @@ class UserService {
     return this.api.post<Token>('/api/token', credentials)
       .then(response => response.token)
       .catch((error: ApiError) => {
-        if (error.status === ResponseStatusCode.NotFound) {
-          throw new ServiceError('Invalid credentials provided');
-        }
+        ApiService.checkDefaultResponseStatus(error);
 
         if (error.status === ResponseStatusCode.PreconditionFailed) {
           throw new ServiceError('Precondition for the username/password failed');
@@ -49,9 +47,7 @@ class UserService {
     return this.api.put<Token>(`/api/token`, payload)
       .then(response => response.token)
       .catch((error) => {
-        if (error.status === ResponseStatusCode.Unauthorized) {
-          throw new ServiceError('Unauthenticated or invalid token');
-        }
+        ApiService.checkDefaultResponseStatus(error);
 
         if (error.status === ResponseStatusCode.NotFound) {
           throw new ServiceError('Token not valid or user not found');
