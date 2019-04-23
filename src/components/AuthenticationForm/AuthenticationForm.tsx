@@ -4,6 +4,7 @@ import { Actions } from '../../actions';
 import FormInput from '../FormInput/FormInput';
 import { AuthenticationFormState } from '../../state/form/authentication-form.state';
 import { getApiErrorToast, getToastMessage } from '../../utils';
+import './AuthenticationForm.scss';
 
 interface Props {
   state: AuthenticationFormState;
@@ -43,7 +44,7 @@ const AuthenticationForm: Component<Props> = ({ state, actions }) => {
   const { authentication: formActions } = actions.form;
 
   return (
-    <form className="form login" onsubmit={(event: Event) => submit(event, state, actions)}>
+    <form className="authentication-form" onsubmit={(event: Event) => submit(event, state, actions)}>
       <h1 className="title">Project Management Login</h1>
       <div className="field">
         <div className="control">
