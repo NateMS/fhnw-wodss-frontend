@@ -1,0 +1,39 @@
+@import "../../styles/base/variables";
+
+.authentication-form {
+    margin: 100px auto;
+    width: 450px;
+    background-color: $white; 
+    padding: 2.0rem 2.0rem;
+    -webkit-box-shadow: 2px 2px 22px -1px rgba(117,119,99,1);
+    -moz-box-shadow: 2px 2px 22px -1px rgba(117,119,99,1);
+    box-shadow: 2px 2px 22px -1px rgba(117,119,99,1);
+    
+    .title {
+      margin-bottom: 2.5rem;
+      color: $brown;
+      text-align: center;
+      font-size: 1.6rem;
+      font-weight: 400;
+    }
+    
+    .buttons {
+      margin: 20px auto;
+      margin-top: 2.5rem;
+    }
+    
+    .button {
+        width: 100%;
+    }
+  }
+  
+  @media screen and (max-width: 480px) {
+    
+    .authentication-form {
+      width: 90%;
+      
+      .title {
+        font-size: 1.2rem;
+      }
+    }
+  }
