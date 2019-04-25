@@ -4,18 +4,17 @@ import { Actions } from '../../actions';
 import ProjectModalForm from '../../components/ProjectModelForm/ProjectModalForm';
 import { showProjectCreateForm } from '../../actions/form/project-form.actions';
 import Button from '../../components/Button/Button';
-import { showAllocationCreateForm } from '../../actions/form/allocation-form.actions';
+import { showAllocationCreateForm, showManageAllocationModal } from '../../actions/form/allocation-form.actions';
 import { hasAdminRole, hasPrivilegedRole } from '../../utils';
 import AllocationModalForm from '../../components/AllocationModalForm/AllocationModalForm';
 import { AllocationModel } from '../../api/dto/allocation.model';
-import { ContractModel } from '../../api/dto/contract.model';
-import moment from 'moment';
 import PlanningCalendarRow from '../../components/PlanningCalendarRow/PlanningCalendarRow';
 import { PlanningEmployeeRow } from '../../components/PlanningEmployeeRow/PlanningEmployeeRow';
 import { EmployeeExtendedModel } from '../../models/employee-extended.model';
 import { ProjectModel } from '../../api/dto/project.model';
 import { ProjectExtendedModel } from '../../models/project-extended.model';
 import { AllocationExtendedModel } from '../../models/allocation-extended.model';
+import { showNext, showPrevious } from '../../actions/view/planning-view.actions';
 
 const onRender = (actions: Actions) => {
   actions.employee.fetchAll();
@@ -24,25 +23,9 @@ const onRender = (actions: Actions) => {
   actions.allocation.fetchAll();
 };
 
-const showManageAllocationModal = (allocation: AllocationModel, contracts: ContractModel[], actions: Actions) => {
-  const contract = contracts.find(c => c.id === allocation.contractId);
-
-  if (contract == null) {
-    throw new Error(`ContractModel for id '${allocation.contractId}' should be available`);
-  }
-
-  actions.form.allocation.patch({
-    ...allocation,
-    employeeId: contract.employeeId,
-  });
-
-  actions.form.allocation.setOpen(true);
-};
-
 export const Planning: Component<ViewProps> = ({ state, actions }) => {
   const userRole = state.user.employee!.role;
   const { startDate, granularity } = state.view.planning;
-  const endDate = moment(startDate).add(granularity, 'days');
 
   const employees = state.employee.list;
   const contracts = state.contract.list;
@@ -85,9 +68,6 @@ export const Planning: Component<ViewProps> = ({ state, actions }) => {
     extendedEmployees.push(new EmployeeExtendedModel(employee, [...projectExtendedMap.values()]));
   });
 
-  // Only shows projects that are within the current view window
-  // const filteredProjects = projects.filter(p => !p.startDate.isAfter(endDate) && !p.endDate.isBefore(startDate));
-
   return (
     <div oncreate={() => onRender(actions)}>
       <div className="view-container">
@@ -111,12 +91,12 @@ export const Planning: Component<ViewProps> = ({ state, actions }) => {
       <Button
         theme="primary"
         label="Prev"
-        onClick={() => actions.view.planning.changeStartDate(moment(startDate).subtract(granularity, 'days'))}
+        onClick={() => showPrevious(startDate, granularity, actions)}
       />
       <Button
         theme="primary"
         label="Next"
-        onClick={() => actions.view.planning.changeStartDate(moment(startDate).add(granularity, 'days'))}
+        onClick={() => showNext(startDate, granularity, actions)}
       />
       <div className="planning-board">
         <PlanningCalendarRow

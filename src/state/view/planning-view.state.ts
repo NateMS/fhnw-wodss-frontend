@@ -6,6 +6,7 @@ export interface PlanningViewState {
 }
 
 export const defaultPlanningViewState: PlanningViewState = {
-  startDate: moment(),
+  startDate: moment()
+    .startOf('day'),
   granularity: 30,
 };

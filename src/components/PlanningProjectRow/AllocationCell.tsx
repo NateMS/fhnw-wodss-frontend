@@ -18,10 +18,7 @@ export const AllocationCell: Component<Props> = ({ color, isFilled, projectName,
       style={`background-color: ${color}; border-color: ${color}`}
     >
       {projectName && (
-        <span
-          className="planning-col__project"
-          style={`background-color: ${color}; border-color: ${color}`}
-        >
+        <span className="planning-col__project">
           {projectName} | {pensum}%
         </span>
       )}

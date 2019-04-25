@@ -4,6 +4,8 @@ import { AllocationFormState, initAllocationForm } from '../../state/form/alloca
 import { Actions } from '../index';
 import { getToastMessage, getApiErrorToast } from '../../utils';
 import { AllocationRequestModel } from '../../api/dto/allocation.request.model';
+import { AllocationModel } from '../../api/dto/allocation.model';
+import { ContractModel } from '../../api/dto/contract.model';
 
 export const allocationFormActions: ActionsType<AllocationFormState, GenericFormActions<AllocationFormState>> = {
   setSaving: isSaving => state => setSaving(isSaving, state),
@@ -18,6 +20,21 @@ export const allocationFormActions: ActionsType<AllocationFormState, GenericForm
 export const showAllocationCreateForm = (show: boolean, actions: Actions): void => {
   actions.form.allocation.reset();
   actions.form.allocation.setOpen(show);
+};
+
+export const showManageAllocationModal = (allocation: AllocationModel, contracts: ContractModel[], actions: Actions) => {
+  const contract = contracts.find(c => c.id === allocation.contractId);
+
+  if (contract == null) {
+    throw new Error(`ContractModel for id '${allocation.contractId}' should be available`);
+  }
+
+  actions.form.allocation.patch({
+    ...allocation,
+    employeeId: contract.employeeId,
+  });
+
+  actions.form.allocation.setOpen(true);
 };
 
 export const createAllocation = (state: AllocationFormState, actions: Actions): void => {

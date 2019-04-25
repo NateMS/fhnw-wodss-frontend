@@ -105,9 +105,9 @@ export const AllocationManageForm: Component<Props> = ({ state, actions }) => {
             aria-label="close"
             onclick={() => close(actions)}
           >
-              <span className="icon is-small">
-                <i className="fas fa-times"/>
-              </span>
+            <span className="icon is-small">
+              <i className="fas fa-times"/>
+            </span>
           </button>
         </header>
         <section className="modal-card-body">

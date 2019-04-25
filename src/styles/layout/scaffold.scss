@@ -13,7 +13,7 @@
   flex-direction: column;
   justify-content: space-between;
   width: $sidebar-width;
-  height: 100vh;
+  min-height: 100vh;
   flex-grow: 0;
   background-color: $sidebar-background;
 }

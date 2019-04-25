@@ -83,11 +83,11 @@ export const getDaysOfDateRange = (from: Moment, to: Moment, includeEod: boolean
 /**
  * Checks if a provided date is between two dates.
  * @param start
- * @param endDate
+ * @param end
  * @param date
  */
-export const isBetweenDates = (start: Moment, endDate: Moment, date: Moment): boolean => {
-  return date.isSameOrAfter(start) && date.isSameOrBefore(endDate);
+export const isBetweenDates = (start: Moment, end: Moment, date: Moment): boolean => {
+  return date.isSameOrAfter(start) && date.isSameOrBefore(end);
 };
 
 /**
