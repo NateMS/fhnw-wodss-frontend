@@ -1,6 +1,6 @@
 import { Component, h } from 'hyperapp';
 import { ContractModel } from '../../api/dto/contract.model';
-import { DATE_FORMAT_STRING } from '../../constants';
+import { formatDateRange } from '../../utils';
 
 interface Props {
   key: string;
@@ -17,7 +17,7 @@ export const ContractListItem: Component<Props> = (props) => {
     <tr>
       <td>
         {startDate && endDate ?
-          `${startDate.format(DATE_FORMAT_STRING)} – ${endDate.format(DATE_FORMAT_STRING)}` :
+          formatDateRange(startDate, endDate) :
           '–'
         }
       </td>

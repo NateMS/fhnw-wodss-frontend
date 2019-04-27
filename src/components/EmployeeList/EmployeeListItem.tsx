@@ -5,7 +5,7 @@ import { ProjectModel } from '../../api/dto/project.model';
 import { ContractModel } from '../../api/dto/contract.model';
 import { Actions } from '../../actions';
 import EmployeeListItemActions from './EmployeeListItemActions';
-import { DATE_FORMAT_STRING } from '../../constants';
+import { formatDateRange } from '../../utils';
 
 interface Props {
   key: string;
@@ -32,7 +32,7 @@ export const EmployeeListItem: Component<Props> = (props) => {
       <td>{contract != null ? `${contract.pensumPercentage}%` : '–'}</td>
       <td>
         {startDate && endDate ?
-          `${startDate.format(DATE_FORMAT_STRING)} – ${endDate.format(DATE_FORMAT_STRING)}` :
+          formatDateRange(startDate, endDate) :
           '–'
         }
       </td>
