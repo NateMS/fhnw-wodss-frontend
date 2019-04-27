@@ -83,7 +83,7 @@ export const EmployeeEditForm: Component<Props> = ({ state, actions }) => {
                   name={role.name}
                   value={role.value}
                   placeholder="Please select"
-                  disabled={formState.isSaving}
+                  disabled={true}
                   items={roleList}
                   labeler={(r: Role) => roleNameMap[r]}
                   errors={role.errors}

@@ -5,7 +5,7 @@ import ProjectModalForm from '../../components/ProjectModelForm/ProjectModalForm
 import { showProjectCreateForm } from '../../actions/form/project-form.actions';
 import Button from '../../components/Button/Button';
 import { showAllocationCreateForm, showManageAllocationModal } from '../../actions/form/allocation-form.actions';
-import { hasAdminRole, hasPrivilegedRole } from '../../utils';
+import { compareEmployeeByName, hasAdminRole, hasPrivilegedRole } from '../../utils';
 import AllocationModalForm from '../../components/AllocationModalForm/AllocationModalForm';
 import { AllocationModel } from '../../api/dto/allocation.model';
 import PlanningCalendarRow from '../../components/PlanningCalendarRow/PlanningCalendarRow';
@@ -32,7 +32,7 @@ export const Planning: Component<ViewProps> = ({ state, actions }) => {
   const allocations = state.allocation.list;
   const projects = state.project.list;
 
-  let filteredEmployees = [...employees];
+  let filteredEmployees = [...employees].sort((e1, e2) => compareEmployeeByName(e1, e2));
   let filteredProjects = [...projects];
 
   if (filterString != null && filterString.length > 0) {

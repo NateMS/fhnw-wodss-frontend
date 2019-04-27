@@ -9,6 +9,7 @@ import { Role } from './api/role';
 import moment, { Moment } from 'moment';
 import { DATE_FORMAT_STRING } from './constants';
 import { Project } from './api/dto/project';
+import { EmployeeModel } from './api/dto/employee.model';
 
 export function hasProp(object: {}, property: string): boolean {
   if (object == null) {
@@ -137,3 +138,17 @@ export const compareProjectByName = (p1: Project, p2: Project): number => {
 
   return (name1 < name2) ? -1 : (name1 > name2) ? 1 : 0;
 };
+
+/**
+ * Compares employees by name. Useful for sort functions
+ *
+ * @param p1
+ * @param p2
+ */
+export const compareEmployeeByName = (e1: EmployeeModel, e2: EmployeeModel): number => {
+  const name1 = e1.fullName.toUpperCase();
+  const name2 = e2.fullName.toUpperCase();
+
+  return (name1 < name2) ? -1 : (name1 > name2) ? 1 : 0;
+};
+
