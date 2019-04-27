@@ -25,10 +25,6 @@ class EmployeeService {
       .catch((error) => {
         ApiService.checkDefaultResponseStatus(error);
 
-        if (error.status === ResponseStatusCode.Forbidden) {
-          throw new ServiceError('Not allowed to create employee');
-        }
-
         if (error.status === ResponseStatusCode.PreconditionFailed) {
           throw new ServiceError('Precondition for creating employee failed');
         }
@@ -53,7 +49,16 @@ class EmployeeService {
 
   public get(id: string): Promise<EmployeeModel> {
     return this.api.get<Employee>(`/api/employee/${id}`)
-      .then((response: Employee) => new EmployeeModel(response));
+      .then((response: Employee) => new EmployeeModel(response))
+      .catch((error) => {
+        ApiService.checkDefaultResponseStatus(error);
+
+        if (error.status === ResponseStatusCode.NotFound) {
+          throw new ServiceError('Employee not found');
+        }
+
+        throw error;
+      });
   }
 
   public update(employee: EmployeeRequestModel, id: string): Promise<EmployeeModel> {
@@ -154,6 +159,10 @@ class EmployeeService {
           throw new ServiceError('Contract not found');
         }
 
+        if (error.status === ResponseStatusCode.PreconditionFailed) {
+          throw new ServiceError('Precondition for deleting contract failed');
+        }
+
         throw error;
       });
   }
@@ -165,7 +174,12 @@ class EmployeeService {
     };
 
     return this.api.get<ContractModel[]>('/api/contract', params)
-      .then((list: Contract[]) => list.map(e => new ContractModel(e)));
+      .then((list: Contract[]) => list.map(e => new ContractModel(e)))
+      .catch((error) => {
+        ApiService.checkDefaultResponseStatus(error);
+
+        throw error;
+      });
   }
 
   public getContract(id: string): Promise<ContractModel> {

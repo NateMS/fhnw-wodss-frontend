@@ -27,6 +27,10 @@ class UserService {
       .catch((error: ApiError) => {
         ApiService.checkDefaultResponseStatus(error);
 
+        if (error.status === ResponseStatusCode.NotFound) {
+          throw new ServiceError('Employee not found or invalid password');
+        }
+
         if (error.status === ResponseStatusCode.PreconditionFailed) {
           throw new ServiceError('Precondition for the username/password failed');
         }
