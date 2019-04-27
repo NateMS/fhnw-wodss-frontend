@@ -14,7 +14,6 @@ import { EmployeeExtendedModel } from '../../models/employee-extended.model';
 import { ProjectModel } from '../../api/dto/project.model';
 import { ProjectExtendedModel } from '../../models/project-extended.model';
 import { AllocationExtendedModel } from '../../models/allocation-extended.model';
-import { showNext, showPrevious } from '../../actions/view/planning-view.actions';
 
 const onRender = (actions: Actions) => {
   actions.employee.fetchAll();
@@ -25,14 +24,21 @@ const onRender = (actions: Actions) => {
 
 export const Planning: Component<ViewProps> = ({ state, actions }) => {
   const userRole = state.user.employee!.role;
-  const { startDate, granularity } = state.view.planning;
+  const { startDate, granularity, filterString } = state.view.planning;
 
   const employees = state.employee.list;
   const contracts = state.contract.list;
   const allocations = state.allocation.list;
   const projects = state.project.list;
 
-  const projectMap: Map<string, ProjectModel> = ProjectModel.createMap(projects);
+  let filteredProjects = [...projects];
+
+  if (filterString != null && filterString.length > 0) {
+    const lowerFilterString = `${filterString}`.toLowerCase();
+    filteredProjects = projects.filter(p => p.name.toLowerCase().indexOf(lowerFilterString) > -1);
+  }
+
+  const projectMap: Map<string, ProjectModel> = ProjectModel.createMap(filteredProjects);
   const contractAllocationMap: Map<string, Set<AllocationModel>> = AllocationModel.createMapByContractId(allocations);
   const extendedEmployees: EmployeeExtendedModel[] = [];
 
@@ -72,45 +78,44 @@ export const Planning: Component<ViewProps> = ({ state, actions }) => {
     <div oncreate={() => onRender(actions)}>
       <div className="view-container">
         <h1 className="title">Planning</h1>
-        {hasAdminRole(userRole) && (
-          <Button
-            theme="primary"
-            label="Create Project"
-            onClick={() => showProjectCreateForm(true, actions)}
+        <div className="view__actions">
+          <input
+            type="text"
+            className="input view__filter"
+            placeholder="Filter Project"
+            value={filterString}
+            oninput={(e: any) => actions.view.planning.updateFilterString(e.target.value)}
           />
-        )}
-
-        {hasPrivilegedRole(userRole) && (
-          <Button
-            theme="primary"
-            label="Create Allocation"
-            onClick={() => showAllocationCreateForm(true, actions)}
-          />
-        )}
-      </div>
-      <Button
-        theme="primary"
-        label="Prev"
-        onClick={() => showPrevious(startDate, granularity, actions)}
-      />
-      <Button
-        theme="primary"
-        label="Next"
-        onClick={() => showNext(startDate, granularity, actions)}
-      />
-      <div className="planning-board">
-        <PlanningCalendarRow
-          startDate={startDate}
-          numberOfDays={granularity}
-        />
-        {extendedEmployees.map(employee => (
-          <PlanningEmployeeRow
+          {hasAdminRole(userRole) && (
+            <Button
+              theme="primary"
+              label="Create Project"
+              onClick={() => showProjectCreateForm(true, actions)}
+            />
+          )}
+          {hasPrivilegedRole(userRole) && (
+            <Button
+              theme="primary"
+              label="Create Allocation"
+              onClick={() => showAllocationCreateForm(true, actions)}
+            />
+          )}
+        </div>
+        <div className="planning-board">
+          <PlanningCalendarRow
             startDate={startDate}
             numberOfDays={granularity}
-            employee={employee}
-            onAllocationClick={allocation => showManageAllocationModal(allocation, contracts, actions)}
+            actions={actions.view.planning}
           />
-        ))}
+          {extendedEmployees.map(employee => (
+            <PlanningEmployeeRow
+              startDate={startDate}
+              numberOfDays={granularity}
+              employee={employee}
+              onAllocationClick={allocation => showManageAllocationModal(allocation, contracts, actions)}
+            />
+          ))}
+        </div>
       </div>
       {state.form.project.isOpen && <ProjectModalForm state={state} actions={actions} />}
       {state.form.allocation.isOpen && <AllocationModalForm state={state} actions={actions} />}

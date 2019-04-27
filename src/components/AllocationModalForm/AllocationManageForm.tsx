@@ -241,12 +241,14 @@ export const AllocationManageForm: Component<Props> = ({ state, actions }) => {
           </div>
         </section>
         <footer className="modal-card-foot">
-          <Button
-            label="Delete"
-            onClick={() => remove(formState, actions)}
-            isLoading={formState.isSaving}
-            disabled={formState.isSaving}
-          />
+          {isEditMode && (
+            <Button
+              label="Delete"
+              onClick={() => remove(formState, actions)}
+              isLoading={formState.isSaving}
+              disabled={formState.isSaving}
+            />
+          )}
           <Button
             label="Cancel"
             onClick={() => close(actions)}

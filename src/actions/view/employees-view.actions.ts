@@ -7,6 +7,6 @@ export interface EmployeesViewActions {
 
 export const employeesViewActions: ActionsType<EmployeesViewState, EmployeesViewActions> = {
   updateFilterString: filterString => () => ({
-    filterString: filterString.toLowerCase(),
+    filterString,
   }),
 };

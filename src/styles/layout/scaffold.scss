@@ -1,3 +1,7 @@
+html {
+  overflow: hidden;
+}
+
 .app-container {
   position: relative;
 }
@@ -13,14 +17,16 @@
   flex-direction: column;
   justify-content: space-between;
   width: $sidebar-width;
-  min-height: 100vh;
+  height: 100vh;
   flex-grow: 0;
   background-color: $sidebar-background;
 }
 
 .app__body {
   flex-grow: 1;
+  height: 100vh;
   padding: 1.5rem;
+  overflow: auto;
 }
 
 .button {
@@ -34,4 +40,14 @@
 .view__actions {
   display: flex;
   margin-bottom: 1rem;
+
+  .input,
+  .control,
+  .button {
+    margin: 0 0.125rem;
+  }
+}
+
+.modal {
+  z-index: $z-index-modal;
 }

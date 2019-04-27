@@ -2,28 +2,16 @@
 
 .planning-row--employee {
   margin: 0.5rem 0;
+  background-color: $brown-light;
 
-  .planning-col {
-    height: $planning-cell-size;
-    border-width: 1px;
-    border-style: solid;
-    border-left: 0;
-
-    &:first-child {
-      border-left: 1px solid;
-    }
+  &:nth-child(odd) {
+    background-color: $brown-lighter;
   }
-}
-
-.planning-col--label {
-  display: flex;
-  min-width: 300px;
-  width: 300px;
-  text-align: left;
 }
 
 .planning-col-container {
   width: 100%;
   display: flex;
   flex-direction: column;
+  justify-content: center;
 }

@@ -8,6 +8,7 @@ import { ToastMessage } from './actions/toast.actions';
 import { Role } from './api/role';
 import moment, { Moment } from 'moment';
 import { DATE_FORMAT_STRING } from './constants';
+import { Project } from './api/dto/project';
 
 export function hasProp(object: {}, property: string): boolean {
   if (object == null) {
@@ -122,4 +123,17 @@ export const getRandomHexColor = (unique1: string, unique2?: string): string => 
     colour += `00${value.toString(16)}`.substr(-2);
   }
   return colour;
+};
+
+/**
+ * Compares project by name. Useful for sort functions
+ *
+ * @param p1
+ * @param p2
+ */
+export const compareProjectByName = (p1: Project, p2: Project): number => {
+  const name1 = p1.name.toUpperCase();
+  const name2 = p2.name.toUpperCase();
+
+  return (name1 < name2) ? -1 : (name1 > name2) ? 1 : 0;
 };

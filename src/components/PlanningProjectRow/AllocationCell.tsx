@@ -8,13 +8,19 @@ interface Props {
   onClick?: (event: Event) => void;
 }
 
-export const AllocationCell: Component<Props> = ({ color, isFilled, projectName, pensum, onClick }) => {
+export const AllocationCell: Component<Props> = (props) => {
+  const { color, isFilled, projectName, pensum, onClick } = props;
   const onClickHandler = onClick != null ? onClick : () => {};
+  let className = 'planning-col planning-col--day';
+
+  if (isFilled === true) {
+    className = `${className} planning-col--filled`;
+  }
 
   return (
     <div
       onclick={onClickHandler}
-      className={`planning-col ${isFilled ? 'planning-col--filled' : ''}`}
+      className={className}
       style={`background-color: ${color}; border-color: ${color}`}
     >
       {projectName && (

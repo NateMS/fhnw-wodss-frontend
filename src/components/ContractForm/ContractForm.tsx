@@ -11,7 +11,6 @@ import {
   createContract,
   deleteContract,
 } from '../../actions/form/contract-form.actions';
-import Button from '../Button/Button';
 import DatePicker from '../DatePicker/DatePicker';
 import FormHint from '../FormHint/FormHint';
 import { CONTRACT_PENSUM_VALUE_MIN, CONTRACT_PENSUM_VALUE_MAX } from '../../constants';

@@ -6,13 +6,18 @@ $white: #FFFFFF;
 $purple: #8A4D76;
 $pink: #FA7C91;
 $brown: #757763;
+$brown-light: #d9dad0;
+$brown-lighter: #e1e2da;
 $beige-light: #D0D1CD;
 $beige-lighter: #EFF0EB;
 
 // System Variables
+$z-index-sticky: 900;
 $z-index-user-launcher: 1000;
+$z-index-modal: 1100;
 $z-index-toast: 1200;
 $app-offset: 1.5rem;
+$control-border: hsl(0, 0%, 86%);
 
 // Bulma Global Variables
 $family-sans-serif: "Nunito", sans-serif;
@@ -27,6 +32,7 @@ $fullhd-enabled: false;
 // Bulma Component Variables
 $body-background-color: $beige-lighter;
 $control-border-width: 2px;
+$button-focus-border-color: $pink;
 //$input-border-color: transparent;
 $input-shadow: none;
 $notification-padding: 1rem 2rem 1rem 1.5rem;
