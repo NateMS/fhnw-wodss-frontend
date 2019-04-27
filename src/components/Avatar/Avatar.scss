@@ -18,10 +18,12 @@
   border: 2px solid white;
   color: $white;
   cursor: default;
+
   &.is-normal {
     width: 2rem;
     height: 2rem;
   }
+
   &.is-large {
     width: 4rem;
     height: 4rem;
