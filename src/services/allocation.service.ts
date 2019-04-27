@@ -1,9 +1,9 @@
-import { apiService, ApiService } from './ApiService';
+import { apiService, ApiService } from './api.service';
 import { AllocationModel } from '../api/dto/allocation.model';
 import { Allocation } from '../api/dto/allocation';
 import { AllocationBaseModel } from '../api/dto/allocation.base.model';
 import { AllocationRequestModel } from '../api/dto/allocation.request.model';
-import { ServiceError } from './ServiceError';
+import { ServiceError } from './service-error';
 import { ResponseStatusCode } from '../api/response-status-code.enum';
 
 class AllocationService {

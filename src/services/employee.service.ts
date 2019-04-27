@@ -1,4 +1,4 @@
-import { apiService, ApiService } from './ApiService';
+import { apiService, ApiService } from './api.service';
 import { Employee } from '../api/dto/employee';
 import { EmployeeModel } from '../api/dto/employee.model';
 import { EmployeeRequestModel } from '../api/dto/employee.request.model';
@@ -6,7 +6,7 @@ import { Role } from '../api/role';
 import { Contract } from '../api/dto/contract';
 import { ContractModel } from '../api/dto/contract.model';
 import { ContractRequestModel } from '../api/dto/contract.request.model';
-import { ServiceError } from './ServiceError';
+import { ServiceError } from './service-error';
 import { ResponseStatusCode } from '../api/response-status-code.enum';
 
 class EmployeeService {

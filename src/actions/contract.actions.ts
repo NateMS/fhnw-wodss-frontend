@@ -1,6 +1,6 @@
 import { ContractState } from '../state';
 import { ActionResult, ActionsType } from 'hyperapp';
-import { employeeService } from '../services/EmployeeService';
+import { employeeService } from '../services/employee.service';
 import { ContractModel } from '../api/dto/contract.model';
 import { ContractRequestModel } from '../api/dto/contract.request.model';
 

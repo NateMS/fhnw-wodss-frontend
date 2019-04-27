@@ -7,7 +7,7 @@ import FormInput from '../FormInput/FormInput';
 import Button from '../Button/Button';
 import { ProjectFormProps, close } from './ProjectModalForm';
 import { EmployeeSelect } from '../EmployeeSelect/EmployeeSelect';
-import { employeeService } from '../../services/EmployeeService';
+import { employeeService } from '../../services/employee.service';
 import { createProject, updateProject } from '../../actions/form/project-form.actions';
 import DatePicker from '../DatePicker/DatePicker';
 import FormHint from '../FormHint/FormHint';

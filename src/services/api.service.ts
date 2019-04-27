@@ -1,7 +1,7 @@
-import { ApiError } from '../api/ApiError';
+import { ApiError } from '../api/api-error';
 import { ResponseStatusCode } from '../api/response-status-code.enum';
-import { userService } from './UserService';
-import { ServiceError } from './ServiceError';
+import { userService } from './user.service';
+import { ServiceError } from './service-error';
 
 enum RequestMethods {
   GET = 'GET',

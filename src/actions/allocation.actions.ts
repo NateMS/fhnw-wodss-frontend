@@ -1,6 +1,6 @@
 import { AllocationState } from '../state';
 import { ActionResult, ActionsType } from 'hyperapp';
-import { allocationService } from '../services/AllocationService';
+import { allocationService } from '../services/allocation.service';
 import { AllocationModel } from '../api/dto/allocation.model';
 import { AllocationRequestModel } from '../api/dto/allocation.request.model';
 
