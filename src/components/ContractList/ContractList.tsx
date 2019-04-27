@@ -23,7 +23,7 @@ const ContractList: Component<Props> = ({ state }) => {
   };
 
   return (
-    <div className="employee-list">
+    <div className="contract-list">
       <table className="table is-fullwidth is-hoverable">
         <thead>
           <tr>
@@ -32,7 +32,11 @@ const ContractList: Component<Props> = ({ state }) => {
           </tr>
         </thead>
         <tbody>
-          {employeeContracts.map(contract => createContarctListItem(contract))}
+          {
+            employeeContracts.length === 0 ?
+            <tr><td colspan="2">No contracts</td></tr> :
+            employeeContracts.map(contract => createContarctListItem(contract))
+          }
         </tbody>
       </table>
     </div>
