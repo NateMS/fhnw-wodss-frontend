@@ -32,7 +32,7 @@ export const Planning: Component<ViewProps> = ({ state, actions }) => {
   const allocations = state.allocation.list;
   const projects = state.project.list;
 
-  let filteredEmployees = [...employees].sort((e1, e2) => compareEmployeeByName(e1, e2));
+  let filteredEmployees = [...employees].sort(compareEmployeeByName);
   let filteredProjects = [...projects];
 
   if (filterString != null && filterString.length > 0) {

@@ -6,7 +6,7 @@ import { State } from '../../state';
 import { ContractModel } from '../../api/dto/contract.model';
 import { ProjectModel } from '../../api/dto/project.model';
 import EmployeeListItem from './EmployeeListItem';
-import { hasAdminRole } from '../../utils';
+import { compareEmployeeByName, hasAdminRole } from '../../utils';
 
 interface Props {
   state: State;
@@ -34,7 +34,7 @@ const EmployeeList: Component<Props> = ({ state, actions }) => {
   const { filterString } = state.view.employees;
   const userRole = state.user.employee!.role;
 
-  const employees = state.employee.list;
+  const employees = [...state.employee.list].sort(compareEmployeeByName);
   const contracts = state.contract.list;
   const allocations = state.allocation.list;
   const projects = state.project.list;
