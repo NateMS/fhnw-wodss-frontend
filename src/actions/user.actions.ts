@@ -2,7 +2,7 @@ import { ActionResult, ActionsType } from 'hyperapp';
 import { UserState } from '../state';
 import { EmployeeModel } from '../api/dto/employee.model';
 import { Credentials } from '../api/dto/credentials';
-import { userService } from '../services/UserService';
+import { userService } from '../services/user.service';
 import moment from 'moment';
 
 export interface UserActions {

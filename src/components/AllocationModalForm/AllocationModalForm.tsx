@@ -23,7 +23,7 @@ const AllocationModalForm: Component<AllocationFormProps> = ({ state, actions })
   return (
     <div className={stateClassName}>
       <div className="modal-background" />
-      <AllocationManageForm state={state} actions={actions} />}
+      <AllocationManageForm state={state} actions={actions} />
     </div>
   );
 };

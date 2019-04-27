@@ -15,13 +15,15 @@ interface Props {
 
 const filterEmployees = (employees: EmployeeModel[], filterString: string): EmployeeModel[] => {
   if (filterString.length > 0) {
+    const lowerFilterString = filterString.toLowerCase();
+
     return employees
       .filter((employee) => {
-        if (employee.fullName.toLowerCase().indexOf(filterString) > -1) {
+        if (employee.fullName.toLowerCase().indexOf(lowerFilterString) > -1) {
           return true;
         }
 
-        return employee.roleName.toLowerCase().indexOf(filterString) > -1;
+        return employee.roleName.toLowerCase().indexOf(lowerFilterString) > -1;
       });
   }
 

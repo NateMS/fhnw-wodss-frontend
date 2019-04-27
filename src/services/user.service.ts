@@ -1,11 +1,11 @@
 import jwtDecode from 'jwt-decode';
-import { apiService, ApiService } from './ApiService';
+import { apiService, ApiService } from './api.service';
 import { Credentials } from '../api/dto/credentials';
 import { Token } from '../api/dto/token';
 import { TokenPayload } from '../api/dto/token-payload';
-import { ApiError } from '../api/ApiError';
+import { ApiError } from '../api/api-error';
 import { ResponseStatusCode } from '../api/response-status-code.enum';
-import { ServiceError } from './ServiceError';
+import { ServiceError } from './service-error';
 import { LOCAL_STORAGE_USER_TOKEN } from '../constants';
 
 class UserService {

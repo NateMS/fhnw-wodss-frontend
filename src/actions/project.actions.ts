@@ -1,6 +1,6 @@
 import { ProjectState } from '../state';
 import { ActionResult, ActionsType } from 'hyperapp';
-import { projectService } from '../services/ProjectService';
+import { projectService } from '../services/project.service';
 import { ProjectModel } from '../api/dto/project.model';
 import { ProjectRequestModel } from '../api/dto/project.request.model';
 

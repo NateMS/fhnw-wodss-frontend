@@ -1,0 +1,77 @@
+@import "../../styles/base/variables";
+
+.planning-calendar-row {
+  position: sticky;
+  top: -1.5rem;
+  background-color: $beige-lighter;
+  z-index: $z-index-sticky;
+  box-shadow: 1px 8px 10px -12px $brown;
+}
+
+.planning-row {
+  display: flex;
+  overflow: hidden;
+}
+
+.planning-col {
+  position: relative;
+  flex-basis: 3.33%;
+  padding: 0.25em;
+  text-align: center;
+  z-index: $z-index-planning-empty-cells;
+}
+
+.planning-col--actions,
+.planning-col--label {
+  display: flex;
+  min-width: 300px;
+  width: 300px;
+  text-align: left;
+}
+
+.planning-col--actions {
+  display: flex;
+  align-items: center;
+
+  .button,
+  .control {
+    margin: 0 0.125rem;
+  }
+}
+
+.planning-col--day {
+  background: $white;
+  border-width: 1px;
+  border-style: solid;
+  border-right: 0;
+  border-color: $control-border-color;
+
+  &:last-child {
+    border-right: 1px solid $control-border-color;
+  }
+}
+
+.planning-col--today {
+  border-bottom: 4px solid $purple;
+}
+
+@for $i from 1 through 30 {
+  .planning-col--filled:nth-child(#{$i}) {
+    z-index: #{$z-index-planning-filled-cells - $i};
+  }
+}
+
+.planning-col__week-day,
+.planning-col__day {
+  display: inline-block;
+  width: 100%;
+  font-size: 0.75rem;
+}
+
+.planning-col__line {
+  position: absolute;
+  bottom: -1px;
+  border: 2px solid purple;
+  left: -1px;
+  right: -1px;
+}

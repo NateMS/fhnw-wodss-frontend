@@ -2,6 +2,7 @@ import { Component, h } from 'hyperapp';
 import { Redirect } from '@hyperapp/router';
 import AuthenticationForm from '../../components/AuthenticationForm/AuthenticationForm';
 import { ViewProps } from '../ViewProps';
+import './Login.scss';
 
 export const Login: Component<ViewProps> = ({ state, actions }) => {
   const employee = state.user.employee;

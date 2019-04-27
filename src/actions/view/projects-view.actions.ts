@@ -7,6 +7,6 @@ export interface ProjectsViewActions {
 
 export const projectsViewActions: ActionsType<ProjectsViewState, ProjectsViewActions> = {
   updateFilterString: filterString => () => ({
-    filterString: filterString.toLowerCase(),
+    filterString,
   }),
 };

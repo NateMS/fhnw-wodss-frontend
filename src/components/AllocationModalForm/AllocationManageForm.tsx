@@ -15,6 +15,7 @@ import FormHint from '../FormHint/FormHint';
 import { AllocationFormState } from '../../state/form/allocation-form.state';
 import { removeAllocation, createAllocation, updateAllocation } from '../../actions/form/allocation-form.actions';
 import { AllocationModel } from '../../api/dto/allocation.model';
+import { EmployeeModel } from '../../api/dto/employee.model';
 
 interface Props {
   state: State;
@@ -49,6 +50,8 @@ export const AllocationManageForm: Component<Props> = ({ state, actions }) => {
   const employees = state.employee.list;
   const contracts = state.contract.list;
   const allocations = state.allocation.list;
+
+  const employeesWithContracts = EmployeeModel.filterByContracts(employees, contracts);
 
   let userContracts: ContractModel[] = [];
   let selectedAllocation: AllocationModel | undefined;
@@ -105,9 +108,9 @@ export const AllocationManageForm: Component<Props> = ({ state, actions }) => {
             aria-label="close"
             onclick={() => close(actions)}
           >
-              <span className="icon is-small">
-                <i className="fas fa-times"/>
-              </span>
+            <span className="icon is-small">
+              <i className="fas fa-times"/>
+            </span>
           </button>
         </header>
         <section className="modal-card-body">
@@ -133,12 +136,19 @@ export const AllocationManageForm: Component<Props> = ({ state, actions }) => {
               </FormField>
             </div>
             <div className="column is-one-third"/>
-            <div className="column is-one-third">
-              {selectedProject != null && (
-                <span>
-                  {totalAllocatedPercentage} / {selectedProject!.totalPercentage}%
-                </span>
-              )}
+            <div className="column is-one-third column-summary">
+              <div className="columns is-fullwidth">
+                <div className="column is-half">
+                  <strong>Allocated FTE</strong>
+                  <br />
+                  <span>{selectedProject != null ? totalAllocatedPercentage : 0}%</span>
+                </div>
+                <div className="column is-half">
+                  <strong>Project FTE</strong>
+                  <br />
+                  <span>{selectedProject != null ? selectedProject.totalPercentage : 0}%</span>
+                </div>
+              </div>
             </div>
           </div>
           <div className="columns">
@@ -148,7 +158,7 @@ export const AllocationManageForm: Component<Props> = ({ state, actions }) => {
                   name={employeeId.name}
                   value={employeeId.value}
                   placeholder="Please select"
-                  items={employees}
+                  items={employeesWithContracts}
                   errors={employeeId.errors}
                   onInputChange={formActions.updateValue}
                 />
@@ -175,9 +185,6 @@ export const AllocationManageForm: Component<Props> = ({ state, actions }) => {
                     <FormHint label={`Pensum: ${selectedContract.pensumPercentage}%`}/>
                   )}
                 </FormField>
-              )}
-              {employeeId.value != null && userContracts.length === 0 && (
-                <span>Employee has no contracts</span>
               )}
               {employeeId.value != null && (
                 <FormField labelText="Pensum" required={true}>
@@ -224,29 +231,66 @@ export const AllocationManageForm: Component<Props> = ({ state, actions }) => {
                   <FormHint theme="danger" label="Allocation has negative duration" />}
               </FormField>
             </div>
-            <div className="column is-one-third">
-              {isDateRangeDefined && <span>{plannedPercentage}%</span>}
+            <div className="column is-one-third column-summary">
+              {isDateRangeDefined != null && (
+                <div className="columns is-fullwidth">
+                  <div className="column is-half">
+                    <strong>Additional FTE</strong>
+                    <br />
+                    <span>+{plannedPercentage}%</span>
+                  </div>
+                  <div className="column is-half"/>
+                </div>
+              )}
             </div>
           </div>
           <div className="columns">
             <div className="column is-one-third"/>
             <div className="column is-one-third"/>
-            <div className="column is-one-third">
-              {selectedProject != null && (
-                <span>
-                  {plannedPercentage + totalAllocatedPercentage} / {selectedProject.totalPercentage}%
-                </span>
-              )}
+            <div className="column is-one-third column-summary">
+              <div className="columns is-fullwidth">
+                <div className="column is-half">
+                  <strong>Total. Allocated</strong>
+                  <br />
+                  <span>{selectedProject != null ? plannedPercentage + totalAllocatedPercentage : 0}%</span>
+                </div>
+                <div className="column is-half">
+                  <strong>Project FTE</strong>
+                  <br />
+                  <span>{selectedProject != null ? selectedProject!.totalPercentage : 0}%</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="columns">
+            <div className="column is-one-third"/>
+            <div className="column is-one-third"/>
+            <div className="column is-one-third column-summary">
+              <div className="columns is-fullwidth">
+                <div className="column is-half" />
+                <div className="column is-half">
+                  <strong>Remaining FTE</strong>
+                  <br />
+                  <span>
+                    {selectedProject != null ?
+                      selectedProject!.totalPercentage - (plannedPercentage + totalAllocatedPercentage)
+                      : 0
+                    }%
+                  </span>
+                </div>
+              </div>
             </div>
           </div>
         </section>
         <footer className="modal-card-foot">
-          <Button
-            label="Delete"
-            onClick={() => remove(formState, actions)}
-            isLoading={formState.isSaving}
-            disabled={formState.isSaving}
-          />
+          {isEditMode && (
+            <Button
+              label="Delete"
+              onClick={() => remove(formState, actions)}
+              isLoading={formState.isSaving}
+              disabled={formState.isSaving}
+            />
+          )}
           <Button
             label="Cancel"
             onClick={() => close(actions)}

@@ -1,0 +1,17 @@
+@import "../../styles/base/variables";
+
+.planning-row--employee {
+  margin: 0.5rem 0;
+  background-color: $brown-light;
+
+  &:nth-child(odd) {
+    background-color: $brown-lighter;
+  }
+}
+
+.planning-col-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}

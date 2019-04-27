@@ -15,6 +15,14 @@
   }
 }
 
+.select {
+  width: 100%;
+
+  select {
+    width: 100%;
+  }
+}
+
 .flatpickr-day {
   &.selected {
     background-color: $primary;
@@ -29,4 +37,11 @@
 
 .with-hint {
   min-height: 90px;
+}
+
+.column-summary {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  border-bottom: 3px solid $control-border-color;
 }

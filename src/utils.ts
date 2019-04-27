@@ -6,8 +6,9 @@
  */
 import { ToastMessage } from './actions/toast.actions';
 import { Role } from './api/role';
-import { Moment } from 'moment';
+import moment, { Moment } from 'moment';
 import { DATE_FORMAT_STRING } from './constants';
+import { Project } from './api/dto/project';
 
 export function hasProp(object: {}, property: string): boolean {
   if (object == null) {
@@ -78,4 +79,61 @@ export const formatDateRange = (from: Moment, to: Moment): string => {
  */
 export const getDaysOfDateRange = (from: Moment, to: Moment, includeEod: boolean = false): number => {
   return to.diff(from, 'days') + (includeEod ? 1 : 0);
+};
+
+/**
+ * Checks if a provided date is between two dates.
+ * @param start
+ * @param end
+ * @param date
+ */
+export const isBetweenDates = (start: Moment, end: Moment, date: Moment): boolean => {
+  return date.isSameOrAfter(start) && date.isSameOrBefore(end);
+};
+
+/**
+ * Returns a sequential list of days starting from a specific day.
+ * @param start
+ * @param numberOfDays
+ */
+export const createDateList = (start: Moment, numberOfDays: number): Moment[] => {
+  return Array.from(
+    Array(numberOfDays),
+    (_, index) => moment(start).add(index, 'days'),
+  );
+};
+
+/**
+ * Generates a deterministic random hex color.
+ *
+ * @param unique1
+ * @param unique2
+ */
+export const getRandomHexColor = (unique1: string, unique2?: string): string => {
+  let hash = 0;
+  const str = `${unique1}${unique2}`;
+  let colour = '#';
+
+  for (let i = 0; i < str.length; i = i + 1) {
+    hash = str.charCodeAt(i) + ((hash << 5) - hash);
+  }
+
+  for (let i = 0; i < 3; i = i + 1) {
+    const value = (hash >> (i * 8)) & 0xFF;
+    colour += `00${value.toString(16)}`.substr(-2);
+  }
+  return colour;
+};
+
+/**
+ * Compares project by name. Useful for sort functions
+ *
+ * @param p1
+ * @param p2
+ */
+export const compareProjectByName = (p1: Project, p2: Project): number => {
+  const name1 = p1.name.toUpperCase();
+  const name2 = p2.name.toUpperCase();
+
+  return (name1 < name2) ? -1 : (name1 > name2) ? 1 : 0;
 };

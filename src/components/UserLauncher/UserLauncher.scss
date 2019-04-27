@@ -8,4 +8,8 @@
   .avatar {
     cursor: pointer;
   }
+
+  .dropdown-menu {
+    z-index: $z-index-user-launcher;
+  }
 }

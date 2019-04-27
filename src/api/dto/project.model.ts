@@ -34,4 +34,13 @@ export class ProjectModel extends ProjectBaseModel {
       0,
     );
   }
+
+  public static createMap(projects: ProjectModel[]): Map<string, ProjectModel> {
+    const projectMap: Map<string, ProjectModel> = new Map();
+    projects.forEach((project) => {
+      projectMap.set(project.id, project);
+    });
+
+    return projectMap;
+  }
 }
