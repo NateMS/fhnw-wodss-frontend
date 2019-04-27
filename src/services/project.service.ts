@@ -1,7 +1,6 @@
 import { apiService, ApiService } from './api.service';
 import { Project } from '../api/dto/project';
 import { ProjectModel } from '../api/dto/project.model';
-import { ProjectBaseModel } from '../api/dto/project.base.model';
 import { ProjectRequestModel } from '../api/dto/project.request.model';
 import { ServiceError } from './service-error';
 import { ResponseStatusCode } from '../api/response-status-code.enum';
