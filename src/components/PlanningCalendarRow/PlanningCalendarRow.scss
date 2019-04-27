@@ -44,10 +44,10 @@
   border-width: 1px;
   border-style: solid;
   border-right: 0;
-  border-color: $control-border;
+  border-color: $control-border-color;
 
   &:last-child {
-    border-right: 1px solid $control-border;
+    border-right: 1px solid $control-border-color;
   }
 }
 

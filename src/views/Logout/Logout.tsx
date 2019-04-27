@@ -13,7 +13,7 @@ export const Logout: Component<ViewProps> = ({ state, actions }) => {
 
   return (
     <div className="logout-container">
-      Take care {user.firstName} 👋
+      <h1 class="title">Take care {user.firstName} 👋</h1>
     </div>
   );
 };
