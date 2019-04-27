@@ -19,7 +19,7 @@ const ProfileDetail: Component<ViewProps> = ({ state }) => {
     <article class="media">
       <figure class="media-left">
         <p class="image is-64x64">
-          <Avatar fullName={employee.fullName} />
+          <Avatar fullName={employee.fullName} size="large" />
         </p>
       </figure>
       <div class="media-content">
