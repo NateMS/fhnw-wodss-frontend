@@ -14,13 +14,10 @@
   padding-left: 0.25em;
   line-height: calc(#{$planning-cell-size} - #{$planning-cell-border-width * 2});
   text-align: left;
+  white-space: nowrap;
 }
 
 .planning-col--filled {
   color: $white;
   cursor: pointer;
-
-  .planning-col__project {
-    width: 200px;
-  }
 }

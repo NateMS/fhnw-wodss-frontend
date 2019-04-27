@@ -23,7 +23,8 @@ const onRender = (actions: Actions) => {
 };
 
 export const Planning: Component<ViewProps> = ({ state, actions }) => {
-  const userRole = state.user.employee!.role;
+  const loggedInEmployee = state.user.employee!;
+  const userRole = loggedInEmployee.role;
   const { startDate, granularity, filterString } = state.view.planning;
 
   const employees = state.employee.list;
@@ -31,6 +32,7 @@ export const Planning: Component<ViewProps> = ({ state, actions }) => {
   const allocations = state.allocation.list;
   const projects = state.project.list;
 
+  let filteredEmployees = [...employees];
   let filteredProjects = [...projects];
 
   if (filterString != null && filterString.length > 0) {
@@ -38,11 +40,16 @@ export const Planning: Component<ViewProps> = ({ state, actions }) => {
     filteredProjects = projects.filter(p => p.name.toLowerCase().indexOf(lowerFilterString) > -1);
   }
 
+  if (!hasPrivilegedRole(userRole)) {
+    // Only show logged in user in the planning view
+    filteredEmployees = employees.filter(e => e.id === loggedInEmployee.id);
+  }
+
   const projectMap: Map<string, ProjectModel> = ProjectModel.createMap(filteredProjects);
   const contractAllocationMap: Map<string, Set<AllocationModel>> = AllocationModel.createMapByContractId(allocations);
   const extendedEmployees: EmployeeExtendedModel[] = [];
 
-  employees.forEach((employee) => {
+  filteredEmployees.forEach((employee) => {
     const employeeContracts = contracts.filter(contract => contract.employeeId === employee.id);
     const projectExtendedMap: Map<string, ProjectExtendedModel> = new Map();
 

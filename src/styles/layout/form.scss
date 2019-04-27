@@ -15,6 +15,14 @@
   }
 }
 
+.select {
+  width: 100%;
+
+  select {
+    width: 100%;
+  }
+}
+
 .flatpickr-day {
   &.selected {
     background-color: $primary;

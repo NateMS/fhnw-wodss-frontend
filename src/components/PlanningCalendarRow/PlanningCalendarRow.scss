@@ -10,6 +10,7 @@
 
 .planning-row {
   display: flex;
+  overflow: hidden;
 }
 
 .planning-col {
@@ -17,6 +18,7 @@
   flex-basis: 3.33%;
   padding: 0.25em;
   text-align: center;
+  z-index: $z-index-planning-empty-cells;
 }
 
 .planning-col--actions,
@@ -54,8 +56,8 @@
 }
 
 @for $i from 1 through 30 {
-  .planning-col:nth-child(#{$i}) {
-    z-index: #{30 - $i};
+  .planning-col--filled:nth-child(#{$i}) {
+    z-index: #{$z-index-planning-filled-cells - $i};
   }
 }
 

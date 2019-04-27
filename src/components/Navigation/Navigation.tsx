@@ -3,7 +3,6 @@ import './Navigation.scss';
 import NavigationItem from './NavigationItem';
 import { State } from '../../state';
 import { Role } from '../../api/role';
-import { hasPrivilegedRole } from '../../utils';
 
 interface Props {
   state: State;
@@ -30,14 +29,14 @@ const navigationItems: NavigationEntry[] = [
     label: 'Projects',
     icon: 'fab fa-lg fa-buffer',
     active: false,
-    isVisible: hasPrivilegedRole,
+    isVisible: () => true,
   },
   {
     pathName: '/employees',
     label: 'Employees',
     icon: 'fas fa-lg fa-users',
     active: false,
-    isVisible: hasPrivilegedRole,
+    isVisible: () => true,
   },
 ];
 
