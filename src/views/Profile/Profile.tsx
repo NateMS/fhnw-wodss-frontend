@@ -2,7 +2,8 @@ import { Component, h } from 'hyperapp';
 import { ViewProps } from '../ViewProps';
 import { Actions } from '../../actions';
 import { Spinner } from '../../components/Spinner/Spinner';
-import { AvatarItem } from '../../components/Avatar/Avatar';
+import Avatar from '../../components/Avatar/Avatar';
+import ContractList from '../../components/ContractList/ContractList';
 
 const onRender = (actions: Actions) => {
   actions.employee.fetchAll();
@@ -15,36 +16,40 @@ const ProfileDetail: Component<ViewProps> = ({ state }) => {
   const employee = state.user.employee!;
 
   return (
-    <div>
-      <div class="field is-horizontal">
-        <div class="field-label" />
-        <div class="field-body">
-          <div class="field">
-            <AvatarItem fullName={employee.fullName} />
-          </div>
+    <article class="media">
+      <figure class="media-left">
+        <p class="image is-64x64">
+          <Avatar fullName={employee.fullName} />
+        </p>
+      </figure>
+      <div class="media-content">
+        <div class="content">
+          <p>
+            <strong>{employee.fullName}</strong>
+            <div>
+              <div class="field">
+                <label class="label">E-Mail</label>
+                <div class="field">
+                  {employee.emailAddress}
+                </div>
+              </div>
+              <div class="field">
+                <label class="label">Role</label>
+                <div class="field">
+                  {employee.roleName}
+                </div>
+              </div>
+              <div class="field">
+                <label class="label">Contracts</label>
+                <div class="field">
+                  <ContractList state={state} />
+                </div>
+              </div>
+            </div>
+          </p>
         </div>
       </div>
-      <div class="field is-horizontal">
-        <div class="field-label">
-          <label class="label">E-Mail:</label>
-        </div>
-        <div class="field-body">
-          <div class="field">
-            {employee.emailAddress}
-          </div>
-        </div>
-      </div>
-      <div class="field is-horizontal">
-        <div class="field-label">
-          <label class="label">Role:</label>
-        </div>
-        <div class="field-body">
-          <div class="field">
-            {employee.roleName}
-          </div>
-        </div>
-      </div>
-    </div>
+    </article>
   );
 };
 
