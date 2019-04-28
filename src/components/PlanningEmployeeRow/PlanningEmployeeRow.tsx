@@ -6,12 +6,13 @@ import { AvatarItem } from '../Avatar/Avatar';
 import { PlanningProjectRow } from '../PlanningProjectRow/PlanningProjectRow';
 import { EmployeeExtendedModel } from '../../models/employee-extended.model';
 import { compareProjectByName } from '../../utils';
+import { ProjectModel } from '../../api/dto/project.model';
 
 interface Props {
   startDate: Moment;
   numberOfDays: number;
   employee: EmployeeExtendedModel;
-  onAllocationClick: (allocation: AllocationModel) => void;
+  onAllocationClick: (allocation: AllocationModel, project: ProjectModel) => void;
 }
 
 export const PlanningEmployeeRow: Component<Props> = (props) => {
@@ -30,7 +31,7 @@ export const PlanningEmployeeRow: Component<Props> = (props) => {
             startDate={startDate}
             numberOfDays={numberOfDays}
             project={project}
-            onClick={(_, allocation) => onAllocationClick(allocation)}
+            onClick={(_, allocation) => onAllocationClick(allocation, project)}
           />
         ))}
         {projects.length === 0 && (
