@@ -151,4 +151,3 @@ export const compareEmployeeByName = (e1: EmployeeModel, e2: EmployeeModel): num
 
   return (name1 < name2) ? -1 : (name1 > name2) ? 1 : 0;
 };
-
