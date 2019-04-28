@@ -35,7 +35,7 @@ It will clone/download the repository and install all the necessary dependencies
 
 ### Development
 Before starting developing, please ensure that you installed all prerequisites and configured the client correctly.
-Please refer to the [configuration](##configuration).
+Please refer to the [configuration](#configuration).
 
 ```
 # Starting the development server: http://localhost:1234/
@@ -48,7 +48,7 @@ yarn lint
 yarn lint-scss
 ```
 
-If you experience issues running any of the comments above, please refer to [Known Issues](##known-issues).
+If you experience issues running any of the comments above, please refer to [Known Issues](#known-issues).
 
 ### Build
 If you want to build a production build, ensure you configured the client correctly beforehand. Please refer to the [configuration](##configuration).
