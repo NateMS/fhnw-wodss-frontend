@@ -36,7 +36,9 @@ export const Planning: Component<ViewProps> = ({ state, actions }) => {
   let filteredProjects = [...projects];
 
   if (filterString != null && filterString.length > 0) {
-    const lowerFilterString = `${filterString}`.toLowerCase();
+    const lowerFilterString = `${filterString}`
+      .toLowerCase()
+      .trim();
     filteredProjects = projects.filter(p => p.name.toLowerCase().indexOf(lowerFilterString) > -1);
   }
 
