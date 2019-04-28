@@ -45,7 +45,6 @@ export const durationValidator = (control: FormControl<Moment>, state: BaseForm)
 };
 
 export const selectValidator = (control: FormControl<string>): FormErrors => {
-
   if (control.value != null && control.value.length === 0) {
     return {
       required: true,

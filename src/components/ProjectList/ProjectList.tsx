@@ -13,7 +13,9 @@ interface Props {
 
 const filterProjects = (projects: ProjectModel[], filterString: string): ProjectModel[] => {
   if (filterString.length > 0) {
-    const lowerFilterString = filterString.toLowerCase();
+    const lowerFilterString = filterString
+      .toLowerCase()
+      .trim();
     return projects.filter(project => project.name.toLowerCase().indexOf(lowerFilterString) > -1);
   }
 

@@ -18,7 +18,7 @@ export const employeeFormActions: ActionsType<EmployeeFormState, GenericFormActi
 };
 
 export const createEmployee = (state: EmployeeFormState, actions: Actions): void => {
-  const { emailAddress, firstName, lastName, active, password, role } = state.controls;
+  const { emailAddress, firstName, lastName, password, role } = state.controls;
   actions.form.employee.setSaving(true);
 
   try {
@@ -26,7 +26,7 @@ export const createEmployee = (state: EmployeeFormState, actions: Actions): void
       emailAddress: emailAddress.value!,
       firstName: firstName.value!,
       lastName: lastName.value!,
-      active: active.value!,
+      active: true,
     });
 
     if (password.value == null) {
@@ -62,7 +62,7 @@ export const createEmployee = (state: EmployeeFormState, actions: Actions): void
 };
 
 export const updateEmployee = (state: EmployeeFormState, actions: Actions) => {
-  const { id, emailAddress, firstName, lastName, active } = state.controls;
+  const { id, emailAddress, firstName, lastName } = state.controls;
   actions.form.employee.setSaving(true);
 
   try {
@@ -70,7 +70,7 @@ export const updateEmployee = (state: EmployeeFormState, actions: Actions) => {
       emailAddress: emailAddress.value!,
       firstName: firstName.value!,
       lastName: lastName.value!,
-      active: active.value!,
+      active: true,
     });
 
     if (id.value == null) {

@@ -28,7 +28,7 @@ const onSubmit = (event: Event, state: EmployeeFormState, actions: Actions) => {
 
 export const EmployeeEditForm: Component<Props> = ({ state, actions }) => {
   const formState = state.form.employee;
-  const { id, firstName, lastName, emailAddress, active, role } = formState.controls;
+  const { id, firstName, lastName, emailAddress, role } = formState.controls;
   const { employee: formActions } = actions.form;
 
   return (
@@ -109,18 +109,7 @@ export const EmployeeEditForm: Component<Props> = ({ state, actions }) => {
                 {emailAddress.errors != null && emailAddress.errors.email && <FormHint theme="danger" label="Email invalid" />}
               </FormField>
             </div>
-            <div className="column is-one-third">
-              <FormField labelText="Status" required={true}>
-                <FormCheckbox
-                  name={active.name}
-                  value={active.value}
-                  labelText="Active"
-                  errors={active.errors}
-                  onInputChange={formActions.updateValue}
-                />
-                {active.errors == null && <FormHint label={'Inactive: No login possible'} />}
-              </FormField>
-            </div>
+            <div className="column is-one-third" />
           </div>
 
           {state.form.contract.list.map((contractForm, index) => <ContractForm key={index} state={contractForm} actions={actions} />)}

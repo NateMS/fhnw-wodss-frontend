@@ -120,19 +120,7 @@ export const EmployeeCreateForm: Component<Props> = ({ state, actions }) => {
                 {password.errors != null && password.errors.required && <FormHint theme="danger" label="Password is required" />}
               </FormField>
             </div>
-            <div className="column is-one-third">
-              <FormField labelText="Status" required={true}>
-                <FormCheckbox
-                  name={active.name}
-                  value={active.value}
-                  disabled={formState.isSaving}
-                  labelText="Active"
-                  errors={active.errors}
-                  onInputChange={formActions.updateValue}
-                />
-                {active.errors == null && <FormHint label="Inactive: No login possible" />}
-              </FormField>
-            </div>
+            <div className="column is-one-third" />
           </div>
         </section>
         <footer className="modal-card-foot">
