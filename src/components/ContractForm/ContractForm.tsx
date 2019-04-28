@@ -22,7 +22,6 @@ interface Props {
   key: number;
 }
 
-// TODO Rename Component Name?
 export const ContractForm: Component<Props> = ({ state, actions, key }) => {
   const { id, startDate, endDate, pensumPercentage } = state.controls;
   const formActions = actions.form.contract;
@@ -76,6 +75,7 @@ export const ContractForm: Component<Props> = ({ state, actions, key }) => {
         <ToolTip content="Save" placement="bottom">
           <button
             className="button is-secondary"
+            type="button"
             onclick={() => isEditMode ? updateContract(state, actions) : createContract(state, key, actions)}
           >
             <span className="icon">
@@ -86,7 +86,8 @@ export const ContractForm: Component<Props> = ({ state, actions, key }) => {
         <ToolTip content="Delete" placement="bottom">
           <button
             className="button"
-            onclick={() => () => isEditMode ? deleteContract(state, key, actions) : removeContractForm(key, actions)}
+            type="button"
+            onclick={() => isEditMode ? deleteContract(state, key, actions) : removeContractForm(key, actions)}
           >
             <span className="icon">
               <i className="fas fa-trash"/>

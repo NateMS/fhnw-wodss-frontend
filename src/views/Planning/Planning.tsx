@@ -35,8 +35,17 @@ export const Planning: Component<ViewProps> = ({ state, actions }) => {
   let filteredEmployees = [...employees].sort(compareEmployeeByName);
   let filteredProjects = [...projects];
 
+  // Ensures that only privileged users can edit allocations
+  const onAllocationClick = (project: ProjectModel, allocation: AllocationModel) => {
+    if (hasAdminRole(userRole) || project.projectManagerId === loggedInEmployee.id) {
+      showManageAllocationModal(allocation, contracts, actions);
+    }
+  };
+
   if (filterString != null && filterString.length > 0) {
-    const lowerFilterString = `${filterString}`.toLowerCase();
+    const lowerFilterString = `${filterString}`
+      .toLowerCase()
+      .trim();
     filteredProjects = projects.filter(p => p.name.toLowerCase().indexOf(lowerFilterString) > -1);
   }
 
@@ -119,7 +128,7 @@ export const Planning: Component<ViewProps> = ({ state, actions }) => {
               startDate={startDate}
               numberOfDays={granularity}
               employee={employee}
-              onAllocationClick={allocation => showManageAllocationModal(allocation, contracts, actions)}
+              onAllocationClick={(allocation, project) => onAllocationClick(project, allocation)}
             />
           ))}
         </div>

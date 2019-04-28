@@ -9,7 +9,7 @@ export class ProjectBaseModel implements Project {
   public readonly projectManagerId: string;
 
   public get durationInDays(): number {
-    return this.endDate.diff(this.startDate, 'days');
+    return this.endDate.diff(this.startDate, 'days') + 1;
   }
 
   public get totalPercentage(): number {

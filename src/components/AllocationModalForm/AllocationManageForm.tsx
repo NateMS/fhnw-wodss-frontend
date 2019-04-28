@@ -10,7 +10,7 @@ import { ProjectModel } from '../../api/dto/project.model';
 import { EmployeeSelect } from '../EmployeeSelect/EmployeeSelect';
 import { ContractModel } from '../../api/dto/contract.model';
 import DatePicker from '../DatePicker/DatePicker';
-import { formatDateRange, getDaysOfDateRange } from '../../utils';
+import { formatDateRange, getDaysOfDateRange, hasProjectManagerRole } from '../../utils';
 import FormHint from '../FormHint/FormHint';
 import { AllocationFormState } from '../../state/form/allocation-form.state';
 import { removeAllocation, createAllocation, updateAllocation } from '../../actions/form/allocation-form.actions';
@@ -41,6 +41,7 @@ const onSubmit = (event: Event, isEditMode: boolean, state: AllocationFormState,
 
 export const AllocationManageForm: Component<Props> = ({ state, actions }) => {
   const formState = state.form.allocation;
+  const user = state.user.employee;
   const { id, contractId, projectId, employeeId, startDate, endDate, pensumPercentage } = formState.controls;
   const { allocation: formActions } = actions.form;
 
@@ -50,6 +51,12 @@ export const AllocationManageForm: Component<Props> = ({ state, actions }) => {
   const employees = state.employee.list;
   const contracts = state.contract.list;
   const allocations = state.allocation.list;
+
+  let accessibleProjects = [...projects];
+
+  if (hasProjectManagerRole(user!.role)) {
+    accessibleProjects = accessibleProjects.filter(project => project.projectManagerId === user.id);
+  }
 
   const employeesWithContracts = EmployeeModel.filterByContracts(employees, contracts);
 
@@ -77,7 +84,7 @@ export const AllocationManageForm: Component<Props> = ({ state, actions }) => {
   }
 
   if (projectId.value != null) {
-    selectedProject = projects.find(p => p.id === projectId.value);
+    selectedProject = accessibleProjects.find(p => p.id === projectId.value);
 
     if (selectedProject == null) {
       throw new Error(`A project model should exist for ${projectId.value}`);
@@ -118,7 +125,7 @@ export const AllocationManageForm: Component<Props> = ({ state, actions }) => {
             <div className="column is-one-third">
               <FormField labelText="Project" required={true}>
                 <FormSelect
-                  items={projects}
+                  items={accessibleProjects}
                   onInputChange={formActions.updateValue}
                   name={projectId.name}
                   value={projectId.value}

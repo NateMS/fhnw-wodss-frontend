@@ -14,20 +14,34 @@ interface Props {
 }
 
 const filterEmployees = (employees: EmployeeModel[], filterString: string): EmployeeModel[] => {
+  let lowerFilterString: string;
+
   if (filterString.length > 0) {
-    const lowerFilterString = filterString.toLowerCase();
-
-    return employees
-      .filter((employee) => {
-        if (employee.fullName.toLowerCase().indexOf(lowerFilterString) > -1) {
-          return true;
-        }
-
-        return employee.roleName.toLowerCase().indexOf(lowerFilterString) > -1;
-      });
+    lowerFilterString = filterString
+      .toLowerCase()
+      .trim();
   }
 
-  return employees;
+  return employees
+    .filter((employee) => {
+      if (!employee.active) {
+        // Do not show inactive employees
+        return false;
+      }
+
+      if (lowerFilterString == null || lowerFilterString.length === 0) {
+        return true;
+      }
+
+      if (employee.fullName.toLowerCase().indexOf(lowerFilterString) > -1) {
+        return true;
+      }
+
+      return employee
+        .roleName
+        .toLowerCase()
+        .indexOf(lowerFilterString) > -1;
+    });
 };
 
 const EmployeeList: Component<Props> = ({ state, actions }) => {

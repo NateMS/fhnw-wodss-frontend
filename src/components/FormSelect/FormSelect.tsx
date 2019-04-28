@@ -28,7 +28,6 @@ const FormSelectOption: Component<FormSelectItem<any>> = (props) => {
 };
 
 /**
- * @TODO: On Destroy?
  * @param props
  * @constructor
  */

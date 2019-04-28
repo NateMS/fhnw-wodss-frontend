@@ -4,6 +4,8 @@ import { employeeService } from '../services/employee.service';
 import { EmployeeModel } from '../api/dto/employee.model';
 import { Role } from '../api/role';
 import { EmployeeRequestModel } from '../api/dto/employee.request.model';
+import { Actions } from './index';
+import { getApiErrorToast, getToastMessage } from '../utils';
 
 export interface EmployeeActions {
   setLoading: (isLoading: boolean) => (state: EmployeeState) => ActionResult<EmployeeState>;
@@ -64,4 +66,17 @@ export const employeeActions: ActionsType<EmployeeState, EmployeeActions> = {
   delete: (id: string) => () => {
     return employeeService.delete(id);
   },
+};
+
+export const deleteEmployee = (employee: EmployeeModel, actions: Actions) => {
+  actions
+    .employee
+    .delete(employee.id)
+    .then(() => {
+      actions.toast.success(getToastMessage(`Employee '${employee.fullName}' successfully deleted`));
+      actions.employee.fetchAll();
+    })
+    .catch((error: Error) => {
+      actions.toast.error(getApiErrorToast(`Error deleting employee '${employee.fullName}'`, error));
+    });
 };
