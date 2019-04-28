@@ -1,8 +1,12 @@
+# Folders
 node_modules
 dist
 *cache
 *.log
-.env
 coverage
 .vscode
 .idea
+
+# Env Files
+.env
+.env.production
