@@ -51,7 +51,7 @@ yarn lint-scss
 If you experience issues running any of the comments above, please refer to [Known Issues](#known-issues).
 
 ### Build
-If you want to build a production build, ensure you configured the client correctly beforehand. Please refer to the [configuration](##configuration).
+If you want to build a production build, ensure you configured the client correctly beforehand. Please refer to the [configuration](#configuration).
 
 The first command `yarn build` will create all the necessary files to host the client on any server.
 ```
