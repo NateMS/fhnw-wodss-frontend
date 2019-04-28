@@ -162,27 +162,23 @@ export const updateContract = (state: ContractForm, actions: Actions) => {
       .contract
       .update({ contract: request, id: id.value })
       .then(() => {
-        // TODO Add more description to the toast
         actions.toast.success(getToastMessage(`Contract successfully updated`));
         actions.contract.fetchAll();
       })
       .catch((error: Error) => {
-        actions.toast.error(getApiErrorToast('Error updateing contract', error));
+        actions.toast.error(getApiErrorToast('Error updating contract', error));
       });
   } catch (error) {
-    actions.toast.error(getApiErrorToast('Error updateing contract', error));
+    actions.toast.error(getApiErrorToast('Error updating contract', error));
   }
 };
 
-// TODO RENAME STATE FORM
 export const deleteContract = (state: ContractForm, key: number, actions: Actions) => {
   // TODO VALIDATE if id is available
   actions
     .contract
     .delete(state.controls.id.value!)
     .then(() => {
-      // TODO add more description to the message
-      // TODO move remove contract row?
       removeContractForm(key, actions);
       actions.toast.success(getToastMessage('Contract successfully deleted'));
       actions.contract.fetchAll();

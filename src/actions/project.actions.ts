@@ -3,6 +3,8 @@ import { ActionResult, ActionsType } from 'hyperapp';
 import { projectService } from '../services/project.service';
 import { ProjectModel } from '../api/dto/project.model';
 import { ProjectRequestModel } from '../api/dto/project.request.model';
+import { Actions } from './index';
+import { getApiErrorToast, getToastMessage } from '../utils';
 
 export interface ProjectActions {
   setLoading: (isLoading: boolean) => (state: ProjectState) => ActionResult<ProjectState>;
@@ -63,4 +65,16 @@ export const projectActions: ActionsType<ProjectState, ProjectActions> = {
   delete: (id: string) => () => {
     return projectService.delete(id);
   },
+};
+
+export const deleteProject = (project: ProjectModel, actions: Actions): void => {
+  actions.project
+    .delete(project.id)
+    .then(() => {
+      actions.toast.success(getToastMessage(`Project '${project.name}' successfully deleted`));
+      actions.project.fetchAll();
+    })
+    .catch((error: Error) => {
+      actions.toast.error(getApiErrorToast(`Error deleting project: '${project.name}'`, error));
+    });
 };

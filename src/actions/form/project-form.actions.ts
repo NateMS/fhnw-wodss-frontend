@@ -94,14 +94,3 @@ export const updateProject = (state: ProjectFormState, actions: Actions): void =
     actions.toast.error(getApiErrorToast('Error updateing project', error));
   }
 };
-
-export const deleteProject = (project: ProjectModel, actions: Actions): void => {
-  actions.project
-    .delete(project.id)
-    .then(() => {
-      actions.toast.success(getToastMessage(`Project '${project.name}' successfully deleted`));
-    })
-    .catch((error: Error) => {
-      actions.toast.error(getApiErrorToast(`Error deleting project: '${project.name}'`, error));
-    });
-};

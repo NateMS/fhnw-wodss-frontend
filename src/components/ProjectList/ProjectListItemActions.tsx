@@ -1,8 +1,9 @@
 import { ProjectModel } from '../../api/dto/project.model';
 import { Actions } from '../../actions';
-import { showProjectEditForm, deleteProject } from '../../actions/form/project-form.actions';
+import { showProjectEditForm } from '../../actions/form/project-form.actions';
 import { Component, h } from 'hyperapp';
 import ToolTip from '../ToolTip/ToolTip';
+import { deleteProject } from '../../actions/project.actions';
 
 const onEditClick = (_: Event, project: ProjectModel, actions: Actions): void => {
   showProjectEditForm(project, actions);
@@ -30,7 +31,7 @@ export const ProjectListItemActions: Component<Props> = (props) => {
     <div className="buttons">
       {isEditEnabled && (
         <ToolTip content="Edit" placement="bottom">
-          <button className="button is-secondary" onclick={(event: Event) => onEditClick(event, project, actions)}>
+          <button type="button" className="button is-secondary" onclick={(event: Event) => onEditClick(event, project, actions)}>
             <span className="icon">
               <i className="fas fa-edit"/>
             </span>
@@ -39,7 +40,7 @@ export const ProjectListItemActions: Component<Props> = (props) => {
       )}
       {isDeleteEnabled && (
         <ToolTip content="Delete" placement="bottom">
-          <button className="button" onclick={(event: Event) => onDeleteClick(event, project, actions)}>
+          <button type="button" className="button" onclick={(event: Event) => onDeleteClick(event, project, actions)}>
           <span className="icon">
             <i className="fas fa-trash"/>
           </span>

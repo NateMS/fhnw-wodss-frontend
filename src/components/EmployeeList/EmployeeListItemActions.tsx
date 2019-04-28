@@ -3,7 +3,7 @@ import { Actions } from '../../actions';
 import ToolTip from '../ToolTip/ToolTip';
 import { EmployeeModel } from '../../api/dto/employee.model';
 import { ContractModel } from '../../api/dto/contract.model';
-import { deleteEmployee } from '../../actions/form/employee-form.actions';
+import { deleteEmployee } from '../../actions/employee.actions';
 
 interface Props {
   employee: EmployeeModel;
@@ -43,6 +43,7 @@ export const EmployeeListItemActions: Component<Props> = (props) => {
         <ToolTip content="Edit" placement="bottom">
           <button
             className="button is-secondary"
+            type="button"
             onclick={(event: Event) => openEditForm(event, employee, contracts, actions)}
           >
             <span className="icon">
@@ -55,6 +56,7 @@ export const EmployeeListItemActions: Component<Props> = (props) => {
         <ToolTip content="Delete" placement="bottom">
           <button
             className="button"
+            type="button"
             onclick={(event: Event) => onDeleteClick(event, employee, actions)}
           >
             <span className="icon">

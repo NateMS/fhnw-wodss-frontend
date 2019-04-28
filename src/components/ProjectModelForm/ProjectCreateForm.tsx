@@ -117,6 +117,7 @@ export const ProjectCreateForm: Component<ProjectFormProps> = ({ state, actions 
                   type="number"
                   onInputChange={formActions.updateValue}
                 />
+                <FormHint label="FTE percentage per day" />
               </FormField>
             </div>
           </div>
