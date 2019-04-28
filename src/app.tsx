@@ -1,13 +1,34 @@
 import { h, View } from 'hyperapp';
+import { Route } from '@hyperapp/router';
 import { State } from './state';
 import { Actions } from './actions';
 import './styles/styles.scss';
-import AuthenticationForm from './components/AuthenticationForm/AuthenticationForm';
-import PlanningContainer from './components/PlanningContainer/PlanningContainer';
+import Planning from './views/Planning/Planning';
+import Projects from './views/Projects/Projects';
+import Employees from './views/Employees/Employees';
+import Login from './views/Login/Login';
+import Logout from './views/Logout/Logout';
+import { protect } from './views/ProtectedView';
+import ToastList from './components/ToastList/ToastList';
+import Profile from './views/Profile/Profile';
 
-export const view: View<State, Actions> = (state, actions) => (
-  <main>
-    {!state.user.authenticated && <AuthenticationForm state={state.user} actions={actions.user} />}
-    {state.user.authenticated && <PlanningContainer state={state} actions={actions} />}
-  </main>
-);
+export const view: View<State, Actions> = (state, actions) =>  {
+  const { authenticated } = state.user;
+
+  if (authenticated === null) {
+    // Tries to restore a previous session
+    actions.user.restore();
+  }
+
+  return (
+    <main class="app-container">
+      <Route parent={true} path="/planning" render={() => protect(Planning)({ state, actions })} />
+      <Route path="/projects" render={() => protect(Projects)({ state, actions })} />
+      <Route path="/employees" render={() => protect(Employees)({ state, actions })} />
+      <Route path="/profile" render={() => protect(Profile)({ state, actions })} />
+      <Route path="/logout" render={() => protect(Logout)({ state, actions })} />
+      <Route path="/" render={() => <Login state={state} actions={actions} />} />
+      <ToastList state={state.toast} actions={actions.toast} />
+    </main>
+  );
+};

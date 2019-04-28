@@ -1,0 +1,53 @@
+html {
+  overflow: hidden;
+}
+
+.app-container {
+  position: relative;
+}
+
+.app {
+  display: flex;
+  position: relative;
+}
+
+.app__sidebar {
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  justify-content: space-between;
+  width: $sidebar-width;
+  height: 100vh;
+  flex-grow: 0;
+  background-color: $sidebar-background;
+}
+
+.app__body {
+  flex-grow: 1;
+  height: 100vh;
+  padding: 1.5rem;
+  overflow: auto;
+}
+
+.button {
+  &.is-secondary {
+    background-color: $secondary;
+    color: $white;
+    border-color: transparent;
+  }
+}
+
+.view__actions {
+  display: flex;
+  margin-bottom: 1rem;
+
+  .input,
+  .control,
+  .button {
+    margin: 0 0.125rem;
+  }
+}
+
+.modal {
+  z-index: $z-index-modal;
+}

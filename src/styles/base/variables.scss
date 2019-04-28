@@ -1,15 +1,32 @@
-// Set your brand colors
+// Basic colors
+$black: #000000;
+$white: #FFFFFF;
+
+// Brand colors
 $purple: #8A4D76;
 $pink: #FA7C91;
 $brown: #757763;
+$brown-light: #d9dad0;
+$brown-lighter: #e1e2da;
 $beige-light: #D0D1CD;
 $beige-lighter: #EFF0EB;
+
+// System Variables
+$z-index-planning-filled-cells: 30;
+$z-index-planning-empty-cells: 40;
+$z-index-sticky: 900;
+$z-index-user-launcher: 1000;
+$z-index-modal: 1100;
+$z-index-toast: 1200;
+$app-offset: 1.5rem;
+$control-border-color: hsl(0, 0%, 86%);
 
 // Bulma Global Variables
 $family-sans-serif: "Nunito", sans-serif;
 $grey-dark: $brown;
 $grey-light: $beige-light;
 $primary: $purple;
+$secondary: $pink;
 $link: $pink;
 $widescreen-enabled: false;
 $fullhd-enabled: false;
@@ -17,5 +34,23 @@ $fullhd-enabled: false;
 // Bulma Component Variables
 $body-background-color: $beige-lighter;
 $control-border-width: 2px;
-$input-border-color: transparent;
+$button-focus-border-color: $pink;
+//$input-border-color: transparent;
 $input-shadow: none;
+$notification-padding: 1rem 2rem 1rem 1.5rem;
+
+// Layout
+$sidebar-background: $primary;
+$sidebar-width: 3rem;
+
+// Modal
+$modal-content-width: 80vw;
+$modal-card-title-color: $primary;
+$modal-background-background-color: rgba($brown, 0.4);
+$modal-card-head-background-color: $white;
+$modal-card-head-border-bottom: 0px solid transparent;
+$modal-card-foot-border-top: 0px solid transparent;
+
+// Planning
+$planning-cell-size: 2rem;
+$planning-cell-border-width: 1px;

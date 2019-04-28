@@ -1,0 +1,23 @@
+@import "../../styles/base/variables";
+
+.planning-project-row {
+  display: flex;
+  height: $planning-cell-size;
+  margin: 0.125rem 0;
+}
+
+.planning-col__project {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: calc(#{$planning-cell-size} - #{$planning-cell-border-width * 2});
+  padding-left: 0.25em;
+  line-height: calc(#{$planning-cell-size} - #{$planning-cell-border-width * 2});
+  text-align: left;
+  white-space: nowrap;
+}
+
+.planning-col--filled {
+  color: $white;
+  cursor: pointer;
+}

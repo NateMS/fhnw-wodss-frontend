@@ -11,6 +11,9 @@
   ],
   "license": "MIT",
   "main": "public/index.html",
+  "engines": {
+    "node": ">=10.15.3"
+  },
   "scripts": {
     "clean": "rm -rf dist .cache",
     "prestart": "yarn clean",
@@ -24,29 +27,33 @@
     "test:watch": "jest --watch"
   },
   "dependencies": {
-    "assemble": "~0.3.11",
+    "@hyperapp/router": "0.7.1",
     "bulma": "0.7.4",
-    "grunt": "~0.4.0",
+    "bulma-checkradio": "2.1.0",
+    "flatpickr": "4.5.7",
     "hyperapp": "1.2.9",
-    "parcel-bundler": "^1.11.0",
-    "styles": "^0.2.1"
+    "jwt-decode": "2.2.0",
+    "moment": "2.24.0",
+    "tippy.js": "4.2.1"
   },
   "devDependencies": {
     "@types/jest": "23.3.9",
+    "@types/jwt-decode": "2.2.1",
     "@types/node": "10.12.9",
     "autoprefixer": "9.3.1",
     "identity-obj-proxy": "3.0.0",
-    "jest": "23.4.1",
-    "node-sass": "4.11.0",
-    "stylelint": "9.10.1",
+    "jest": "24.7.1",
+    "node-sass": "4.12.0",
+    "parcel-bundler": "1.12.3",
+    "stylelint": "10.0.1",
     "stylelint-config-airbnb": "0.0.0",
     "stylelint-order": "2.1.0",
     "stylelint-scss": "3.5.4",
-    "ts-jest": "23.0.1",
-    "tslint": "5.11.0",
+    "ts-jest": "24.0.1",
+    "tslint": "5.16.0",
     "tslint-config-airbnb": "5.11.1",
     "tslint-react": "3.6.0",
-    "typescript": "3.3.3333"
+    "typescript": "2.9.2"
   },
   "jest": {
     "transform": {
